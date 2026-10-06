@@ -1,0 +1,803 @@
+<title>Playground Social Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Archivo:wght@500;800&family=Fraunces:opsz,wght@9..144,700&display=swap">
+<style>
+/* Layout: production board -> job workspace (inputs | agents) -> post proofs grid */
+:root{
+  --bg:#F1F3F0; --surface:#FFFFFF; --sunk:#E7EBE7; --ink:#15211F; --muted:#5A6764; --line:#D4DAD5;
+  --accent:#0D6B5B; --accent-ink:#FFFFFF; --accent-soft:#D6EBE4;
+  --ok:#2E7A3A; --ok-soft:#DCEFDD; --warn:#9A5B0C; --warn-soft:#F5E6CC; --bad:#B23C2B; --bad-soft:#F6DCD7;
+  --f-display:"Bricolage Grotesque","IBM Plex Sans",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0F1514; --surface:#16201E; --sunk:#1D2927; --ink:#E4EBE8; --muted:#94A39F; --line:#2A3835;
+  --accent:#53C2A8; --accent-ink:#062019; --accent-soft:#173A33;
+  --ok:#7FCB8A; --ok-soft:#1D3522; --warn:#E3AE5E; --warn-soft:#3A2C14; --bad:#F08A78; --bad-soft:#3D1F1A; color-scheme:dark;}}
+:root[data-theme="dark"]{
+  --bg:#0F1514; --surface:#16201E; --sunk:#1D2927; --ink:#E4EBE8; --muted:#94A39F; --line:#2A3835;
+  --accent:#53C2A8; --accent-ink:#062019; --accent-soft:#173A33;
+  --ok:#7FCB8A; --ok-soft:#1D3522; --warn:#E3AE5E; --warn-soft:#3A2C14; --bad:#F08A78; --bad-soft:#3D1F1A; color-scheme:dark;}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.5}
+.wrap{max-width:1320px;margin:0 auto;padding-inline:16px;padding-block:0 64px}
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding-block:12px}
+.brand{font-family:var(--f-display);font-weight:700;font-size:19px;letter-spacing:-.01em;cursor:pointer;background:none;border:0;color:var(--ink);padding:0}
+.brand small{font-family:var(--f-mono);font-weight:400;font-size:11px;color:var(--muted);margin-left:8px;letter-spacing:.04em;text-transform:uppercase}
+.grow{flex:1}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;letter-spacing:-.01em}
+h1{font-size:26px;font-weight:700} h2{font-size:18px;font-weight:700} h3{font-size:15px;font-weight:700}
+.eyebrow{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.muted{color:var(--muted)} .mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.stack{display:flex;flex-direction:column;gap:12px} .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+button,.btn{font:500 13px/1 var(--f-body);border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:9px 13px;cursor:pointer}
+button:hover{border-color:var(--muted)}
+button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+button.ghost{background:transparent;border-color:transparent;color:var(--muted);padding-inline:8px}
+button.danger{color:var(--bad)}
+button.danger.primary{background:var(--bad);border-color:var(--bad);color:var(--surface)}
+button:disabled{opacity:.5;cursor:not-allowed}
+button.sm{padding:6px 9px;font-size:12px}
+label.f{display:flex;flex-direction:column;gap:5px;font-size:12px;font-weight:600;color:var(--muted)}
+input[type=text],input[type=number],input[type=date],textarea,select{font:400 14px/1.45 var(--f-body);color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:8px 10px;width:100%;min-width:0}
+textarea{resize:vertical}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px;min-width:0}
+.chip{display:inline-flex;align-items:center;gap:5px;font:500 11px/1 var(--f-mono);letter-spacing:.03em;padding:5px 8px;border-radius:99px;background:var(--sunk);color:var(--muted);white-space:nowrap}
+.chip.ok{background:var(--ok-soft);color:var(--ok)} .chip.warn{background:var(--warn-soft);color:var(--warn)} .chip.bad{background:var(--bad-soft);color:var(--bad)} .chip.acc{background:var(--accent-soft);color:var(--accent)}
+.banner{border:1px solid var(--warn);background:var(--warn-soft);color:var(--ink);padding:10px 14px;border-radius:8px;margin-top:16px}
+.page-head{display:flex;gap:16px;align-items:flex-end;flex-wrap:wrap;padding-block:24px 18px}
+/* board */
+.board{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;align-items:start}
+.col{background:var(--sunk);border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.col-h{display:flex;justify-content:space-between;align-items:center;padding:4px 4px 6px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px;cursor:pointer;text-align:left;display:flex;flex-direction:column;gap:6px;width:100%;font:inherit;color:inherit}
+.card:hover{border-color:var(--accent)}
+.card .t{font-weight:600;font-size:14px;line-height:1.3}
+.empty{color:var(--muted);font-size:13px;padding:10px 6px}
+/* job */
+.pipe{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface);margin-bottom:16px}
+.pipe .step{padding:12px 14px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:4px;min-width:0}
+.pipe .step:last-child{border-right:0}
+.pipe .step .n{font:500 11px var(--f-mono);color:var(--muted)}
+.pipe .step.running{background:var(--accent-soft)} .pipe .step.done .n{color:var(--ok)} .pipe .step.error .n{color:var(--bad)}
+.jgrid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:16px;align-items:start}
+@media (max-width:980px){.jgrid{grid-template-columns:1fr}.pipe{grid-template-columns:repeat(2,minmax(0,1fr))}.pipe .step:nth-child(2){border-right:0}.pipe .step:nth-child(-n+2){border-bottom:1px solid var(--line)}}
+.drop{border:1.5px dashed var(--line);border-radius:8px;padding:12px;display:flex;flex-direction:column;gap:8px}
+.drop.over{border-color:var(--accent);background:var(--accent-soft)}
+.drop-h{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
+.files{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:8px}
+.file{border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--sunk);font-size:11px;display:flex;flex-direction:column;min-width:0}
+.file .th{aspect-ratio:1;display:grid;place-items:center;background:var(--sunk);overflow:hidden;font:600 12px var(--f-mono);color:var(--muted)}
+.file .th img{width:100%;height:100%;object-fit:cover}
+.file .nm{padding:4px 6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:var(--surface)}
+.file button{border:0;border-top:1px solid var(--line);border-radius:0;font-size:11px;padding:5px;background:var(--surface);color:var(--muted)}
+.agent{border-top:1px solid var(--line);padding-top:14px;display:flex;flex-direction:column;gap:8px}
+.agent:first-of-type{border-top:0;padding-top:0}
+.agent-h{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.live{font:12px/1.45 var(--f-mono);background:var(--sunk);border-radius:6px;padding:8px 10px;color:var(--muted);white-space:pre-wrap;word-break:break-word;max-height:120px;overflow:auto}
+.out{font-size:13px;display:flex;flex-direction:column;gap:6px}
+.out ul{margin:0;padding-left:18px}
+details summary{cursor:pointer;font-weight:600;font-size:13px}
+/* posts */
+.posts{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:16px}
+.post{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.post.approved{border-color:var(--ok)} .post.changes{border-color:var(--warn)}
+.post .cv{background:var(--sunk);display:flex;justify-content:center;padding:12px}
+.post canvas{max-width:100%;max-height:420px;height:auto;width:auto;border-radius:4px;box-shadow:0 1px 3px rgba(0,0,0,.18)}
+.post .body{padding:14px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.caption{white-space:pre-wrap;font-size:13px;line-height:1.55;overflow-wrap:anywhere}
+.tags{color:var(--accent);font-size:12px;overflow-wrap:anywhere}
+.qa{border-radius:6px;padding:8px 10px;font-size:12px}
+.qa.good{background:var(--ok-soft)} .qa.mid{background:var(--warn-soft)} .qa.low{background:var(--bad-soft)}
+.qa ul{margin:4px 0 0;padding-left:16px}
+.post .foot{border-top:1px solid var(--line);padding:10px 14px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:8px;font-size:13px;z-index:20;max-width:calc(100% - 32px)}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.swatches{display:flex;gap:4px} .sw{width:18px;height:18px;border-radius:4px;border:1px solid var(--line)}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:13px} .kv dt{color:var(--muted)} .kv dd{margin:0;min-width:0;overflow-wrap:anywhere}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<header class="top"><div class="wrap">
+  <button class="brand" id="home">Playground Social Studio<small>brief to post</small></button>
+  <span class="grow"></span>
+  <button id="nav-clients">Clients</button>
+  <button class="primary" id="nav-new">New job</button>
+</div></header>
+<main class="wrap" id="app"></main>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+// ---------- constants ----------
+const PDFJS="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";
+const PDFJS_WORKER="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+const MAMMOTH="https://cdn.jsdelivr.net/npm/mammoth@1.8.0/mammoth.browser.min.js";
+const JSZIP="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js";
+const PLATFORMS=["Instagram","Facebook","LinkedIn","TikTok","X"];
+const FORMATS={feed:[1080,1080],portrait:[1080,1350],story:[1080,1920]};
+const FORMAT_LABEL={feed:"Feed 1:1",portrait:"Portrait 4:5",story:"Story 9:16"};
+const FONTS={archivo:["800","Archivo"],fraunces:["700","Fraunces"],plex:["600","IBM Plex Sans"]};
+const LAYOUTS=["photo","split","frame","type"];
+const KINDS=[
+  {k:"briefing",label:"Briefing documents",hint:"PDF, Word, TXT. Text is extracted and added to the brief."},
+  {k:"visual",label:"Visuals for the posts",hint:"Client-approved photos and graphics. The agents can place these in posts."},
+  {k:"reference",label:"References",hint:"Inspiration only. The art director reads them but never places them in a post."},
+  {k:"other",label:"Other client material",hint:"Guidelines, previous campaigns, anything else."}
+];
+const AGENTS=[
+  {k:"strategist",name:"Strategist",role:"Reads the brief, defines objective, audiences, pillars and the post plan. Lists what is missing from the client."},
+  {k:"copy",name:"Copywriter",role:"Writes hooks, on-image headlines, captions, hashtags and alt text for every post in the plan."},
+  {k:"visual",name:"Art director",role:"Looks at logos, visuals and references, sets the visual identity and art-directs each post."},
+  {k:"qa",name:"Brand QA",role:"Checks every post against the brief, mandatories, language rules and risk. Proposes fixes."}
+];
+const EXT_TYPES={png:"image/png",jpg:"image/jpeg",jpeg:"image/jpeg",webp:"image/webp",gif:"image/gif",svg:"image/svg+xml",pdf:"application/pdf",mp4:"video/mp4",webm:"video/webm",txt:"text/plain",md:"text/markdown",csv:"text/csv",json:"application/json"};
+const SAMPLE_IMG_TYPES=["image/png","image/jpeg","image/webp","image/gif"];
+
+// ---------- state ----------
+const S={db:null,assets:null,sample:null,downloads:null,ready:false,noRuntime:false,
+  clients:[],jobs:[],loaded:{clients:false,jobs:false},view:{name:"board"},runs:{},imgCache:new Map(),
+  limits:null,filterClient:"",pendingRender:false,confirm:null,editing:null};
+
+// ---------- helpers ----------
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const clone=o=>o==null?o:JSON.parse(JSON.stringify(o));
+const slug=s=>String(s||"job").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,40)||"job";
+const hex=v=>/^#[0-9a-f]{6}$/i.test(String(v||"").trim())?String(v).trim():null;
+const clientOf=j=>S.clients.find(c=>c.id===j?.clientId);
+const jobById=id=>S.jobs.find(j=>j.id===id);
+const fmtDate=t=>t?new Date(t).toLocaleDateString(undefined,{day:"numeric",month:"short"}):"";
+let toastT;function toast(m){const t=$("#toast");t.textContent=m;t.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>t.hidden=true,4200)}
+function copyText(txt){navigator.clipboard?.writeText(txt).then(()=>toast("Copied"),()=>toast("Copy is blocked here. Select the text and copy it manually."))}
+function loadScript(src){return new Promise((res,rej)=>{const s=document.createElement("script");s.src=src;s.onload=res;s.onerror=()=>rej(new Error("Could not load "+src));document.head.appendChild(s)})}
+function luminance(h){const n=parseInt(h.slice(1),16);const c=[n>>16,n>>8&255,n&255].map(v=>{v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)});return .2126*c[0]+.7152*c[1]+.0722*c[2]}
+function contrastOn(bg){return luminance(bg)>.4?"#111111":"#FFFFFF"}
+function contrastRatio(a,b){const l1=luminance(a),l2=luminance(b);return (Math.max(l1,l2)+.05)/(Math.min(l1,l2)+.05)}
+const writeQ={};
+function patchDoc(path,patch){const q=(writeQ[path]||Promise.resolve()).then(()=>S.db.doc(path).update(patch));writeQ[path]=q.catch(()=>{});return q.catch(e=>{toast(dbMsg(e));throw e})}
+function dbMsg(e){return e?.code==="quota_exceeded"?"Storage is full. Delete old jobs to free space.":e?.code==="invalid_argument"?"You don't have permission to change this. Ask the owner for Contributor access.":"Could not save. Check your connection and try again."}
+function sampleMsg(e){return ({not_granted:"Claude access was declined for this page, so the agents can't run. Allow it from the page's permissions menu and reload.",rate_limited:"Too many requests right now. Wait a minute and run the agent again.",session_expired:"Your Claude session expired. Sign in again.",refused:"Claude declined this request. Check the brief for unusual content and try again.",invalid_json:"The agent's answer could not be read. Run it again.",prompt_too_large:"The brief is too long. Shorten it or remove extracted text you don't need.",sampling_disabled:"Claude is not available for this account.",image_rejected:"One of the images could not be read. Try PNG or JPG.",cancelled:"Stopped."})[e?.code]||"The agent hit a problem ("+(e?.code||"error")+"). Run it again."}
+
+// ---------- render plumbing ----------
+function isEditing(){const a=document.activeElement;return a&&$("#app").contains(a)&&/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName)}
+function scheduleRender(){if(isEditing()){S.pendingRender=true;return}render()}
+document.addEventListener("focusout",()=>setTimeout(()=>{if(S.pendingRender&&!isEditing()){S.pendingRender=false;render()}},50));
+function go(view){S.view=view;S.confirm=null;S.editing=null;render();window.scrollTo(0,0)}
+$("#home").onclick=()=>go({name:"board"});
+$("#nav-clients").onclick=()=>go({name:"clients"});
+$("#nav-new").onclick=()=>go({name:"newjob"});
+
+function render(){
+  const app=$("#app");const v=S.view;let html="";
+  if(S.noRuntime) html+=`<div class="banner">Open this page in Claude to save jobs, upload files and run the agents. Outside Claude it only shows the layout.</div>`;
+  else if(S.ready&&!S.db) html+=`<div class="banner">Shared storage isn't available in this view. Sign in to Claude to see and create jobs.</div>`;
+  if(v.name==="board") html+=viewBoard();
+  else if(v.name==="clients") html+=viewClients();
+  else if(v.name==="client") html+=viewClient(v.id);
+  else if(v.name==="newjob") html+=viewNewJob();
+  else if(v.name==="job") html+=viewJob(v.id);
+  app.innerHTML=html;
+  bind(app);
+  drawCanvases(app);
+}
+
+// ---------- board ----------
+function stageOf(j){
+  if(j.delivered) return "delivered";
+  const ps=j.posts||[];
+  if(!ps.length) return Object.values(j.agents||{}).some(a=>a&&a.status==="done")?"production":"brief";
+  if(ps.every(p=>p.status==="approved")) return "approved";
+  if(ps.some(p=>p.qa)) return "review";
+  return "production";
+}
+const STAGES=[["brief","Brief in"],["production","In production"],["review","Client-ready review"],["approved","Approved"],["delivered","Delivered"]];
+function viewBoard(){
+  const jobs=S.jobs.filter(j=>!S.filterClient||j.clientId===S.filterClient);
+  const head=`<div class="page-head"><div class="stack" style="gap:4px"><span class="eyebrow">Production board</span><h1>Social media jobs</h1></div><span class="grow"></span>
+    <label class="f" style="min-width:200px">Client<select id="f-client"><option value="">All clients</option>${S.clients.map(c=>`<option value="${esc(c.id)}" ${c.id===S.filterClient?"selected":""}>${esc(c.name)}</option>`).join("")}</select></label></div>`;
+  if(S.db&&S.loaded.jobs&&!S.jobs.length) return head+`<div class="panel stack"><h2>No jobs yet</h2><p class="muted" style="margin:0;max-width:62ch">Start by creating the client's brand profile with logos, colours and tone. Then create a job, paste or upload the briefing, add the visuals and references, and run the agents.</p><div class="row"><button class="primary" data-go="newclient">Create client</button><button data-go="newjob">New job</button></div></div>`;
+  if(S.db&&!S.loaded.jobs) return head+`<p class="muted">Loading jobs…</p>`;
+  return head+`<div class="board">${STAGES.map(([k,l])=>{const list=jobs.filter(j=>stageOf(j)===k);return `<section class="col"><div class="col-h"><h3>${l}</h3><span class="chip mono">${list.length}</span></div>${list.map(cardJob).join("")||`<div class="empty">Nothing here</div>`}</section>`}).join("")}</div>`;
+}
+function cardJob(j){
+  const c=clientOf(j);const ps=j.posts||[];const appr=ps.filter(p=>p.status==="approved").length;
+  return `<button class="card" data-job="${esc(j.id)}"><span class="eyebrow">${esc(c?.name||"No client")}</span><span class="t">${esc(j.title)}</span>
+  <span class="row" style="gap:4px">${(j.platforms||[]).map(p=>`<span class="chip">${esc(p)}</span>`).join("")}</span>
+  <span class="muted mono" style="font-size:12px">${ps.length?`${appr}/${ps.length} approved`:`${j.postCount||0} posts planned`}${j.endDate?` · due ${esc(fmtDate(j.endDate))}`:""}</span></button>`;
+}
+
+// ---------- clients ----------
+function viewClients(){
+  return `<div class="page-head"><div class="stack" style="gap:4px"><span class="eyebrow">Brand profiles</span><h1>Clients</h1></div><span class="grow"></span><button class="primary" data-go="newclient">New client</button></div>
+  ${S.clients.length?`<div class="board">${S.clients.map(c=>`<button class="card" data-client="${esc(c.id)}"><span class="t">${esc(c.name)}</span><span class="muted" style="font-size:12px">${esc(c.sector||"")}</span><span class="swatches">${(c.palette||[]).map(h=>`<span class="sw" style="background:${esc(h)}"></span>`).join("")}</span><span class="muted mono" style="font-size:12px">${(c.logos||[]).length} logo files · ${S.jobs.filter(j=>j.clientId===c.id).length} jobs</span></button>`).join("")}</div>`:`<div class="panel"><p class="muted" style="margin:0">No clients yet. Create the first brand profile.</p></div>`}`;
+}
+function viewClient(id){
+  const c=id?S.clients.find(x=>x.id===id):{};
+  if(id&&!c) return `<p class="muted">Loading client…</p>`;
+  return `<div class="page-head"><div class="stack" style="gap:4px"><span class="eyebrow">Brand profile</span><h1>${id?esc(c.name):"New client"}</h1></div></div>
+  <form class="panel stack" id="client-form">
+    <div class="form-grid">
+      <label class="f">Client name<input type="text" id="c-name" required value="${esc(c.name)}"></label>
+      <label class="f">Sector<input type="text" id="c-sector" value="${esc(c.sector)}" placeholder="Telecoms, energy, banking, NGO…"></label>
+      <label class="f">Default language<select id="c-lang">${langOpts(c.language||"pt")}</select></label>
+      <label class="f">Brand colours (hex, comma separated)<input type="text" id="c-palette" value="${esc((c.palette||[]).join(", "))}" placeholder="#E60000, #FFFFFF, #1A1A1A"></label>
+    </div>
+    <label class="f">Tone of voice<textarea id="c-tone" rows="3" placeholder="How the brand speaks. Formal or close, warm or technical, what it never says.">${esc(c.tone)}</textarea></label>
+    <div class="form-grid">
+      <label class="f">Always do<textarea id="c-dos" rows="3" placeholder="Mandatory mentions, legal lines, logo rules">${esc(c.dos)}</textarea></label>
+      <label class="f">Never do<textarea id="c-donts" rows="3" placeholder="Forbidden words, competitors, sensitive topics">${esc(c.donts)}</textarea></label>
+    </div>
+    <label class="f">Context the agents should know<textarea id="c-notes" rows="3" placeholder="Market position, stakeholders, recent issues, social handles">${esc(c.notes)}</textarea></label>
+    <div class="row"><button class="primary" type="submit">${id?"Save profile":"Create client"}</button><button type="button" class="ghost" data-go="clients">Cancel</button></div>
+  </form>
+  ${id?`<div class="panel stack" style="margin-top:16px">${dropZone({k:"logo",label:"Logos",hint:"PNG with transparency works best on the posts. The first logo is placed on every post."},c.logos||[],"client",id)}</div>`:`<p class="muted">Logos are added after the client is created.</p>`}`;
+}
+function langOpts(sel){return [["pt","Portuguese (European)"],["en","English"],["both","Portuguese and English"]].map(([v,l])=>`<option value="${v}" ${v===sel?"selected":""}>${l}</option>`).join("")}
+
+// ---------- new job ----------
+function viewNewJob(){
+  const today=new Date().toISOString().slice(0,10);
+  if(S.db&&!S.clients.length) return `<div class="page-head"><h1>New job</h1></div><div class="panel stack"><p style="margin:0">Create the client's brand profile first. The agents use it on every job.</p><div><button class="primary" data-go="newclient">Create client</button></div></div>`;
+  return `<div class="page-head"><div class="stack" style="gap:4px"><span class="eyebrow">Step 1 of 2 · files come next</span><h1>New social media job</h1></div></div>
+  <form class="panel stack" id="job-form">
+    <div class="form-grid">
+      <label class="f">Client<select id="j-client" required>${S.clients.map(c=>`<option value="${esc(c.id)}">${esc(c.name)}</option>`).join("")}</select></label>
+      <label class="f">Job title<input type="text" id="j-title" required placeholder="October always-on, product launch…"></label>
+      <label class="f">Number of posts<input type="number" id="j-count" min="1" max="20" value="6"></label>
+      <label class="f">Main format<select id="j-format">${Object.entries(FORMAT_LABEL).map(([k,l])=>`<option value="${k}" ${k==="portrait"?"selected":""}>${l}</option>`).join("")}</select></label>
+      <label class="f">Language<select id="j-lang">${langOpts("")}<option value="" selected>Client default</option></select></label>
+      <label class="f">Start<input type="date" id="j-start" value="${today}"></label>
+      <label class="f">End<input type="date" id="j-end"></label>
+    </div>
+    <fieldset style="border:0;padding:0;margin:0" class="stack"><legend class="eyebrow" style="margin-bottom:6px">Platforms</legend>
+      <div class="row">${PLATFORMS.map(p=>`<label class="chip" style="cursor:pointer"><input type="checkbox" name="plat" value="${p}" ${p==="Instagram"||p==="Facebook"?"checked":""}> ${p}</label>`).join("")}</div></fieldset>
+    <label class="f">Briefing (paste it here, or upload the document in the next step)<textarea id="j-brief" rows="10" placeholder="Objective, audience, key messages, offer, dates, mandatories…"></textarea></label>
+    <div class="row"><button class="primary" type="submit">Create job and add files</button><button type="button" class="ghost" data-go="board">Cancel</button></div>
+  </form>`;
+}
+
+// ---------- job ----------
+function viewJob(id){
+  const j=jobById(id); if(!j) return `<p class="muted" style="padding-top:24px">${S.loaded.jobs?"This job was deleted.":"Loading job…"}</p>`;
+  const c=clientOf(j); const run=S.runs[id]; const ag=j.agents||{};
+  const st=stageOf(j);
+  const del=S.confirm==="del-job";
+  return `<div class="page-head"><div class="stack" style="gap:4px;min-width:0"><span class="eyebrow">${esc(c?.name||"No client")} · ${esc(STAGES.find(s=>s[0]===st)[1])}</span><h1>${esc(j.title)}</h1>
+    <span class="muted mono" style="font-size:12px">${(j.platforms||[]).join(" · ")} · ${j.postCount} posts · ${esc(FORMAT_LABEL[j.format]||"")} · ${esc(langName(jobLang(j)))}${j.startDate?` · ${esc(fmtDate(j.startDate))}`:""}${j.endDate?` to ${esc(fmtDate(j.endDate))}`:""}</span></div>
+    <span class="grow"></span>
+    <div class="row">${(j.posts||[]).length?`<button data-act="export" ${S.downloads?"":"disabled"}>Download package</button>`:""}
+    <button data-act="delivered">${j.delivered?"Reopen":"Mark delivered"}</button>
+    <button class="danger ${del?"primary":""}" data-act="del-job">${del?"Confirm delete":"Delete"}</button></div></div>
+  <div class="pipe">${AGENTS.map((a,i)=>{const s=run?.running&&run.stage===a.k?"running":(ag[a.k]?.status||"idle");return `<div class="step ${s}"><span class="n">${String(i+1).padStart(2,"0")} · ${s==="running"?"working":s==="done"?"done "+fmtDate(ag[a.k].at):s==="error"?"failed":"waiting"}</span><h3>${a.name}</h3></div>`}).join("")}</div>
+  <div class="jgrid">
+    <div class="stack">
+      <section class="panel stack"><div class="row"><h2>Brief</h2><span class="grow"></span><span class="muted mono" style="font-size:12px">${(j.briefText||"").length.toLocaleString()} chars</span></div>
+        <textarea id="brief" rows="12" data-field="briefText" placeholder="Paste the brief or upload the briefing document below.">${esc(j.briefText)}</textarea>
+        <details><summary>Job settings</summary><div class="form-grid" style="margin-top:10px">
+          <label class="f">Posts<input type="number" min="1" max="20" data-field="postCount" value="${j.postCount}"></label>
+          <label class="f">Main format<select data-field="format">${Object.entries(FORMAT_LABEL).map(([k,l])=>`<option value="${k}" ${k===j.format?"selected":""}>${l}</option>`).join("")}</select></label>
+          <label class="f">Language<select data-field="language"><option value="" ${!j.language?"selected":""}>Client default</option>${langOpts(j.language)}</select></label>
+          <label class="f">Platforms (comma separated)<input type="text" data-field="platforms" value="${esc((j.platforms||[]).join(", "))}"></label>
+          <label class="f">Start<input type="date" data-field="startDate" value="${esc(j.startDate||"")}"></label>
+          <label class="f">End<input type="date" data-field="endDate" value="${esc(j.endDate||"")}"></label></div></details>
+      </section>
+      <section class="panel stack"><h2>Client files</h2>
+        ${S.assets?"":`<p class="muted" style="margin:0">You can view files but not upload. Uploading needs edit access to this page.</p>`}
+        ${KINDS.map(k=>dropZone(k,(j.assets||[]).filter(a=>a.kind===k.k),"job",id)).join("")}
+        <div class="stack" style="gap:6px"><div class="drop-h"><h3>Logos</h3><button class="ghost sm" data-client="${esc(c?.id||"")}">Edit in client profile</button></div>
+        <div class="files">${(c?.logos||[]).map(a=>fileTile(a,null)).join("")||`<span class="muted" style="font-size:12px">No logo on the client profile yet.</span>`}</div></div>
+      </section>
+    </div>
+    <section class="panel stack">
+      <div class="row"><h2>Agents</h2><span class="grow"></span>
+        ${run?.running?`<button data-act="stop">Stop</button>`:`<button class="primary" data-act="run-all" ${S.sample?"":"disabled"}>Run full pipeline</button>`}</div>
+      ${S.sample?"":`<p class="muted" style="margin:0">The agents need Claude access in this view. Open the page in Claude while signed in.</p>`}
+      ${run?.running||run?.live?`<div class="live" id="live">${esc(run.live||"")}</div>`:""}
+      ${AGENTS.map(a=>agentBlock(j,a,run)).join("")}
+    </section>
+  </div>
+  ${(j.posts||[]).length?`<div class="page-head" style="padding-top:32px"><div class="stack" style="gap:4px"><span class="eyebrow">Proofs</span><h2 style="font-size:22px">Posts</h2></div><span class="grow"></span>
+    <span class="muted mono">${j.posts.filter(p=>p.status==="approved").length} of ${j.posts.length} approved</span><button data-act="approve-all">Approve all</button></div>
+    <div class="posts">${j.posts.map((p,i)=>postCard(j,p,i)).join("")}</div>`:""}`;
+}
+function langName(l){return {pt:"Portuguese (PT)",en:"English",both:"PT + EN"}[l]||l}
+function jobLang(j){return j.language||clientOf(j)?.language||"pt"}
+
+function agentBlock(j,a,run){
+  const st=j.agents?.[a.k]; const busy=run?.running;
+  let out="";
+  if(a.k==="strategist"&&j.analysis){const x=j.analysis;out=`<div class="out"><p style="margin:0">${esc(x.summary)}</p>
+    <dl class="kv"><dt>Objective</dt><dd>${esc(x.objective)}</dd><dt>Tone</dt><dd>${esc(x.tone)}</dd>
+    <dt>Audiences</dt><dd>${(x.audiences||[]).map(a=>`<b>${esc(a.name)}</b>: ${esc(a.insight)}`).join("<br>")}</dd>
+    <dt>Pillars</dt><dd>${(x.pillars||[]).map(p=>esc(p.name)).join(" · ")}</dd>
+    <dt>Messages</dt><dd>${(x.keyMessages||[]).map(esc).join("<br>")}</dd></dl>
+    ${(x.gaps||[]).length?`<details open><summary>Questions for the client (${x.gaps.length})</summary><ul>${x.gaps.map(g=>`<li>${esc(g)}</li>`).join("")}</ul><button class="sm" data-act="copy-gaps">Copy questions</button></details>`:""}
+    ${(x.risks||[]).length?`<details><summary>Risks</summary><ul>${x.risks.map(g=>`<li>${esc(g)}</li>`).join("")}</ul></details>`:""}</div>`}
+  if(a.k==="copy"&&(j.posts||[]).length) out=`<p class="out muted" style="margin:0">${j.posts.length} posts written. See the proofs below.</p>`;
+  if(a.k==="visual"&&j.identity){const id=j.identity;out=`<div class="out"><div class="row"><span class="swatches">${(id.palette||[]).filter(hex).map(h=>`<span class="sw" style="background:${h}"></span>`).join("")}</span><span class="muted">${esc(id.mood)}</span></div>${id.notes?`<p style="margin:0">${esc(id.notes)}</p>`:""}</div>`}
+  if(a.k==="qa"&&j.qaOverall) out=`<p class="out" style="margin:0">${esc(j.qaOverall)}</p>`;
+  const needs={strategist:!(j.briefText||"").trim()?"Add the brief first":"",copy:!j.analysis?"Needs the strategist":"",visual:!(j.posts||[]).length?"Needs the copy":"",qa:!(j.posts||[]).length?"Needs the copy":""}[a.k];
+  return `<div class="agent"><div class="agent-h"><h3>${a.name}</h3>${st?.status==="done"?`<span class="chip ok">done ${esc(fmtDate(st.at))}</span>`:st?.status==="error"?`<span class="chip bad">failed</span>`:""}<span class="grow"></span>
+    <button class="sm" data-run="${a.k}" ${busy||!S.sample||needs?"disabled":""} title="${esc(needs)}">${st?.status==="done"?"Run again":"Run"}</button></div>
+    <span class="muted" style="font-size:12px">${esc(a.role)}${needs?` <b>${esc(needs)}.</b>`:""}</span>
+    ${st?.status==="error"?`<span class="chip bad" style="white-space:normal">${esc(st.error)}</span>`:""}${out}</div>`;
+}
+
+function dropZone(k,list,ownerType,ownerId){
+  return `<div class="drop" data-drop="${k.k}" data-owner="${ownerType}" data-oid="${esc(ownerId)}">
+    <div class="drop-h"><h3>${esc(k.label)} <span class="muted mono" style="font-weight:400">${list.length||""}</span></h3>
+    ${S.assets?`<label class="btn sm" style="cursor:pointer">Upload<input type="file" multiple hidden data-upload="${k.k}"></label>`:""}</div>
+    <span class="muted" style="font-size:12px">${esc(k.hint)}${S.assets?" Drag files here.":""}</span>
+    ${list.length?`<div class="files">${list.map(a=>fileTile(a,S.assets?`${ownerType}:${ownerId}:${a.id||a.name}`:null)).join("")}</div>`:""}</div>`;
+}
+function fileTile(a,removeKey){
+  const isImg=a.id&&/^image\//.test(a.type||"");
+  const ext=(a.name||"").split(".").pop().toUpperCase().slice(0,4);
+  const conf=S.confirm==="rm:"+removeKey;
+  const th=isImg?`<img src="/_blob/${esc(a.id)}" alt="" loading="lazy">`:esc(ext);
+  return `<div class="file"><div class="th">${a.id?`<a href="/_blob/${esc(a.id)}" target="_blank" rel="noopener" style="display:contents">${th}</a>`:th}</div><span class="nm" title="${esc(a.name)}">${esc(a.name)}</span>
+  ${removeKey?`<button data-rm="${esc(removeKey)}" ${conf?'style="color:var(--bad)"':""}>${conf?"Confirm":"Remove"}</button>`:""}</div>`;
+}
+
+function postCard(j,p,i){
+  const v=p.visual||{}; const qa=p.qa; const ed=S.editing===`${j.id}:${i}`;
+  const cls=p.status==="approved"?"approved":p.status==="changes"?"changes":"";
+  const visuals=(j.assets||[]).filter(a=>a.kind==="visual"&&a.id&&/^image\//.test(a.type||""));
+  const qaCls=qa?(qa.score>=4?"good":qa.score>=3?"mid":"low"):"";
+  const hasFix=qa?.fix&&Object.values(qa.fix).some(x=>x&&String(x).trim());
+  return `<article class="post ${cls}">
+    <div class="cv"><canvas data-post="${i}" width="1080" height="1080" aria-label="Post ${p.n} preview"></canvas></div>
+    <div class="body">
+      <div class="row" style="gap:5px"><span class="chip mono">#${esc(p.n)}</span><span class="chip">${esc(p.platform)}</span><span class="chip">${esc(FORMAT_LABEL[p.format]||p.format)}</span>${p.date?`<span class="chip mono">${esc(p.date)}</span>`:""}
+        <span class="grow"></span>${p.status==="approved"?`<span class="chip ok">approved</span>`:p.status==="changes"?`<span class="chip warn">changes</span>`:`<span class="chip">draft</span>`}</div>
+      ${p.pillar?`<span class="eyebrow">${esc(p.pillar)}</span>`:""}
+      ${ed?`<label class="f">On-image headline<input type="text" id="e-headline" value="${esc(p.headline)}"></label>
+        <label class="f">On-image subline<input type="text" id="e-subline" value="${esc(p.subline)}"></label>
+        <label class="f">Caption<textarea id="e-caption" rows="8">${esc(p.caption)}</textarea></label>
+        ${p.captionEn!=null?`<label class="f">Caption (English)<textarea id="e-captionEn" rows="6">${esc(p.captionEn)}</textarea></label>`:""}
+        <label class="f">Hashtags<input type="text" id="e-tags" value="${esc((p.hashtags||[]).join(" "))}"></label>
+        <div class="form-grid"><label class="f">Layout<select id="e-layout">${LAYOUTS.map(l=>`<option ${l===(v.layout||"type")?"selected":""}>${l}</option>`).join("")}</select></label>
+        <label class="f">Visual<select id="e-visual"><option value="">None</option>${visuals.map((a,vi)=>`<option value="V${vi+1}" ${v.visual==="V"+(vi+1)?"selected":""}>V${vi+1} ${esc(a.name)}</option>`).join("")}</select></label>
+        <label class="f">Background<input type="text" id="e-bg" value="${esc(v.bg||"")}"></label><label class="f">Text colour<input type="text" id="e-fg" value="${esc(v.fg||"")}"></label></div>
+        <div class="row"><button class="primary sm" data-pact="save" data-i="${i}">Save</button><button class="sm ghost" data-pact="cancel" data-i="${i}">Cancel</button></div>`
+      :`<div class="caption">${esc(p.caption)}</div>${p.captionEn?`<details><summary>English version</summary><div class="caption">${esc(p.captionEn)}</div></details>`:""}
+        <div class="tags">${(p.hashtags||[]).map(esc).join(" ")}</div>`}
+      ${v.concept||v.genPrompt||v.designerNotes||p.altText?`<details><summary>Art direction</summary><div class="out" style="margin-top:6px">
+        ${v.concept?`<p style="margin:0"><b>Concept.</b> ${esc(v.concept)}</p>`:""}
+        ${v.designerNotes?`<p style="margin:0"><b>For the designer.</b> ${esc(v.designerNotes)}</p>`:""}
+        ${v.genPrompt?`<p style="margin:0"><b>Image prompt.</b> <span class="mono" style="font-size:12px">${esc(v.genPrompt)}</span></p><div><button class="sm" data-pact="copy-prompt" data-i="${i}">Copy prompt</button></div>`:""}
+        ${p.altText?`<p style="margin:0"><b>Alt text.</b> ${esc(p.altText)}</p>`:""}</div></details>`:""}
+      ${qa?`<div class="qa ${qaCls}"><b>QA ${esc(qa.score)}/5</b>${(qa.issues||[]).length?`<ul>${qa.issues.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`:" No issues found."}
+        ${hasFix?`<div style="margin-top:6px"><button class="sm" data-pact="apply-fix" data-i="${i}">Apply suggested fix</button></div>`:""}</div>`:""}
+      ${p.note?`<div class="qa mid"><b>Change request.</b> ${esc(p.note)}</div>`:""}
+      ${S.confirm===`note:${i}`?`<label class="f">What should change?<textarea id="note-${i}" rows="3">${esc(p.note||"")}</textarea></label>
+        <div class="row"><button class="sm primary" data-pact="note-save" data-i="${i}">Save request</button><button class="sm" data-pact="revise" data-i="${i}" ${S.sample&&!S.runs[j.id]?.running?"":"disabled"}>Save and revise with AI</button><button class="sm ghost" data-pact="note-cancel" data-i="${i}">Cancel</button></div>`:""}
+    </div>
+    <div class="foot">
+      ${p.status==="approved"?`<button class="sm" data-pact="unapprove" data-i="${i}">Undo approval</button>`:`<button class="sm primary" data-pact="approve" data-i="${i}">Approve</button>`}
+      <button class="sm" data-pact="note" data-i="${i}">Request changes</button>
+      ${ed?"":`<button class="sm" data-pact="edit" data-i="${i}">Edit</button>`}
+      <span class="grow"></span>
+      <button class="sm ghost" data-pact="copy" data-i="${i}">Copy caption</button>
+      <button class="sm ghost" data-pact="png" data-i="${i}" ${S.downloads?"":"disabled"}>PNG</button>
+    </div></article>`;
+}
+
+// ---------- events ----------
+function bind(app){
+  app.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{const g=b.dataset.go;go(g==="newclient"?{name:"client"}:{name:g})});
+  app.querySelectorAll("[data-job]").forEach(b=>b.onclick=()=>go({name:"job",id:b.dataset.job}));
+  app.querySelectorAll("[data-client]").forEach(b=>b.onclick=()=>b.dataset.client&&go({name:"client",id:b.dataset.client}));
+  const fc=$("#f-client"); if(fc) fc.onchange=()=>{S.filterClient=fc.value;render()};
+  const cf=$("#client-form"); if(cf) cf.onsubmit=e=>{e.preventDefault();saveClient()};
+  const jf=$("#job-form"); if(jf) jf.onsubmit=e=>{e.preventDefault();createJob()};
+  app.querySelectorAll("[data-field]").forEach(el=>el.onchange=()=>saveField(el));
+  app.querySelectorAll("[data-act]").forEach(b=>b.onclick=()=>jobAction(b.dataset.act));
+  app.querySelectorAll("[data-run]").forEach(b=>b.onclick=()=>runPipeline(S.view.id,[b.dataset.run]));
+  app.querySelectorAll("[data-pact]").forEach(b=>b.onclick=()=>postAction(b.dataset.pact,+b.dataset.i));
+  app.querySelectorAll("[data-upload]").forEach(inp=>inp.onchange=()=>{const z=inp.closest("[data-drop]");handleFiles([...inp.files],z.dataset.drop,z.dataset.owner,z.dataset.oid);inp.value=""});
+  app.querySelectorAll("[data-rm]").forEach(b=>b.onclick=()=>removeFile(b.dataset.rm));
+  if(S.assets) app.querySelectorAll("[data-drop]").forEach(z=>{
+    z.ondragover=e=>{e.preventDefault();z.classList.add("over")};
+    z.ondragleave=()=>z.classList.remove("over");
+    z.ondrop=e=>{e.preventDefault();z.classList.remove("over");handleFiles([...e.dataTransfer.files],z.dataset.drop,z.dataset.owner,z.dataset.oid)};
+  });
+}
+
+async function saveClient(){
+  if(!S.db) return toast("Storage isn't available in this view.");
+  const id=S.view.id;
+  const data={name:$("#c-name").value.trim(),sector:$("#c-sector").value.trim(),language:$("#c-lang").value,
+    palette:$("#c-palette").value.split(/[\s,;]+/).map(hex).filter(Boolean),tone:$("#c-tone").value.trim(),
+    dos:$("#c-dos").value.trim(),donts:$("#c-donts").value.trim(),notes:$("#c-notes").value.trim(),updatedAt:Date.now()};
+  if(!data.name) return toast("Add the client name.");
+  try{
+    if(id){await patchDoc("clients/"+id,data);toast("Profile saved")}
+    else{const ref=await S.db.collection("clients").add({...data,logos:[],createdAt:Date.now()});toast("Client created. Add the logos now.");go({name:"client",id:ref.id})}
+  }catch(e){if(!id)toast(dbMsg(e))}
+}
+async function createJob(){
+  if(!S.db) return toast("Storage isn't available in this view.");
+  const plats=[...document.querySelectorAll("input[name=plat]:checked")].map(x=>x.value);
+  const data={clientId:$("#j-client").value,title:$("#j-title").value.trim(),postCount:Math.max(1,Math.min(20,+$("#j-count").value||6)),
+    format:$("#j-format").value,language:$("#j-lang").value,startDate:$("#j-start").value,endDate:$("#j-end").value,platforms:plats.length?plats:["Instagram"],
+    briefText:$("#j-brief").value.trim(),assets:[],posts:[],agents:{},createdAt:Date.now(),updatedAt:Date.now()};
+  if(!data.title) return toast("Give the job a title.");
+  try{const ref=await S.db.collection("jobs").add(data);go({name:"job",id:ref.id});toast("Job created. Upload the client files.")}catch(e){toast(dbMsg(e))}
+}
+function saveField(el){
+  const id=S.view.id;const f=el.dataset.field;let val=el.value;
+  if(f==="postCount") val=Math.max(1,Math.min(20,+val||1));
+  if(f==="platforms") val=val.split(",").map(s=>s.trim()).filter(Boolean);
+  patchDoc("jobs/"+id,{[f]:val,updatedAt:Date.now()}).then(()=>toast("Saved"),()=>{});
+}
+async function jobAction(act){
+  const id=S.view.id;const j=jobById(id);if(!j) return;
+  if(act==="del-job"){
+    if(S.confirm!=="del-job"){S.confirm="del-job";render();setTimeout(()=>{if(S.confirm==="del-job"){S.confirm=null;render()}},5000);return}
+    S.confirm=null;
+    try{await S.db.doc("jobs/"+id).delete();
+      if(S.assets) for(const a of j.assets||[]) if(a.id) await S.assets.delete(a.id).catch(()=>{});
+      toast("Job deleted");go({name:"board"})}catch(e){toast(dbMsg(e))}
+  }
+  if(act==="delivered") patchDoc("jobs/"+id,{delivered:!j.delivered,updatedAt:Date.now()});
+  if(act==="run-all") runPipeline(id,AGENTS.map(a=>a.k));
+  if(act==="stop"){S.runs[id]?.ctl?.abort()}
+  if(act==="copy-gaps") copyText((j.analysis?.gaps||[]).map((g,i)=>`${i+1}. ${g}`).join("\n"));
+  if(act==="approve-all") savePosts(id,(j.posts||[]).map(p=>({...p,status:"approved",approvedAt:Date.now()})));
+  if(act==="export") exportPackage(j);
+}
+function savePosts(id,posts){return patchDoc("jobs/"+id,{posts,updatedAt:Date.now()})}
+async function postAction(act,i){
+  const id=S.view.id;const j=jobById(id);const posts=clone(j.posts);const p=posts[i];
+  if(act==="approve"){p.status="approved";p.approvedAt=Date.now();return savePosts(id,posts)}
+  if(act==="unapprove"){p.status="draft";return savePosts(id,posts)}
+  if(act==="note"){S.confirm=`note:${i}`;render();$(`#note-${i}`)?.focus();return}
+  if(act==="note-cancel"){S.confirm=null;return render()}
+  if(act==="note-save"||act==="revise"){const n=$(`#note-${i}`).value.trim();if(!n) return toast("Write what should change.");p.note=n;p.status="changes";S.confirm=null;await savePosts(id,posts);if(act==="revise") revisePost(id,i,n);return}
+  if(act==="edit"){S.editing=`${id}:${i}`;return render()}
+  if(act==="cancel"){S.editing=null;return render()}
+  if(act==="save"){
+    p.headline=$("#e-headline").value.trim();p.subline=$("#e-subline").value.trim();p.caption=$("#e-caption").value;
+    if($("#e-captionEn")) p.captionEn=$("#e-captionEn").value;
+    p.hashtags=$("#e-tags").value.split(/\s+/).filter(Boolean).map(t=>t.startsWith("#")?t:"#"+t);
+    p.visual={...(p.visual||{}),layout:$("#e-layout").value,visual:$("#e-visual").value||null,bg:hex($("#e-bg").value)||p.visual?.bg||"",fg:hex($("#e-fg").value)||p.visual?.fg||""};
+    S.editing=null;await savePosts(id,posts);return toast("Post saved")}
+  if(act==="apply-fix"){const f=p.qa.fix||{};for(const k of ["headline","subline","caption"]) if(f[k]&&String(f[k]).trim()) p[k]=f[k];p.qa={...p.qa,fix:null,issues:[...(p.qa.issues||[])],applied:true};return savePosts(id,posts).then(()=>toast("Fix applied"))}
+  if(act==="copy") return copyText(`${p.caption}${p.captionEn?"\n\n"+p.captionEn:""}\n\n${(p.hashtags||[]).join(" ")}`);
+  if(act==="copy-prompt") return copyText(p.visual?.genPrompt||"");
+  if(act==="png"){const blob=await renderBlob(j,p);saveFile(`${slug(j.title)}-post-${p.n}.png`,blob)}
+}
+
+// ---------- files ----------
+function typeFor(file){const ext=(file.name.split(".").pop()||"").toLowerCase();return EXT_TYPES[ext]||null}
+async function extractText(file){
+  const ext=(file.name.split(".").pop()||"").toLowerCase();
+  if(["txt","md","csv"].includes(ext)) return await file.text();
+  if(ext==="pdf"){
+    if(!window.pdfjsLib){await loadScript(PDFJS);const w=new Blob([`importScripts("${PDFJS_WORKER}");`],{type:"text/javascript"});window.pdfjsLib.GlobalWorkerOptions.workerSrc=URL.createObjectURL(w)}
+    const doc=await window.pdfjsLib.getDocument({data:new Uint8Array(await file.arrayBuffer())}).promise;const out=[];
+    for(let i=1;i<=Math.min(doc.numPages,60);i++){const pg=await doc.getPage(i);const tc=await pg.getTextContent();out.push(tc.items.map(t=>t.str).join(" "))}
+    return out.join("\n\n").replace(/[ \t]+\n/g,"\n").trim();
+  }
+  if(ext==="docx"){if(!window.mammoth) await loadScript(MAMMOTH);const r=await window.mammoth.extractRawText({arrayBuffer:await file.arrayBuffer()});return r.value.trim()}
+  return null;
+}
+async function handleFiles(files,kind,ownerType,ownerId){
+  if(!S.assets||!files.length) return;
+  const recs=[];let added="";
+  for(const file of files){
+    toast(`Uploading ${file.name}…`);
+    let text=null;
+    if(kind==="briefing"){try{text=await extractText(file)}catch(e){toast(`Couldn't read the text in ${file.name}. Paste the brief into the text box instead.`)}}
+    const type=typeFor(file);const rec={name:file.name,kind,type:type||file.type||"",size:file.size,at:Date.now(),id:null};
+    if(type){try{const r=await S.assets.upload(file,{type});rec.id=r.id}catch(e){toast(`${file.name}: ${({too_large:"file is over 20 MB",unsupported_type:"this file type can't be stored",quota_or_state:"storage is full"})[e.code]||"upload failed"}.`);if(!text) continue}}
+    else if(!text){toast(`${file.name}: use PDF, Word (text only), images, TXT or MD.`);continue}
+    if(text){rec.textChars=text.length;added+=`\n\n--- From ${file.name} ---\n${text.slice(0,60000)}`}
+    recs.push(rec);
+  }
+  if(!recs.length) return;
+  try{
+    if(ownerType==="client"){const c=S.clients.find(x=>x.id===ownerId);await patchDoc("clients/"+ownerId,{logos:[...clone(c.logos||[]),...recs],updatedAt:Date.now()})}
+    else{const j=jobById(ownerId);const patch={assets:[...clone(j.assets||[]),...recs],updatedAt:Date.now()};if(added) patch.briefText=((j.briefText||"")+added).trim();await patchDoc("jobs/"+ownerId,patch)}
+    toast(`${recs.length} file${recs.length>1?"s":""} added${added?". Brief text extracted":""}.`);
+  }catch(e){}
+}
+async function removeFile(key){
+  if(S.confirm!=="rm:"+key){S.confirm="rm:"+key;render();return}
+  S.confirm=null;const [type,oid,...rest]=key.split(":");const ref=rest.join(":");
+  if(type==="client"){const c=S.clients.find(x=>x.id===oid);await patchDoc("clients/"+oid,{logos:clone(c.logos||[]).filter(a=>(a.id||a.name)!==ref)})}
+  else{const j=jobById(oid);await patchDoc("jobs/"+oid,{assets:clone(j.assets||[]).filter(a=>(a.id||a.name)!==ref)})}
+  if(/^[0-9a-f]{32}$/.test(ref)) S.assets.delete(ref).catch(()=>{});
+  toast("File removed");
+}
+async function saveFile(name,data){
+  if(!S.downloads) return toast("Downloads aren't available in this view.");
+  try{await S.downloads.save({filename:name,data})}catch(e){if(e.code!=="declined") toast("Download failed. Try again.")}
+}
+
+// ---------- canvas renderer ----------
+let fontsReady=null;
+function ensureFonts(){return fontsReady||(fontsReady=Promise.all(Object.values(FONTS).map(([w,f])=>document.fonts.load(`${w} 60px "${f}"`).catch(()=>{}))).then(()=>document.fonts.load('400 40px "IBM Plex Sans"').catch(()=>{})))}
+function loadImg(id){if(!S.imgCache.has(id)) S.imgCache.set(id,new Promise((res,rej)=>{const im=new Image();im.onload=()=>res(im);im.onerror=()=>rej(new Error("img"));im.src="/_blob/"+id}));return S.imgCache.get(id).catch(()=>null)}
+function visualAsset(j,ref){if(!ref) return null;const m=/^V(\d+)$/i.exec(String(ref));const vis=(j.assets||[]).filter(a=>a.kind==="visual"&&a.id&&/^image\//.test(a.type||""));return m?vis[+m[1]-1]||null:null}
+function wrap(ctx,text,maxW){const words=String(text||"").split(/\s+/).filter(Boolean);const lines=[];let cur="";for(const w of words){const t=cur?cur+" "+w:w;if(ctx.measureText(t).width>maxW&&cur){lines.push(cur);cur=w}else cur=t}if(cur) lines.push(cur);return lines}
+function fit(ctx,text,maxW,maxH,weight,family,start,min,lh){
+  for(let s=start;s>=min;s-=4){ctx.font=`${weight} ${s}px "${family}"`;const L=wrap(ctx,text,maxW);if(L.length*s*lh<=maxH&&L.every(l=>ctx.measureText(l).width<=maxW)) return {size:s,lines:L}}
+  ctx.font=`${weight} ${min}px "${family}"`;return {size:min,lines:wrap(ctx,text,maxW)}
+}
+function cover(ctx,img,x,y,w,h){const r=Math.max(w/img.width,h/img.height);const iw=img.width*r,ih=img.height*r;ctx.save();ctx.beginPath();ctx.rect(x,y,w,h);ctx.clip();ctx.drawImage(img,x+(w-iw)/2,y+(h-ih)/2,iw,ih);ctx.restore()}
+async function drawPost(cv,j,p){
+  const c=clientOf(j);const v=p.visual||{};const [W,H]=FORMATS[p.format]||FORMATS[j.format]||FORMATS.feed;
+  cv.width=W;cv.height=H;const ctx=cv.getContext("2d");await ensureFonts();
+  const pal=((j.identity?.palette)||c?.palette||[]).map(hex).filter(Boolean);
+  const bg=hex(v.bg)||pal[0]||"#15211F";let fg=hex(v.fg)||contrastOn(bg);if(contrastRatio(fg,bg)<3) fg=contrastOn(bg);
+  const accent=hex(v.accent)||pal.find(x=>x!==bg&&contrastRatio(x,bg)>1.6)||(luminance(bg)>.4?"#15211F":"#F2C14E");
+  const [fw,ff]=FONTS[v.font]||FONTS[j.identity?.typography]||FONTS.archivo;
+  let layout=LAYOUTS.includes(v.layout)?v.layout:"type";const va=visualAsset(j,v.visual);
+  const img=layout!=="type"&&va?await loadImg(va.id):null; if(!img) layout="type";
+  const logoA=(c?.logos||[]).find(a=>a.id&&/^image\//.test(a.type||""));const logo=logoA?await loadImg(logoA.id):null;
+  const pad=Math.round(W*.08);const foot=Math.round(H*.11);
+  ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+  let box; // text region
+  if(layout==="photo"){
+    cover(ctx,img,0,0,W,H);
+    const pos=v.textPosition||"bottom";const g=pos==="top"?ctx.createLinearGradient(0,0,0,H*.7):ctx.createLinearGradient(0,H,0,H*.3);
+    const rgb=parseInt(bg.slice(1),16);const col=`${rgb>>16},${rgb>>8&255},${rgb&255}`;
+    g.addColorStop(0,`rgba(${col},.92)`);g.addColorStop(1,`rgba(${col},0)`);ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+    box=pos==="top"?{x:pad,y:pad,w:W-2*pad,h:H*.42,align:"top"}:{x:pad,y:H*.45,w:W-2*pad,h:H*.55-foot-pad*.3,align:"bottom"};
+  }else if(layout==="split"){
+    const ih=Math.round(H*.58);cover(ctx,img,0,0,W,ih);
+    box={x:pad,y:ih+pad*.7,w:W-2*pad,h:H-ih-foot-pad*.7,align:"top"};
+  }else if(layout==="frame"){
+    const m=Math.round(W*.06);const ih=Math.round(H*.6);cover(ctx,img,m,m,W-2*m,ih);
+    box={x:pad,y:m+ih+pad*.55,w:W-2*pad,h:H-ih-m-foot-pad*.55,align:"top"};
+  }else{
+    ctx.fillStyle=accent;ctx.fillRect(pad,pad,Math.round(W*.09),Math.round(W*.012));
+    const pos=v.textPosition||"center";
+    box={x:pad,y:pad*1.6,w:W-2*pad,h:H-pad*1.6-foot-pad*.4,align:pos==="top"?"top":pos==="bottom"?"bottom":"center"};
+  }
+  const head=String(p.headline||"").trim();const sub=String(p.subline||"").trim();
+  const subH=sub?Math.min(box.h*.3,W*.16):0;
+  const hf=fit(ctx,head,box.w,box.h-subH-(sub?W*.03:0),fw,ff,Math.round(W*(layout==="type"?.12:.095)),Math.round(W*.045),1.08);
+  let sf={size:0,lines:[]};if(sub) sf=fit(ctx,sub,box.w*.95,subH,"400","IBM Plex Sans",Math.round(W*.038),Math.round(W*.026),1.3);
+  const total=hf.lines.length*hf.size*1.08+(sub?W*.03+sf.lines.length*sf.size*1.3:0);
+  let y=box.align==="top"?box.y:box.align==="bottom"?box.y+box.h-total:box.y+(box.h-total)/2;
+  ctx.textBaseline="top";ctx.fillStyle=fg;ctx.font=`${fw} ${hf.size}px "${ff}"`;
+  for(const l of hf.lines){ctx.fillText(l,box.x,y);y+=hf.size*1.08}
+  if(sub){y+=W*.03;ctx.font=`400 ${sf.size}px "IBM Plex Sans"`;ctx.globalAlpha=.88;for(const l of sf.lines){ctx.fillText(l,box.x,y);y+=sf.size*1.3}ctx.globalAlpha=1}
+  // footer: logo right, handle left
+  const fy=H-foot;
+  if(logo){const mw=W*.2,mh=foot*.5;const r=Math.min(mw/logo.width,mh/logo.height);const lw=logo.width*r,lh=logo.height*r;ctx.drawImage(logo,W-pad-lw,fy+(foot-lh)/2-pad*.15,lw,lh)}
+  else if(c?.name){ctx.font=`600 ${Math.round(W*.026)}px "IBM Plex Sans"`;ctx.fillStyle=fg;ctx.globalAlpha=.85;ctx.textAlign="right";ctx.fillText(c.name,W-pad,fy+foot*.35);ctx.textAlign="left";ctx.globalAlpha=1}
+  if(p.cta){ctx.font=`500 ${Math.round(W*.024)}px "IBM Plex Sans"`;ctx.fillStyle=fg;ctx.globalAlpha=.8;const t=wrap(ctx,p.cta,W*.55)[0]||"";ctx.fillText(t,pad,fy+foot*.35);ctx.globalAlpha=1}
+}
+async function drawCanvases(app){
+  if(S.view.name!=="job") return;const j=jobById(S.view.id);if(!j) return;
+  for(const cv of app.querySelectorAll("canvas[data-post]")){const p=j.posts?.[+cv.dataset.post];if(p) drawPost(cv,j,p).catch(()=>{})}
+}
+async function renderBlob(j,p){const cv=document.createElement("canvas");await drawPost(cv,j,p);return await new Promise(r=>cv.toBlob(r,"image/png"))}
+function csvCell(s){s=String(s??"");return /[",\n]/.test(s)?`"${s.replace(/"/g,'""')}"`:s}
+async function exportPackage(j){
+  toast("Building the package…");
+  try{
+    if(!window.JSZip) await loadScript(JSZIP);
+    const zip=new window.JSZip();const rows=[["post","date","platform","format","pillar","headline","subline","caption","caption_en","hashtags","cta","alt_text","status","image_prompt"]];
+    for(const p of j.posts){const b=await renderBlob(j,p);zip.file(`post-${String(p.n).padStart(2,"0")}-${slug(p.platform)}.png`,b);
+      rows.push([p.n,p.date,p.platform,p.format,p.pillar,p.headline,p.subline,p.caption,p.captionEn,(p.hashtags||[]).join(" "),p.cta,p.altText,p.status,p.visual?.genPrompt])}
+    zip.file("captions.csv","﻿"+rows.map(r=>r.map(csvCell).join(",")).join("\n"));
+    if(j.analysis) zip.file("strategy.json",JSON.stringify(j.analysis,null,2));
+    const blob=await zip.generateAsync({type:"blob"});
+    await saveFile(`${slug(clientOf(j)?.name)}-${slug(j.title)}.zip`,blob);
+  }catch(e){toast("Couldn't build the zip here. Download the PNGs one by one.")}
+}
+
+// ---------- agents ----------
+function langRules(l){
+  const pt="Write in European Portuguese as used in Portugal and Mozambique, with pre-1990 Orthographic Agreement spelling where it applies (projecto, objectivo, acção, direcção, óptimo, actual). Never Brazilian Portuguese: use equipa (not time), telemóvel (not celular), utilizador (not usuário), registar (not registrar). Avoid bureaucratic openers such as 'no âmbito de' or 'vimos por este meio'.";
+  const en="Write in clear international English.";
+  return l==="pt"?pt:l==="en"?en:`Primary language Portuguese, plus an English version of every caption. ${pt} ${en}`;
+}
+const STYLE="Style: plain, specific and human. No clichés (elevate, unlock, journey, game-changer, dive in, seamless, 'nos dias de hoje', 'mais do que nunca'). No em dashes. No exaggerated claims. At most one emoji per caption, and only if the tone allows it. Only state facts that appear in the brief or the client profile; never invent prices, dates, statistics, quotes or promises.";
+function context(j){
+  const c=clientOf(j)||{};
+  return `CLIENT PROFILE
+Name: ${c.name||""}
+Sector: ${c.sector||""}
+Tone of voice: ${c.tone||"not specified"}
+Always do: ${c.dos||"-"}
+Never do: ${c.donts||"-"}
+Context: ${c.notes||"-"}
+Brand colours: ${(c.palette||[]).join(", ")||"not specified"}
+
+JOB
+Title: ${j.title}
+Platforms: ${(j.platforms||[]).join(", ")}
+Number of posts: ${j.postCount}
+Main format: ${j.format} (feed = 1:1, portrait = 4:5, story = 9:16)
+Language: ${langName(jobLang(j))}
+Period: ${j.startDate||"?"} to ${j.endDate||"?"}
+
+BRIEF
+"""
+${String(j.briefText||"").slice(0,80000)}
+"""`;
+}
+const PROMPTS={
+  strategist:j=>`You are the Strategist agent in a social media production pipeline at Playground, a communication and marketing consultancy based in Maputo, Mozambique. Read the client brief and profile and produce the plan that a copywriter agent and an art director agent will execute.
+
+${context(j)}
+
+Rules: base everything on the brief. If important information is missing, do not invent it; write it as a direct question for the client in "gaps". Take the local market context seriously and avoid stereotypes. Spread the posts across the platforms and the period. Dates in YYYY-MM-DD within the period, or empty if no period.
+
+Reply with only JSON in this shape:
+{"summary":"2-3 sentences","objective":"","audiences":[{"name":"","insight":""}],"keyMessages":[""],"tone":"","mandatories":[""],"restrictions":[""],"pillars":[{"name":"","purpose":""}],"gaps":[""],"risks":[""],"plan":[{"n":1,"date":"","platform":"","format":"feed|portrait|story","pillar":"","angle":"one sentence on what this post does"}]}
+The plan must have exactly ${j.postCount} items.`,
+  copy:j=>`You are the Copywriter agent in a social media production pipeline at Playground, Maputo. Write every post in the strategist's plan.
+
+${context(j)}
+
+STRATEGY
+${JSON.stringify(j.analysis)}
+
+LANGUAGE: ${langRules(jobLang(j))}
+${STYLE}
+Adapt to the platform: LinkedIn longer and professional; Instagram and Facebook short paragraphs; X under 270 characters; TikTok and stories very short. The headline is text placed on the image: maximum 7 words, strong and readable. The subline supports it: maximum 14 words, can be empty.
+
+Reply with only a JSON array, one object per post in plan order:
+[{"n":1,"platform":"","format":"","date":"","pillar":"","hook":"first line of the caption","headline":"","subline":"","caption":"full caption, use \\n for line breaks"${jobLang(j)==="both"?',"captionEn":"English version of the caption"':""},"hashtags":["#tag"],"cta":"short call to action","altText":"description of the intended image for accessibility"}]`,
+  visual:(j,imgList)=>`You are the Art Director agent in a social media production pipeline at Playground, Maputo. Define the visual identity for this set of posts and art-direct each one.
+
+${context(j)}
+
+POSTS
+${JSON.stringify((j.posts||[]).map(p=>({n:p.n,platform:p.platform,format:p.format,pillar:p.pillar,headline:p.headline,subline:p.subline,caption:String(p.caption||"").slice(0,400)})))}
+
+IMAGES ATTACHED (in order)
+${imgList.length?imgList.map((x,i)=>`Image ${i+1}: ${x.label}`).join("\n"):"None attached."}
+Visuals named V1, V2… are client-approved and may be placed in posts. References named R1, R2… are inspiration only: never place them in a post. Logos named L1… show the brand identity. All client visuals, attached or not: ${(j.assets||[]).filter(a=>a.kind==="visual"&&a.id&&/^image\//.test(a.type||"")).map((a,i)=>"V"+(i+1)+" \""+a.name+"\"").join(", ")||"none"}. Choose a visual you have not seen only if its file name makes it clearly suitable.
+
+The page renders each post automatically from your spec with these layouts:
+- "photo": visual full-bleed, text over a scrim in the bg colour
+- "split": visual on the top 58%, colour block with text below
+- "frame": colour frame around the visual, text below it
+- "type": colour block with typography only
+Use photo, split or frame only when a suitable V# exists. Otherwise use "type" and write genPrompt, a detailed prompt to produce the right image later (subject, setting in Mozambique if relevant, light, composition, leave space for text, no text in the image). Vary layouts across the set so the feed has rhythm. Use the brand palette; fg must contrast strongly with bg.
+
+Reply with only JSON:
+{"identity":{"palette":["#RRGGBB"],"mood":"few words","typography":"archivo|fraunces|plex","notes":"one or two sentences on the art direction"},"posts":[{"n":1,"concept":"","layout":"photo|split|frame|type","visual":"V1 or null","bg":"#RRGGBB","fg":"#RRGGBB","accent":"#RRGGBB","font":"archivo|fraunces|plex","textPosition":"top|center|bottom","genPrompt":"","designerNotes":"what a designer should refine before publishing"}]}`,
+  qa:j=>`You are the Brand QA agent in a social media production pipeline at Playground, Maputo. Check every post as a demanding account director would, before it goes to the client.
+
+${context(j)}
+
+STRATEGY
+${JSON.stringify({mandatories:j.analysis?.mandatories,restrictions:j.analysis?.restrictions,keyMessages:j.analysis?.keyMessages,tone:j.analysis?.tone})}
+
+POSTS
+${JSON.stringify((j.posts||[]).map(p=>({n:p.n,platform:p.platform,headline:p.headline,subline:p.subline,caption:p.caption,captionEn:p.captionEn,hashtags:p.hashtags,cta:p.cta})))}
+
+LANGUAGE: ${langRules(jobLang(j))}
+${STYLE}
+Check: facts or claims not supported by the brief, legal or reputational risk, wrong language variety or spelling, clichés, tone, length for the platform, headline readability, CTA clarity, hashtag relevance, mandatories respected, restrictions respected.
+Score 5 = ready for the client, 3 = needs edits, 1 = should be rewritten.
+
+Reply with only JSON:
+{"overall":"two sentences on the set","posts":[{"n":1,"score":5,"issues":["specific issue"],"fix":{"headline":"","subline":"","caption":""}}]}
+Fill a fix field only when you would change it; leave it empty otherwise.`
+};
+
+async function collectImages(j){
+  const max=S.limits?.images?.maxCount||0;if(!max) return {blobs:[],list:[]};
+  const c=clientOf(j);const ok=a=>a.id&&SAMPLE_IMG_TYPES.includes(a.type);
+  const logos=(c?.logos||[]).filter(ok).slice(0,1).map((a,i)=>({a,label:`L${i+1} logo "${a.name}"`}));
+  const allVis=(j.assets||[]).filter(a=>a.kind==="visual"&&a.id&&/^image\//.test(a.type||""));
+  const vis=allVis.map((a,i)=>({a,label:`V${i+1} visual "${a.name}"`})).filter(x=>ok(x.a));
+  const refs=(j.assets||[]).filter(a=>a.kind==="reference").filter(ok).map((a,i)=>({a,label:`R${i+1} reference "${a.name}"`}));
+  const room=Math.max(0,max-logos.length);
+  const nRef=Math.min(refs.length,3,vis.length?Math.max(0,room-Math.min(vis.length,Math.max(1,room-3))):room);
+  const picked=[...logos,...vis.slice(0,room-nRef),...refs.slice(0,nRef)].slice(0,max);
+  const blobs=[],list=[];
+  for(const x of picked){try{const r=await fetch("/_blob/"+x.a.id);if(!r.ok) continue;const b=await r.blob();if(b.size>(S.limits.images.maxInputBytes||2e7)) continue;blobs.push(b);list.push(x)}catch(e){}}
+  return {blobs,list};
+}
+
+function setLive(id,txt){const r=S.runs[id];if(!r) return;r.live=txt;const el=$("#live");if(el&&S.view.name==="job"&&S.view.id===id){el.textContent=txt;el.scrollTop=el.scrollHeight}}
+
+async function runPipeline(id,stages){
+  if(!S.sample) return toast("The agents need Claude access in this view.");
+  if(S.runs[id]?.running) return;
+  const run=S.runs[id]={running:true,stage:null,ctl:null,live:"Starting…"};render();
+  try{
+    for(const k of stages){
+      const j=jobById(id);if(!j) break;
+      if(k==="strategist"&&!(j.briefText||"").trim()) throw {code:"user",message:"Add the brief first."};
+      if(k==="copy"&&!j.analysis) throw {code:"user",message:"Run the strategist first."};
+      if((k==="visual"||k==="qa")&&!(j.posts||[]).length) throw {code:"user",message:"Run the copywriter first."};
+      run.stage=k;run.ctl=new AbortController();const name=AGENTS.find(a=>a.k===k).name;
+      setLive(id,`${name} is thinking…`);render();
+      let opts={signal:run.ctl.signal,cache:false,onText:({text})=>setLive(id,`${name} is writing… ${text.length.toLocaleString()} characters\n\n${text.slice(-500)}`)};
+      let prompt;
+      if(k==="visual"){const {blobs,list}=await collectImages(j);prompt=PROMPTS.visual(j,list);if(blobs.length) opts.images=blobs;setLive(id,`${name} is looking at ${blobs.length} image${blobs.length===1?"":"s"}…`)}
+      else prompt=PROMPTS[k](j);
+      let out;
+      try{out=await S.sample.json(prompt,opts)}
+      catch(e){if(e?.code!=="cancelled") await patchDoc("jobs/"+id,{agents:{...clone(jobById(id).agents||{}),[k]:{status:"error",at:Date.now(),error:sampleMsg(e)}}}).catch(()=>{});throw e}
+      await applyOutput(id,k,out);
+    }
+    setLive(id,"Done. Review the posts below.");toast("Agents finished");
+  }catch(e){
+    if(e?.code==="user"){toast(e.message);setLive(id,e.message)}
+    else{setLive(id,sampleMsg(e));if(e?.code!=="cancelled") toast(sampleMsg(e))}
+  }finally{run.running=false;run.stage=null;render()}
+}
+async function applyOutput(id,k,out){
+  const j=jobById(id);const agents={...clone(j.agents||{}),[k]:{status:"done",at:Date.now()}};const patch={agents,updatedAt:Date.now()};
+  if(k==="strategist"){
+    if(!out||typeof out!=="object"||!Array.isArray(out.plan)) throw {code:"invalid_json"};
+    patch.analysis=out;
+  }
+  if(k==="copy"){
+    const arr=Array.isArray(out)?out:Array.isArray(out?.posts)?out.posts:null;if(!arr) throw {code:"invalid_json"};
+    const old=j.posts||[];
+    patch.posts=arr.map((p,i)=>{const n=p.n??i+1;const prev=old.find(o=>o.n===n);return {n,platform:p.platform||j.platforms?.[0]||"",format:FORMATS[p.format]?p.format:j.format,date:p.date||"",pillar:p.pillar||"",hook:p.hook||"",headline:p.headline||"",subline:p.subline||"",caption:p.caption||"",...(p.captionEn!=null?{captionEn:p.captionEn}:{}),hashtags:Array.isArray(p.hashtags)?p.hashtags:[],cta:p.cta||"",altText:p.altText||"",visual:prev?.visual||null,status:"draft"}});
+    patch.qaOverall=null;
+  }
+  if(k==="visual"){
+    if(!out||!Array.isArray(out.posts)) throw {code:"invalid_json"};
+    patch.identity=out.identity||null;
+    patch.posts=clone(j.posts).map(p=>{const v=out.posts.find(x=>x.n===p.n);return v?{...p,visual:{concept:v.concept||"",layout:LAYOUTS.includes(v.layout)?v.layout:"type",visual:v.visual&&v.visual!=="null"?v.visual:null,bg:hex(v.bg)||"",fg:hex(v.fg)||"",accent:hex(v.accent)||"",font:FONTS[v.font]?v.font:"archivo",textPosition:v.textPosition||"",genPrompt:v.genPrompt||"",designerNotes:v.designerNotes||""}}:p});
+  }
+  if(k==="qa"){
+    if(!out||!Array.isArray(out.posts)) throw {code:"invalid_json"};
+    patch.qaOverall=out.overall||"";
+    patch.posts=clone(j.posts).map(p=>{const q=out.posts.find(x=>x.n===p.n);return q?{...p,qa:{score:Math.max(1,Math.min(5,+q.score||3)),issues:Array.isArray(q.issues)?q.issues:[],fix:q.fix||null}}:p});
+  }
+  await patchDoc("jobs/"+id,patch);
+  const cur=jobById(id);if(cur) Object.assign(cur,clone(patch));
+}
+async function revisePost(id,i,note){
+  if(!S.sample) return;const j=jobById(id);const p=j.posts[i];
+  const run=S.runs[id]={running:true,stage:"copy",ctl:new AbortController(),live:`Copywriter is revising post ${p.n}…`};render();
+  try{
+    const out=await S.sample.json(`You are the Copywriter agent in a social media production pipeline at Playground, Maputo. The account manager asked for changes to one post. Rewrite it following the note, keeping everything that was not criticised.
+
+${context(j)}
+
+LANGUAGE: ${langRules(jobLang(j))}
+${STYLE}
+
+CURRENT POST
+${JSON.stringify({n:p.n,platform:p.platform,headline:p.headline,subline:p.subline,caption:p.caption,captionEn:p.captionEn,hashtags:p.hashtags,cta:p.cta})}
+
+ACCOUNT MANAGER NOTE
+${note}
+
+Reply with only one JSON object with the same keys as the current post.`,{signal:run.ctl.signal,cache:false,onText:({text})=>setLive(id,`Revising post ${p.n}… ${text.length} characters`)});
+    const posts=clone(jobById(id).posts);const q=posts[i];
+    for(const k of ["headline","subline","caption","captionEn","cta"]) if(typeof out?.[k]==="string") q[k]=out[k];
+    if(Array.isArray(out?.hashtags)) q.hashtags=out.hashtags;
+    q.status="draft";q.revisedFrom=note;q.note="";q.qa=null;
+    await savePosts(id,posts);setLive(id,`Post ${p.n} revised. Check it and approve.`);toast(`Post ${p.n} revised`);
+  }catch(e){setLive(id,sampleMsg(e));if(e?.code!=="cancelled") toast(sampleMsg(e))}
+  finally{run.running=false;run.stage=null;render()}
+}
+
+// ---------- boot ----------
+render();
+(async()=>{
+  if(!window.claude?.use){S.noRuntime=true;S.ready=true;render();return}
+  const use=n=>window.claude.use(n).catch(()=>null);
+  const [db,assets,sample,downloads]=await Promise.all([use("db"),use("assets"),use("sample"),use("downloads")]);
+  Object.assign(S,{db,assets,sample,downloads,ready:true});
+  if(sample) S.limits=await sample.limits().catch(()=>null);
+  if(db){
+    db.collection("clients").onSnapshot(s=>{S.clients=s.docs.map(d=>({...d.data(),id:d.id})).sort((a,b)=>String(a.name).localeCompare(String(b.name)));S.loaded.clients=true;scheduleRender()},()=>{});
+    db.collection("jobs").orderBy("updatedAt","desc").onSnapshot(s=>{S.jobs=s.docs.map(d=>({...d.data(),id:d.id}));S.loaded.jobs=true;scheduleRender()},()=>{});
+  }
+  render();
+})();
+</script>
