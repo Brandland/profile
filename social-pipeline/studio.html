@@ -1,9 +1,9 @@
 <title>Playground Social Studio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Archivo:wght@500;800&family=Fraunces:opsz,wght@9..144,700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
-/* Layout: production board -> job workspace (inputs | agents) -> post proofs grid */
+/* Layout: production board -> job workspace (inputs | agents) -> bilingual post proofs */
 :root{
   --bg:#F1F3F0; --surface:#FFFFFF; --sunk:#E7EBE7; --ink:#15211F; --muted:#5A6764; --line:#D4DAD5;
   --accent:#0D6B5B; --accent-ink:#FFFFFF; --accent-soft:#D6EBE4;
@@ -22,7 +22,7 @@
   --ok:#7FCB8A; --ok-soft:#1D3522; --warn:#E3AE5E; --warn-soft:#3A2C14; --bad:#F08A78; --bad-soft:#3D1F1A; color-scheme:dark;}
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.5}
-.wrap{max-width:1320px;margin:0 auto;padding-inline:16px;padding-block:0 64px}
+.wrap{max-width:1360px;margin:0 auto;padding-inline:16px;padding-block:0 64px}
 header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
 header.top .wrap{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding-block:12px}
 .brand{font-family:var(--f-display);font-weight:700;font-size:19px;letter-spacing:-.01em;cursor:pointer;background:none;border:0;color:var(--ink);padding:0}
@@ -31,25 +31,30 @@ header.top .wrap{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding
 h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;letter-spacing:-.01em}
 h1{font-size:26px;font-weight:700} h2{font-size:18px;font-weight:700} h3{font-size:15px;font-weight:700}
 .eyebrow{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-.muted{color:var(--muted)} .mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.muted{color:var(--muted)} .mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums} .small{font-size:12px}
 .stack{display:flex;flex-direction:column;gap:12px} .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 button,.btn{font:500 13px/1 var(--f-body);border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:9px 13px;cursor:pointer}
-button:hover{border-color:var(--muted)}
-button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button:hover,.btn:hover{border-color:var(--muted)}
+button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,.btn:focus-within{outline:2px solid var(--accent);outline-offset:2px}
 button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
 button.ghost{background:transparent;border-color:transparent;color:var(--muted);padding-inline:8px}
 button.danger{color:var(--bad)}
 button.danger.primary{background:var(--bad);border-color:var(--bad);color:var(--surface)}
 button:disabled{opacity:.5;cursor:not-allowed}
-button.sm{padding:6px 9px;font-size:12px}
+button.sm,.btn.sm{padding:6px 9px;font-size:12px}
 label.f{display:flex;flex-direction:column;gap:5px;font-size:12px;font-weight:600;color:var(--muted)}
+label.chk{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--ink)}
 input[type=text],input[type=number],input[type=date],textarea,select{font:400 14px/1.45 var(--f-body);color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:8px 10px;width:100%;min-width:0}
 textarea{resize:vertical}
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px;min-width:0}
 .chip{display:inline-flex;align-items:center;gap:5px;font:500 11px/1 var(--f-mono);letter-spacing:.03em;padding:5px 8px;border-radius:99px;background:var(--sunk);color:var(--muted);white-space:nowrap}
 .chip.ok{background:var(--ok-soft);color:var(--ok)} .chip.warn{background:var(--warn-soft);color:var(--warn)} .chip.bad{background:var(--bad-soft);color:var(--bad)} .chip.acc{background:var(--accent-soft);color:var(--accent)}
 .banner{border:1px solid var(--warn);background:var(--warn-soft);color:var(--ink);padding:10px 14px;border-radius:8px;margin-top:16px}
+.note{border-radius:6px;padding:8px 10px;font-size:12px;background:var(--warn-soft)}
 .page-head{display:flex;gap:16px;align-items:flex-end;flex-wrap:wrap;padding-block:24px 18px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:7px;overflow:hidden;background:var(--surface)}
+.seg button{border:0;border-radius:0;padding:8px 12px;background:transparent;font-family:var(--f-mono);font-size:12px}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
 /* board */
 .board{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;align-items:start}
 .col{background:var(--sunk);border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:8px;min-width:0}
@@ -59,10 +64,11 @@ textarea{resize:vertical}
 .card .t{font-weight:600;font-size:14px;line-height:1.3}
 .empty{color:var(--muted);font-size:13px;padding:10px 6px}
 /* job */
-.pipe{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface);margin-bottom:16px}
-.pipe .step{padding:12px 14px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:4px;min-width:0}
+.pipe{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface);margin-bottom:16px}
+.pipe .step{padding:12px 14px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:3px;min-width:0}
 .pipe .step:last-child{border-right:0}
 .pipe .step .n{font:500 11px var(--f-mono);color:var(--muted)}
+.pipe .step .d{font-size:12px;color:var(--muted);overflow-wrap:anywhere}
 .pipe .step.running{background:var(--accent-soft)} .pipe .step.done .n{color:var(--ok)} .pipe .step.error .n{color:var(--bad)}
 .jgrid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:16px;align-items:start}
 @media (max-width:980px){.jgrid{grid-template-columns:1fr}.pipe{grid-template-columns:repeat(2,minmax(0,1fr))}.pipe .step:nth-child(2){border-right:0}.pipe .step:nth-child(-n+2){border-bottom:1px solid var(--line)}}
@@ -70,24 +76,39 @@ textarea{resize:vertical}
 .drop.over{border-color:var(--accent);background:var(--accent-soft)}
 .drop-h{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
 .files{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:8px}
-.file{border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--sunk);font-size:11px;display:flex;flex-direction:column;min-width:0}
+.file{border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--sunk);font-size:11px;display:flex;flex-direction:column;min-width:0;position:relative}
 .file .th{aspect-ratio:1;display:grid;place-items:center;background:var(--sunk);overflow:hidden;font:600 12px var(--f-mono);color:var(--muted)}
 .file .th img{width:100%;height:100%;object-fit:cover}
 .file .nm{padding:4px 6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:var(--surface)}
-.file button{border:0;border-top:1px solid var(--line);border-radius:0;font-size:11px;padding:5px;background:var(--surface);color:var(--muted)}
+.file .role{position:absolute;top:4px;left:4px;font:500 10px/1 var(--f-mono);padding:4px 6px;border-radius:99px;border:0;background:rgba(0,0,0,.66);color:#fff;cursor:pointer}
+.file .role.post{background:rgba(13,107,91,.92)}
+.file > button.rm{border:0;border-top:1px solid var(--line);border-radius:0;font-size:11px;padding:5px;background:var(--surface);color:var(--muted)}
 .agent{border-top:1px solid var(--line);padding-top:14px;display:flex;flex-direction:column;gap:8px}
 .agent:first-of-type{border-top:0;padding-top:0}
 .agent-h{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.live{font:12px/1.45 var(--f-mono);background:var(--sunk);border-radius:6px;padding:8px 10px;color:var(--muted);white-space:pre-wrap;word-break:break-word;max-height:120px;overflow:auto}
+.live{font:12px/1.5 var(--f-mono);background:var(--sunk);border-radius:6px;padding:8px 10px;color:var(--muted);white-space:pre-wrap;word-break:break-word;max-height:170px;overflow:auto}
 .out{font-size:13px;display:flex;flex-direction:column;gap:6px}
 .out ul{margin:0;padding-left:18px}
 details summary{cursor:pointer;font-weight:600;font-size:13px}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:13px} .kv dt{color:var(--muted)} .kv dd{margin:0;min-width:0;overflow-wrap:anywhere}
+.dir{display:flex;flex-direction:column;gap:10px}
+.dir .idea{font-family:var(--f-display);font-size:18px;font-weight:700;line-height:1.25;margin:0}
+.pal{display:flex;gap:6px;flex-wrap:wrap}
+.pal span{display:flex;flex-direction:column;gap:3px;font:10px/1.2 var(--f-mono);color:var(--muted);width:74px}
+.pal i{display:block;height:34px;border-radius:5px;border:1px solid var(--line)}
+.types{display:flex;gap:14px;flex-wrap:wrap;align-items:baseline}
+.types span{font-size:22px;line-height:1.1}
+.types small{display:block;font:11px var(--f-mono);color:var(--muted)}
+.refs{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px}
+.ref{display:flex;gap:8px;align-items:flex-start;font-size:12px;background:var(--sunk);border-radius:6px;padding:6px;min-width:0}
+.ref img{width:52px;height:52px;object-fit:cover;border-radius:4px;flex:none}
 /* posts */
-.posts{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:16px}
+.posts{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
 .post{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;min-width:0}
 .post.approved{border-color:var(--ok)} .post.changes{border-color:var(--warn)}
-.post .cv{background:var(--sunk);display:flex;justify-content:center;padding:12px}
-.post canvas{max-width:100%;max-height:420px;height:auto;width:auto;border-radius:4px;box-shadow:0 1px 3px rgba(0,0,0,.18)}
+.post .cv{background:var(--sunk);display:flex;justify-content:center;padding:12px;position:relative}
+.post canvas{max-width:100%;max-height:480px;height:auto;width:auto;border-radius:3px;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+.post .badge{position:absolute;top:18px;left:18px}
 .post .body{padding:14px;display:flex;flex-direction:column;gap:10px;min-width:0}
 .caption{white-space:pre-wrap;font-size:13px;line-height:1.55;overflow-wrap:anywhere}
 .tags{color:var(--accent);font-size:12px;overflow-wrap:anywhere}
@@ -96,9 +117,10 @@ details summary{cursor:pointer;font-weight:600;font-size:13px}
 .qa ul{margin:4px 0 0;padding-left:16px}
 .post .foot{border-top:1px solid var(--line);padding:10px 14px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:8px;font-size:13px;z-index:20;max-width:calc(100% - 32px)}
-.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
 .swatches{display:flex;gap:4px} .sw{width:18px;height:18px;border-radius:4px;border:1px solid var(--line)}
-.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:13px} .kv dt{color:var(--muted)} .kv dd{margin:0;min-width:0;overflow-wrap:anywhere}
+.fontrow{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr) auto auto;gap:8px;align-items:end}
+a{color:var(--accent)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 
@@ -112,65 +134,465 @@ details summary{cursor:pointer;font-weight:600;font-size:13px}
 <div class="toast" id="toast" hidden></div>
 
 <script>
-// ---------- constants ----------
-const PDFJS="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";
-const PDFJS_WORKER="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
-const MAMMOTH="https://cdn.jsdelivr.net/npm/mammoth@1.8.0/mammoth.browser.min.js";
-const JSZIP="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js";
+"use strict";
+// ================= constants =================
+const CDN={pdf:"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js",pdfWorker:"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js",zip:"https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"};
 const PLATFORMS=["Instagram","Facebook","LinkedIn","TikTok","X"];
-const FORMATS={feed:[1080,1080],portrait:[1080,1350],story:[1080,1920]};
-const FORMAT_LABEL={feed:"Feed 1:1",portrait:"Portrait 4:5",story:"Story 9:16"};
-const FONTS={archivo:["800","Archivo"],fraunces:["700","Fraunces"],plex:["600","IBM Plex Sans"]};
-const LAYOUTS=["photo","split","frame","type"];
-const KINDS=[
-  {k:"briefing",label:"Briefing documents",hint:"PDF, Word, TXT. Text is extracted and added to the brief."},
-  {k:"visual",label:"Visuals for the posts",hint:"Client-approved photos and graphics. The agents can place these in posts."},
-  {k:"reference",label:"References",hint:"Inspiration only. The art director reads them but never places them in a post."},
-  {k:"other",label:"Other client material",hint:"Guidelines, previous campaigns, anything else."}
+const FORMATS={feed:{w:1080,h:1080,label:"Feed 1:1",canva:"SQUARE_1_1"},portrait:{w:1080,h:1350,label:"Portrait 4:5",canva:"PORTRAIT_4_5"},story:{w:1080,h:1920,label:"Story 9:16",canva:"PORTRAIT_9_16"}};
+const LANG_OPTS={both:"Português (Moçambique) + English (South Africa)",pt:"Português (Moçambique) only",en:"English (South Africa) only"};
+const LANG_TAG={pt:"PT-MZ",en:"EN-ZA"};
+const SLOTS=["kicker","headline","subline","body","cta","footnote"];
+const SLOT_LABEL={kicker:"Kicker (small label)",headline:"Headline on image",subline:"Subline on image",body:"Body on image",cta:"Call to action",footnote:"Footnote / legal line"};
+const FONT_LIB=[
+  {f:"Anton",w:[400],c:"condensed display, heavy"},
+  {f:"Bebas Neue",w:[400],c:"condensed display, capitals only"},
+  {f:"Oswald",w:[400,600,700],c:"condensed sans"},
+  {f:"Barlow Condensed",w:[500,700,800],i:[700],c:"condensed sans"},
+  {f:"Archivo",w:[400,600,800,900],c:"grotesque sans"},
+  {f:"Montserrat",w:[400,600,800,900],i:[800],c:"geometric sans"},
+  {f:"Poppins",w:[400,600,800],c:"friendly geometric sans"},
+  {f:"DM Sans",w:[400,500,700],c:"clean text sans"},
+  {f:"Syne",w:[600,800],c:"expressive wide sans"},
+  {f:"Unbounded",w:[500,800],c:"wide rounded display"},
+  {f:"Fraunces",w:[400,700,900],i:[400,700],c:"soft display serif"},
+  {f:"DM Serif Display",w:[400],i:[400],c:"high-contrast serif"},
+  {f:"Playfair Display",w:[400,700,900],i:[400,700],c:"classic serif"},
+  {f:"Instrument Serif",w:[400],i:[400],c:"elegant condensed serif"},
+  {f:"Caveat",w:[500,700],c:"handwriting"},
+  {f:"Permanent Marker",w:[400],c:"marker handwriting"},
+  {f:"Space Mono",w:[400,700],c:"monospace"}
 ];
+const GROUPS=[
+  {k:"briefing",label:"Briefing and brand documents",hint:"PDF, Word, PowerPoint or TXT. The text goes into the brief, and the pictures and pages inside are extracted for the agents.",accept:".pdf,.docx,.pptx,.txt,.md,image/*"},
+  {k:"visual",label:"Photos and graphics to use",hint:"Client photos, product shots, illustrations, campaign graphics. The art director places these in the posts.",accept:"image/*"},
+  {k:"reference",label:"Style references",hint:"Posts, campaigns or moodboards the client likes. The art director studies them and designs in that direction.",accept:"image/*"}
+];
+const IMG_KINDS=["visual","reference","briefimg","briefpage","generated"];
+const KIND_LABEL={visual:"client photo or graphic",reference:"style reference",briefimg:"image from the briefing",briefpage:"briefing page",generated:"generated image",logo:"logo"};
+const ROLE_NEXT={post:"style",style:"none",none:"post"};
+const ROLE_LABEL={post:"use",style:"style",none:"skip",logo:"logo"};
+const EXT_TYPES={png:"image/png",jpg:"image/jpeg",jpeg:"image/jpeg",webp:"image/webp",gif:"image/gif",svg:"image/svg+xml",pdf:"application/pdf",txt:"text/plain",md:"text/markdown",csv:"text/csv",json:"application/json",woff2:"font/woff2",woff:"font/woff",ttf:"font/ttf",otf:"font/otf"};
+const SAMPLE_TYPES=["image/png","image/jpeg","image/webp","image/gif"];
 const AGENTS=[
-  {k:"strategist",name:"Strategist",role:"Reads the brief, defines objective, audiences, pillars and the post plan. Lists what is missing from the client."},
-  {k:"copy",name:"Copywriter",role:"Writes hooks, on-image headlines, captions, hashtags and alt text for every post in the plan."},
-  {k:"visual",name:"Art director",role:"Looks at logos, visuals and references, sets the visual identity and art-directs each post."},
-  {k:"qa",name:"Brand QA",role:"Checks every post against the brief, mandatories, language rules and risk. Proposes fixes."}
+  {k:"strategist",name:"Strategist",role:"Reads the brief and its documents, sets objective, audiences, pillars and the post plan, and lists what is missing from the client."},
+  {k:"copy",name:"Copywriter",role:"Writes every post in Portuguese for Mozambique and English for South Africa: text on the image, captions, hashtags and alt text."},
+  {k:"visual",name:"Art director",role:"Studies the references and the client's images, sets the campaign look, designs each post with real photos and original graphics, then checks its own renders and fixes them."},
+  {k:"qa",name:"Brand QA",role:"Checks both language versions and the finished designs against the brief, language rules and risk, and proposes fixes."}
 ];
-const EXT_TYPES={png:"image/png",jpg:"image/jpeg",jpeg:"image/jpeg",webp:"image/webp",gif:"image/gif",svg:"image/svg+xml",pdf:"application/pdf",mp4:"video/mp4",webm:"video/webm",txt:"text/plain",md:"text/markdown",csv:"text/csv",json:"application/json"};
-const SAMPLE_IMG_TYPES=["image/png","image/jpeg","image/webp","image/gif"];
+const SVG_NS="http://www.w3.org/2000/svg";
+const PIXEL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=";
 
-// ---------- state ----------
-const S={db:null,assets:null,sample:null,downloads:null,ready:false,noRuntime:false,
-  clients:[],jobs:[],loaded:{clients:false,jobs:false},view:{name:"board"},runs:{},imgCache:new Map(),
-  limits:null,filterClient:"",pendingRender:false,confirm:null,editing:null};
+// ================= state =================
+const S={db:null,assets:null,sample:null,downloads:null,mcp:null,ready:false,noRuntime:false,canva:false,
+  clients:[],jobs:[],posts:{},postsFor:null,postsUnsub:null,loaded:{clients:false,jobs:false,posts:null},
+  view:{name:"board"},runs:{},limits:null,filterClient:"",pendingRender:false,confirm:null,editing:null,lang:"pt"};
 
-// ---------- helpers ----------
+// ================= helpers =================
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const clone=o=>o==null?o:JSON.parse(JSON.stringify(o));
 const slug=s=>String(s||"job").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,40)||"job";
-const hex=v=>/^#[0-9a-f]{6}$/i.test(String(v||"").trim())?String(v).trim():null;
+const hex=v=>{const s=String(v||"").trim();if(/^#[0-9a-f]{6}$/i.test(s)) return s.toUpperCase();if(/^#[0-9a-f]{3}$/i.test(s)) return ("#"+s[1]+s[1]+s[2]+s[2]+s[3]+s[3]).toUpperCase();return null};
+const num=(v,d=0)=>{const n=+v;return v!==null&&v!==""&&Number.isFinite(n)?n:d};
+const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const codeOf=a=>"img-"+String(a?.id||"").slice(0,8).toLowerCase();
+const isImg=a=>!!(a&&a.id&&/^image\//.test(a.type||""));
 const clientOf=j=>S.clients.find(c=>c.id===j?.clientId);
 const jobById=id=>S.jobs.find(j=>j.id===id);
+const langsOf=j=>j?.languages==="pt"?["pt"]:j?.languages==="en"?["en"]:["pt","en"];
+const pidOf=n=>"p"+String(n).padStart(2,"0");
 const fmtDate=t=>t?new Date(t).toLocaleDateString(undefined,{day:"numeric",month:"short"}):"";
-let toastT;function toast(m){const t=$("#toast");t.textContent=m;t.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>t.hidden=true,4200)}
-function copyText(txt){navigator.clipboard?.writeText(txt).then(()=>toast("Copied"),()=>toast("Copy is blocked here. Select the text and copy it manually."))}
-function loadScript(src){return new Promise((res,rej)=>{const s=document.createElement("script");s.src=src;s.onload=res;s.onerror=()=>rej(new Error("Could not load "+src));document.head.appendChild(s)})}
+function hashStr(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return (h>>>0).toString(36)}
 function luminance(h){const n=parseInt(h.slice(1),16);const c=[n>>16,n>>8&255,n&255].map(v=>{v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)});return .2126*c[0]+.7152*c[1]+.0722*c[2]}
 function contrastOn(bg){return luminance(bg)>.4?"#111111":"#FFFFFF"}
 function contrastRatio(a,b){const l1=luminance(a),l2=luminance(b);return (Math.max(l1,l2)+.05)/(Math.min(l1,l2)+.05)}
-const writeQ={};
-function patchDoc(path,patch){const q=(writeQ[path]||Promise.resolve()).then(()=>S.db.doc(path).update(patch));writeQ[path]=q.catch(()=>{});return q.catch(e=>{toast(dbMsg(e));throw e})}
-function dbMsg(e){return e?.code==="quota_exceeded"?"Storage is full. Delete old jobs to free space.":e?.code==="invalid_argument"?"You don't have permission to change this. Ask the owner for Contributor access.":"Could not save. Check your connection and try again."}
-function sampleMsg(e){return ({not_granted:"Claude access was declined for this page, so the agents can't run. Allow it from the page's permissions menu and reload.",rate_limited:"Too many requests right now. Wait a minute and run the agent again.",session_expired:"Your Claude session expired. Sign in again.",refused:"Claude declined this request. Check the brief for unusual content and try again.",invalid_json:"The agent's answer could not be read. Run it again.",prompt_too_large:"The brief is too long. Shorten it or remove extracted text you don't need.",sampling_disabled:"Claude is not available for this account.",image_rejected:"One of the images could not be read. Try PNG or JPG.",cancelled:"Stopped."})[e?.code]||"The agent hit a problem ("+(e?.code||"error")+"). Run it again."}
+let toastT;function toast(m){const t=$("#toast");t.textContent=m;t.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>t.hidden=true,4800)}
+function copyText(txt){try{navigator.clipboard.writeText(txt).then(()=>toast("Copied"),()=>toast("Copy is blocked here. Select the text and copy it manually."))}catch(e){toast("Copy is blocked here. Select the text and copy it manually.")}}
+const scriptLoads={};
+function loadScript(src){return scriptLoads[src]||(scriptLoads[src]=new Promise((res,rej)=>{const s=document.createElement("script");s.src=src;s.onload=res;s.onerror=()=>{delete scriptLoads[src];rej(new Error("Could not load a library. Check your connection."))};document.head.appendChild(s)}))}
+function canvasBlob(cv,type="image/png",q){return new Promise((res,rej)=>cv.toBlob(b=>b?res(b):rej(new Error("Could not export the image.")),type,q))}
+function b64Blob(b64,type){const bin=atob(b64);const u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++) u[i]=bin.charCodeAt(i);return new Blob([u],{type})}
+async function pool(items,n,fn){let i=0;const work=async()=>{while(i<items.length){const k=i++;await fn(items[k],k)}};await Promise.all(Array.from({length:Math.min(n,items.length)},work))}
+function userErr(message){return {code:"user",message}}
 
-// ---------- render plumbing ----------
+// ================= storage =================
+const Q={};
+function queued(key,fn){const p=(Q[key]||Promise.resolve()).then(fn);Q[key]=p.catch(()=>{});return p}
+function dbMsg(e){return e?.code==="quota_exceeded"?"Storage is full. Delete old jobs to free space.":e?.code==="invalid_argument"?"You don't have permission to change this. Ask the owner for Contributor access.":"Could not save. Check your connection and try again."}
+function patchDoc(path,patch){return queued(path,()=>S.db.doc(path).update(patch)).catch(e=>{toast(dbMsg(e));throw e})}
+function savePost(jid,pid,fn){const path=`jobs/${jid}/posts/${pid}`;return queued(path,async()=>{const ref=S.db.doc(path);const snap=await ref.get();const cur=snap.exists?clone(snap.data()):null;const next=fn(cur);if(!next) return;next.updatedAt=Date.now();await ref.set(next)}).catch(e=>{toast(dbMsg(e));throw e})}
+async function getPosts(jid){const s=await S.db.collection(`jobs/${jid}/posts`).get();return s.docs.map(d=>({...clone(d.data()),id:d.id})).sort((a,b)=>a.n-b.n)}
+function writeSummary(jid,posts){const total=posts.length,approved=posts.filter(p=>p.status==="approved").length;const j=jobById(jid);if(j?.summary&&j.summary.total===total&&j.summary.approved===approved) return Promise.resolve();return patchDoc("jobs/"+jid,{summary:{total,approved},updatedAt:Date.now()}).catch(()=>{})}
+async function mergeAssets(jid,fn){return queued("jobs/"+jid,async()=>{const j=jobById(jid);const next=fn(clone(j?.assets||[]));await S.db.doc("jobs/"+jid).update({assets:next,updatedAt:Date.now()});if(j) j.assets=next})}
+function watchPosts(id){
+  if(S.postsFor===id) return;
+  if(S.postsUnsub){S.postsUnsub();S.postsUnsub=null}
+  S.postsFor=id;
+  if(!S.db||!id) return;
+  S.postsUnsub=S.db.collection(`jobs/${id}/posts`).onSnapshot(s=>{S.posts[id]=s.docs.map(d=>({...d.data(),id:d.id})).sort((a,b)=>a.n-b.n);S.loaded.posts=id;scheduleRender()},()=>{});
+}
+
+// ================= fonts =================
+let fontCssReady=Promise.resolve();
+function fontCssUrl(x){
+  const fam=x.f.replace(/ /g,"+");let spec="";
+  if(x.i&&x.i.length) spec=":ital,wght@"+[...x.w.map(w=>"0,"+w),...x.i.map(w=>"1,"+w)].join(";");
+  else if(!(x.w.length===1&&x.w[0]===400)) spec=":wght@"+x.w.join(";");
+  return `https://fonts.googleapis.com/css2?family=${fam}${spec}&display=swap`;
+}
+function injectFontLinks(){
+  fontCssReady=Promise.all(FONT_LIB.map(x=>new Promise(res=>{const l=document.createElement("link");l.rel="stylesheet";l.href=fontCssUrl(x);l.onload=res;l.onerror=res;document.head.appendChild(l);setTimeout(res,8000)})));
+}
+const brandFontKeys=new Set();
+async function loadBrandFonts(c){
+  for(const f of c?.fonts||[]){
+    const key=[f.id,f.family,f.weight,f.italic].join("|");if(brandFontKeys.has(key)||!f.id||!f.family) continue;brandFontKeys.add(key);
+    try{const ff=new FontFace(f.family,`url(/_blob/${f.id})`,{weight:String(f.weight||400),style:f.italic?"italic":"normal"});await ff.load();document.fonts.add(ff)}catch(e){brandFontKeys.delete(key)}
+  }
+}
+function nearest(list,w){return list.reduce((a,b)=>Math.abs(b-w)<Math.abs(a-w)?b:a,list[0])}
+function resolveFont(c,fam,w,it){
+  w=num(w,400);const name=String(fam||"").trim();
+  const bf=(c?.fonts||[]).filter(f=>f.family&&f.family.toLowerCase()===name.toLowerCase());
+  if(bf.length){const pick=bf.filter(f=>!!f.italic===!!it);const pool2=pick.length?pick:bf;return {family:bf[0].family,weight:nearest(pool2.map(f=>num(f.weight,400)),w),italic:!!(it&&pick.length)}}
+  const lib=FONT_LIB.find(x=>x.f.toLowerCase()===name.toLowerCase());
+  if(lib){const useIt=!!(it&&lib.i);return {family:lib.f,weight:nearest(useIt?lib.i:lib.w,w),italic:useIt}}
+  return {family:"Archivo",weight:nearest([400,600,800,900],w),italic:false};
+}
+const fontStr=(fd,size)=>`${fd.italic?"italic ":""}${fd.weight} ${size}px "${fd.family}", "Archivo", sans-serif`;
+function fontListText(c){
+  const lib=FONT_LIB.map(x=>`${x.f}: ${x.w.join(", ")}${x.i?` (italic ${x.i.join(", ")})`:""}, ${x.c}`).join("\n");
+  const bf=(c?.fonts||[]).filter(f=>f.family);
+  return (bf.length?`Brand fonts of the client (prefer these where they fit): ${bf.map(f=>`${f.family} ${f.weight||400}${f.italic?" italic":""}`).join("; ")}\n`:"")+lib;
+}
+
+// ================= image helpers =================
+const imgCache=new Map();
+function loadImg(id){if(!imgCache.has(id)) imgCache.set(id,new Promise((res,rej)=>{const im=new Image();im.onload=()=>res(im);im.onerror=()=>rej(new Error("img"));im.src="/_blob/"+id}).catch(()=>{imgCache.delete(id);return null}));return imgCache.get(id)}
+async function blobToSource(b){
+  if(b.type!=="image/svg+xml"){try{return await createImageBitmap(b)}catch(e){}}
+  const url=URL.createObjectURL(b);try{const im=new Image();im.src=url;await im.decode();return im}finally{setTimeout(()=>URL.revokeObjectURL(url),2000)}
+}
+const srcW=s=>s.naturalWidth||s.width, srcH=s=>s.naturalHeight||s.height;
+async function hasAlpha(src){const t=document.createElement("canvas");t.width=48;t.height=48;const x=t.getContext("2d");x.drawImage(src,0,0,48,48);const d=x.getImageData(0,0,48,48).data;for(let i=3;i<d.length;i+=4) if(d[i]<250) return true;return false}
+async function prepImageBlob(file,max=2400){
+  const type=EXT_TYPES[(file.name.split(".").pop()||"").toLowerCase()]||file.type;
+  if(!/^image\//.test(type||"")) throw new Error("not an image");
+  const typed=file.type===type?file:new Blob([file],{type});
+  const src=await blobToSource(typed);
+  const w=srcW(src),h=srcH(src);if(!w||!h) throw new Error("can't read this image");
+  if(type==="image/svg+xml") return {blob:typed,type,w,h,alpha:true};
+  const alpha=/png|webp|gif/.test(type)?await hasAlpha(src):false;
+  if(Math.max(w,h)<=max&&file.size<=6e6&&SAMPLE_TYPES.includes(type)) return {blob:typed,type,w,h,alpha};
+  const sc=Math.min(1,max/Math.max(w,h));const cv=document.createElement("canvas");cv.width=Math.round(w*sc);cv.height=Math.round(h*sc);cv.getContext("2d").drawImage(src,0,0,cv.width,cv.height);
+  const out=alpha?"image/png":"image/jpeg";return {blob:await canvasBlob(cv,out,0.9),type:out,w:cv.width,h:cv.height,alpha};
+}
+const uriCache=new Map();
+function assetURI(a){
+  if(!uriCache.has(a.id)) uriCache.set(a.id,(async()=>{
+    const r=await fetch("/_blob/"+a.id);if(!r.ok) throw new Error("missing");const b=await r.blob();const src=await blobToSource(b);
+    const w=srcW(src)||1000,h=srcH(src)||1000;const sc=Math.min(1,2000/Math.max(w,h));const cv=document.createElement("canvas");cv.width=Math.max(1,Math.round(w*sc));cv.height=Math.max(1,Math.round(h*sc));cv.getContext("2d").drawImage(src,0,0,cv.width,cv.height);
+    return cv.toDataURL(a.alpha||/png|svg|gif|webp/.test(b.type)?"image/png":"image/jpeg",0.9);
+  })().catch(e=>{uriCache.delete(a.id);throw e}));
+  return uriCache.get(a.id);
+}
+const sampleBlobCache=new Map();
+function sampleBlob(a){
+  if(!sampleBlobCache.has(a.id)) sampleBlobCache.set(a.id,(async()=>{
+    const r=await fetch("/_blob/"+a.id);if(!r.ok) return null;const b=await r.blob();const src=await blobToSource(b);
+    const w=srcW(src)||1000,h=srcH(src)||1000;const sc=Math.min(1,1500/Math.max(w,h));const cv=document.createElement("canvas");cv.width=Math.max(1,Math.round(w*sc));cv.height=Math.max(1,Math.round(h*sc));
+    const x=cv.getContext("2d");const keepAlpha=a.alpha||/png|svg|gif|webp/.test(b.type);if(!keepAlpha){x.fillStyle="#fff";x.fillRect(0,0,cv.width,cv.height)}x.drawImage(src,0,0,cv.width,cv.height);
+    return await canvasBlob(cv,keepAlpha?"image/png":"image/jpeg",0.86);
+  })().catch(()=>{sampleBlobCache.delete(a.id);return null}));
+  return sampleBlobCache.get(a.id);
+}
+async function withDims(a){if(a.w&&a.h) return a;const im=await loadImg(a.id);return im?{...a,w:im.naturalWidth,h:im.naturalHeight}:a}
+function allImages(j){const c=clientOf(j);return [...(j.assets||[]).filter(a=>isImg(a)&&IMG_KINDS.includes(a.kind)),...(c?.logos||[]).filter(isImg).map(a=>({...a,kind:"logo"}))]}
+function assetByCode(j,code){return allImages(j).find(a=>codeOf(a)===String(code||"").toLowerCase())}
+function roleOf(a){return a.kind==="logo"?"logo":a.meta?.use||(a.kind==="reference"||a.kind==="briefpage"?"style":"post")}
+function imgLine(a){
+  const m=a.meta||{};const parts=[codeOf(a),KIND_LABEL[a.kind]||a.kind,`"${a.name}"`+(a.from?` from ${a.from}${a.page?` p.${a.page}`:""}`:""),a.w&&a.h?`${a.w}x${a.h}px`:"size unknown",`role: ${roleOf(a)}`];
+  if(m.what) parts.push(m.what);if(m.focus) parts.push(`focal point x=${m.focus.x} y=${m.focus.y}`);if(m.textSpace) parts.push(`calm area: ${m.textSpace}`);if(m.colours?.length) parts.push(`colours ${m.colours.join(" ")}`);if(m.quality) parts.push(`quality ${m.quality}`);if(m.notes) parts.push(m.notes);
+  return parts.join(" | ");
+}
+const canSendImages=()=>!!(S.limits?.images?.maxCount);
+const maxImages=()=>Math.min(S.limits?.images?.maxCount||0,10);
+async function blobsFor(list){const blobs=[],used=[];for(const a of list){const b=await sampleBlob(a);if(b){blobs.push(b);used.push(a)}}return {blobs,used}}
+function attachLines(used){return used.map((a,i)=>`Image ${i+1} = ${imgLine(a)}`).join("\n")}
+
+// ================= SVG layers =================
+function prepSvg(src,W,H,prefix,warn){
+  let s=String(src||"").trim();const st=s.search(/<svg[\s>]/i);if(st<0) return null;
+  const end=s.toLowerCase().lastIndexOf("</svg>");if(end<st) throw {svg:true,message:"The SVG is incomplete: there is no closing </svg>."};
+  s=s.slice(st,end+6);
+  const open=s.slice(0,s.indexOf(">")+1);let fixedOpen=open;
+  if(!/xmlns\s*=/.test(open)) fixedOpen=fixedOpen.replace(/^<svg/i,`<svg xmlns="${SVG_NS}"`);
+  if(/xlink:/.test(s)&&!/xmlns:xlink/.test(open)) fixedOpen=fixedOpen.replace(/^<svg/i,`<svg xmlns:xlink="http://www.w3.org/1999/xlink"`);
+  s=fixedOpen+s.slice(open.length);
+  s=s.replace(/&(?!(amp|lt|gt|quot|apos|#\d+|#x[0-9a-f]+);)/gi,"&amp;");
+  const doc=new DOMParser().parseFromString(s,"image/svg+xml");
+  const perr=doc.getElementsByTagName("parsererror")[0];
+  if(perr) throw {svg:true,message:"The SVG is not valid XML: "+perr.textContent.replace(/\s+/g," ").slice(0,220)};
+  const root=doc.documentElement;if(root.localName!=="svg") throw {svg:true,message:"The root element is not <svg>."};
+  let removedText=false;
+  for(const n of [...root.getElementsByTagName("*")]){
+    const ln=n.localName;
+    if(/^(script|foreignObject|iframe|video|audio|a)$/i.test(ln)){n.remove();continue}
+    if(/^(text|tspan|textPath)$/i.test(ln)){removedText=true;n.remove()}
+  }
+  if(removedText) warn.push("Words written inside the SVG were removed. All text must go in text boxes.");
+  const ids=new Map();
+  for(const n of [root,...root.getElementsByTagName("*")]){const id=n.getAttribute("id");if(id){ids.set(id,prefix+id);n.setAttribute("id",prefix+id)}}
+  const fixRefs=v=>v.replace(/url\(\s*['"]?#([^'")\s]+)['"]?\s*\)/g,(m,id)=>ids.has(id)?`url(#${ids.get(id)})`:m);
+  const imgs=[];
+  for(const n of [root,...root.getElementsByTagName("*")]){
+    for(const a of [...n.attributes]){
+      const name=a.name,v=a.value;
+      if(/^on/i.test(name)){n.removeAttribute(name);continue}
+      if(name==="href"||name==="xlink:href"){
+        if(v.startsWith("#")){const id=v.slice(1);if(ids.has(id)) n.setAttribute(name,"#"+ids.get(id));continue}
+        const m=/img-([0-9a-z]{6,})/i.exec(v);
+        if(m&&n.localName==="image"){imgs.push({node:n,code:"img-"+m[1].toLowerCase().slice(0,8)});continue}
+        n.removeAttribute(name);if(n.localName==="image") warn.push(`An image with an unknown reference "${v.slice(0,40)}" was skipped.`);continue;
+      }
+      if(v.includes("url(")) n.setAttribute(name,fixRefs(v));
+    }
+  }
+  for(const st2 of [...root.getElementsByTagName("style")]) st2.textContent=fixRefs(st2.textContent).replace(/@import[^;]*;?/g,"").replace(/#([A-Za-z][\w-]*)/g,(m,id)=>ids.has(id)?"#"+ids.get(id):m);
+  if(!root.getAttribute("viewBox")) root.setAttribute("viewBox",`0 0 ${W} ${H}`);
+  root.setAttribute("width",W);root.setAttribute("height",H);
+  return {doc,root,imgs};
+}
+async function inlineImages(job,p,warn){
+  for(const it of p.imgs){
+    const a=assetByCode(job,it.code);let uri=PIXEL;
+    if(a){try{uri=await assetURI(a)}catch(e){warn.push(`Image ${it.code} could not be loaded.`)}}
+    else warn.push(`Image ${it.code} does not exist in this job.`);
+    it.node.removeAttribute("xlink:href");it.node.setAttribute("href",uri);
+  }
+}
+async function svgImage(p){
+  const str=new XMLSerializer().serializeToString(p.doc);
+  const url=URL.createObjectURL(new Blob([str],{type:"image/svg+xml"}));
+  const im=new Image();im.src=url;
+  try{await im.decode()}catch(e){await new Promise((res,rej)=>{if(im.complete&&im.naturalWidth) return res();im.onload=res;im.onerror=()=>rej({svg:true,message:"The browser could not draw this SVG."})})}
+  return {im,url};
+}
+async function drawSvgLayer(ctx,job,src,W,H,prefix,warn){
+  const p=prepSvg(src,W,H,prefix,warn);if(!p) return;
+  await inlineImages(job,p,warn);
+  const {im,url}=await svgImage(p);
+  ctx.drawImage(im,0,0,W,H);URL.revokeObjectURL(url);
+}
+
+// ================= text boxes =================
+function slotText(post,lang,box){
+  if(box.slot==="custom"){const t=box.text||{};return String((typeof t==="string"?t:(t[lang]??t.pt??t.en))||"")}
+  return String(post?.[lang]?.[box.slot]??"");
+}
+function setTracking(ctx,px){if("letterSpacing" in ctx) ctx.letterSpacing=(Math.round(px*10)/10)+"px"}
+function wrapLines(ctx,text,maxW){
+  const out=[];
+  for(const para of text.split(/\n/)){
+    const words=para.split(/\s+/).filter(Boolean);if(!words.length){out.push("");continue}
+    let cur="";
+    for(const w of words){const t=cur?cur+" "+w:w;if(cur&&ctx.measureText(t).width>maxW){out.push(cur);cur=w}else cur=t}
+    out.push(cur);
+  }
+  return out;
+}
+async function layoutBox(ctx,c,post,lang,box){
+  const raw=slotText(post,lang,box).trim();if(!raw) return null;
+  const text=box.case==="upper"?raw.toLocaleUpperCase(lang==="pt"?"pt-PT":"en-ZA").replace(/(\d)H(\d\d)\b/g,"$1h$2"):raw;
+  const fd=resolveFont(c,box.font,box.weight,box.italic);
+  await fontCssReady;
+  try{await document.fonts.load(fontStr(fd,64),text)}catch(e){}
+  const x=num(box.x),y=num(box.y),w=Math.max(30,num(box.w,300)),h=Math.max(16,num(box.h,100));
+  const maxS=clamp(num(box.size,80),10,700),minS=clamp(num(box.minSize,Math.round(maxS*0.45)),8,maxS);
+  const lh=clamp(num(box.lineHeight,1.1),0.7,2.2),tr=clamp(num(box.tracking,0),-0.1,0.6);
+  const step=Math.max(1,Math.round(maxS/48));
+  let res=null;
+  for(let s=maxS;s>=minS;s-=step){
+    ctx.font=fontStr(fd,s);setTracking(ctx,tr*s);
+    const lines=wrapLines(ctx,text,w);const widest=Math.max(...lines.map(l=>ctx.measureText(l).width-tr*s));
+    if(lines.length*s*lh<=h+1&&widest<=w+1&&(!box.maxLines||lines.length<=box.maxLines)){res={size:s,lines};break}
+  }
+  let overflow=false;
+  if(!res){overflow=true;ctx.font=fontStr(fd,minS);setTracking(ctx,tr*minS);res={size:minS,lines:wrapLines(ctx,text,w)}}
+  const size=res.size;ctx.font=fontStr(fd,size);setTracking(ctx,tr*size);
+  const m=ctx.measureText("HÁgjpÇ");const asc=m.fontBoundingBoxAscent||size*0.8,desc=m.fontBoundingBoxDescent||size*0.22;
+  const cap=ctx.measureText("H").actualBoundingBoxAscent||size*0.7;
+  const lineH=size*lh,total=res.lines.length*lineH;
+  const valign=box.valign==="bottom"?"bottom":box.valign==="middle"||box.valign==="center"?"middle":"top";
+  const y0=valign==="bottom"?y+h-total:valign==="middle"?y+(h-total)/2:y;
+  const lines=res.lines.map((t,i)=>{const lw=Math.max(0,ctx.measureText(t).width-tr*size);const lx=box.align==="center"?x+(w-lw)/2:box.align==="right"?x+w-lw:x;const top=y0+i*lineH;return {t,x:lx,w:lw,base:top+(lineH-(asc+desc))/2+asc}});
+  return {fd,size,tr,lines,asc,desc,cap,overflow,x,y,w,h,text};
+}
+function roundRect(ctx,x,y,w,h,r){r=Math.max(0,Math.min(r,w/2,h/2));ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath()}
+async function drawBox(ctx,c,post,lang,box,warn){
+  const L=await layoutBox(ctx,c,post,lang,box);if(!L) return;
+  if(L.overflow) warn.push(`The ${box.slot} box (${LANG_TAG[lang]}) is too small for its text, even at the minimum size.`);
+  ctx.save();
+  if(num(box.rotate)){const cx=L.x+L.w/2,cy=L.y+L.h/2;ctx.translate(cx,cy);ctx.rotate(num(box.rotate)*Math.PI/180);ctx.translate(-cx,-cy)}
+  ctx.globalAlpha=clamp(num(box.opacity,1),0,1);
+  ctx.font=fontStr(L.fd,L.size);setTracking(ctx,L.tr*L.size);ctx.textBaseline="alphabetic";
+  const hl=box.highlight&&hex(box.highlight.color)?box.highlight:null;
+  if(hl){const px=num(hl.padX,14),py=num(hl.padY,6);ctx.fillStyle=hex(hl.color);for(const l of L.lines){if(!l.t) continue;roundRect(ctx,l.x-px,l.base-L.cap-py,l.w+px*2,L.cap+L.desc*0.55+py*2,num(hl.radius,0));ctx.fill()}}
+  const color=hex(box.color)||"#111111";
+  const sh=box.shadow;if(sh&&typeof sh==="object"){ctx.shadowColor=String(sh.color||"rgba(0,0,0,.35)");ctx.shadowBlur=num(sh.blur,20);ctx.shadowOffsetX=num(sh.x,0);ctx.shadowOffsetY=num(sh.y,6)}
+  const stroke=box.stroke&&hex(box.stroke.color)?box.stroke:null;
+  for(const l of L.lines){
+    if(!l.t) continue;
+    if(box.fill!==false){ctx.fillStyle=color;ctx.fillText(l.t,l.x,l.base)}
+    if(stroke){ctx.shadowColor="transparent";ctx.lineJoin="round";ctx.lineWidth=num(stroke.width,3);ctx.strokeStyle=hex(stroke.color);ctx.strokeText(l.t,l.x,l.base)}
+  }
+  ctx.restore();
+}
+
+// ================= logo =================
+function logoAsset(c,spec){const logos=(c?.logos||[]).filter(isImg);return logos[num(spec?.index,0)]||logos[0]||null}
+const logoPrepCache=new Map();
+function prepLogo(L,im){
+  if(!logoPrepCache.has(L.id)) logoPrepCache.set(L.id,(async()=>{
+    const iw=im.naturalWidth||600,ih=im.naturalHeight||300;
+    if(L.type==="image/svg+xml") return {src:im,w:iw,h:ih,clean:true};
+    const sc=Math.min(1,1600/Math.max(iw,ih));const w=Math.max(1,Math.round(iw*sc)),h=Math.max(1,Math.round(ih*sc));
+    const cv=document.createElement("canvas");cv.width=w;cv.height=h;const x=cv.getContext("2d",{willReadFrequently:true});x.drawImage(im,0,0,w,h);
+    const data=x.getImageData(0,0,w,h),d=data.data;let clean=!!L.alpha;
+    if(!L.alpha){
+      // logo saved on a plain light background (common with JPEG logos): make that background transparent
+      const pts=[[0,0],[w-1,0],[0,h-1],[w-1,h-1],[w>>1,0],[w>>1,h-1],[0,h>>1],[w-1,h>>1]].map(([px,py])=>{const i=(py*w+px)*4;return [d[i],d[i+1],d[i+2]]});
+      const avg=[0,1,2].map(k=>pts.reduce((t,c)=>t+c[k],0)/pts.length);
+      const spread=Math.max(...pts.map(c=>Math.max(...c.map((v,k)=>Math.abs(v-avg[k])))));
+      const lum=(0.2126*avg[0]+0.7152*avg[1]+0.0722*avg[2])/255;
+      if(spread>24||lum<0.72) return {src:im,w:iw,h:ih,clean:false};
+      for(let o=0;o<d.length;o+=4){const dist=Math.max(Math.abs(d[o]-avg[0]),Math.abs(d[o+1]-avg[1]),Math.abs(d[o+2]-avg[2]));d[o+3]=dist<=20?0:dist>=70?255:Math.round((dist-20)/50*255)}
+      x.putImageData(data,0,0);clean=true;
+    }
+    let minX=w,minY=h,maxX=-1,maxY=-1;
+    for(let i=0,n=w*h;i<n;i++){if(d[i*4+3]>24){const px=i%w,py=(i/w)|0;if(px<minX)minX=px;if(px>maxX)maxX=px;if(py<minY)minY=py;if(py>maxY)maxY=py}}
+    if(maxX<0) return {src:im,w:iw,h:ih,clean:false};
+    const pad=Math.round(Math.max(maxX-minX,maxY-minY)*0.02);minX=Math.max(0,minX-pad);minY=Math.max(0,minY-pad);maxX=Math.min(w-1,maxX+pad);maxY=Math.min(h-1,maxY+pad);
+    const out=document.createElement("canvas");out.width=maxX-minX+1;out.height=maxY-minY+1;out.getContext("2d").drawImage(cv,minX,minY,out.width,out.height,0,0,out.width,out.height);
+    return {src:out,w:out.width,h:out.height,clean};
+  })().catch(()=>({src:im,w:im.naturalWidth||600,h:im.naturalHeight||300,clean:false})));
+  return logoPrepCache.get(L.id);
+}
+async function logoSource(c,spec,warn){
+  const L=logoAsset(c,spec);if(!L) return null;
+  const im=await loadImg(L.id);if(!im) return null;
+  const base=await prepLogo(L,im);
+  const v=String(spec?.variant||"original");const col=v==="white"?"#FFFFFF":v==="black"?"#000000":hex(v);
+  if(!col) return base;
+  if(!base.clean){warn.push("The logo has a solid background, so it can't be shown in white or black. Upload a PNG with a transparent background or an SVG.");return base}
+  const oc=document.createElement("canvas");oc.width=base.src.width||base.w;oc.height=base.src.height||base.h;
+  const o=oc.getContext("2d");o.drawImage(base.src,0,0,oc.width,oc.height);o.globalCompositeOperation="source-in";o.fillStyle=col;o.fillRect(0,0,oc.width,oc.height);
+  return {src:oc,w:base.w,h:base.h,clean:true};
+}
+async function logoNote(c){const L=logoAsset(c,{});if(!L) return "There is no logo file: the page writes the client name instead.";const im=await loadImg(L.id);const b=im?await prepLogo(L,im):null;return b?.clean?"The logo can be shown in its original colours, white, black or any hex colour.":"The logo has a solid background: keep variant original and place it on a calm, light area."}
+function logoBox(spec,lw,lh){
+  const x=num(spec.x),y=num(spec.y),w=Math.max(20,num(spec.w,200)),h=Math.max(12,num(spec.h,80));
+  const r=Math.min(w/lw,h/lh);const dw=lw*r,dh=lh*r;
+  return {x:spec.align==="left"?x:spec.align==="center"?x+(w-dw)/2:x+w-dw,y:y+(h-dh)/2,w:dw,h:dh};
+}
+async function drawLogo(ctx,c,spec,warn){
+  if(!spec) return;
+  const L=await logoSource(c,spec,warn);
+  if(!L){
+    if(!c?.name) return;
+    const fd=resolveFont(c,"Archivo",800,false);await fontCssReady;try{await document.fonts.load(fontStr(fd,40),c.name)}catch(e){}
+    const h=Math.max(12,num(spec.h,80));ctx.save();ctx.font=fontStr(fd,Math.round(h*0.42));ctx.textBaseline="middle";const v=String(spec.variant||"");ctx.fillStyle=v==="white"?"#FFFFFF":v==="black"?"#111111":hex(v)||"#111111";
+    const tw=ctx.measureText(c.name).width;const x=num(spec.x),w=num(spec.w,200);ctx.fillText(c.name,spec.align==="left"?x:spec.align==="center"?x+(w-tw)/2:x+w-tw,num(spec.y)+h/2);ctx.restore();return;
+  }
+  const b=logoBox(spec,L.w,L.h);ctx.save();ctx.globalAlpha=clamp(num(spec.opacity,1),0,1);ctx.drawImage(L.src,b.x,b.y,b.w,b.h);ctx.restore();
+}
+
+// ================= post rendering =================
+function sizeOf(job,post){return FORMATS[post?.format]||FORMATS[job?.format]||FORMATS.portrait}
+function defaultDesign(job,post){
+  const c=clientOf(job);const F=sizeOf(job,post);const W=F.w,H=F.h;
+  const pal=(c?.palette||[]).map(hex).filter(Boolean);const bg=pal[0]||"#1E2B28";const fg=contrastOn(bg);
+  const acc=pal.find(x=>x!==bg&&contrastRatio(x,bg)>1.6)||(luminance(bg)>.4?"#1E2B28":"#E8B04B");
+  const top=post.format==="story"?260:90,bot=post.format==="story"?H-340:H-80;
+  return {draft:true,concept:"Draft layout from the copy. Run the art director for the real design.",
+    bg:`<svg xmlns='${SVG_NS}' viewBox='0 0 ${W} ${H}'><rect width='${W}' height='${H}' fill='${bg}'/><circle cx='${W-60}' cy='${top+60}' r='${Math.round(W*0.3)}' fill='${acc}'/></svg>`,fg:"",
+    texts:[
+      {slot:"kicker",x:80,y:top,w:W-480,h:56,font:"DM Sans",weight:700,size:32,tracking:0.08,case:"upper",color:fg,align:"left",valign:"top"},
+      {slot:"headline",x:80,y:Math.round(H*0.34),w:W-160,h:Math.round(H*0.34),font:"Archivo",weight:900,size:132,minSize:60,lineHeight:0.98,color:fg,align:"left",valign:"bottom"},
+      {slot:"subline",x:80,y:Math.round(H*0.70),w:W-260,h:Math.round(H*0.12),font:"DM Sans",weight:500,size:42,minSize:28,lineHeight:1.25,color:fg,align:"left",valign:"top",opacity:0.9},
+      {slot:"cta",x:80,y:bot-64,w:Math.round(W*0.5),h:64,font:"DM Sans",weight:700,size:32,minSize:26,color:fg,align:"left",valign:"middle"}
+    ],
+    logo:{x:W-80-230,y:bot-84,w:230,h:84,align:"right",variant:luminance(bg)<0.35?"white":"original"}};
+}
+async function renderPost(job,post,lang,design){
+  const c=clientOf(job);await loadBrandFonts(c);
+  const F=sizeOf(job,post),W=F.w,H=F.h;const d=design||post.design||defaultDesign(job,post);
+  const cv=document.createElement("canvas");cv.width=W;cv.height=H;const ctx=cv.getContext("2d");const warn=[];
+  ctx.fillStyle="#FFFFFF";ctx.fillRect(0,0,W,H);
+  if(d.bg){try{await drawSvgLayer(ctx,job,d.bg,W,H,"b-",warn)}catch(e){if(design) throw e;warn.push("Background: "+(e.message||e));ctx.fillStyle="#D9DED9";ctx.fillRect(0,0,W,H)}}
+  for(const b of Array.isArray(d.texts)?d.texts:[]) await drawBox(ctx,c,post,lang,b,warn);
+  if(d.fg){try{await drawSvgLayer(ctx,job,d.fg,W,H,"f-",warn)}catch(e){if(design) throw e;warn.push("Foreground: "+(e.message||e))}}
+  await drawLogo(ctx,c,d.logo,warn);
+  return {canvas:cv,warn};
+}
+const renderCache=new Map();
+function renderKey(job,post,lang){const c=clientOf(job);return hashStr(JSON.stringify([post.id,lang,post.format,post.design||null,post[lang]||null,c?.palette,c?.name,(c?.logos||[]).map(a=>a.id),(c?.fonts||[]).map(f=>f.id+f.family+f.weight),(job.assets||[]).length]))}
+function renderCached(job,post,lang){
+  const k=renderKey(job,post,lang);
+  if(!renderCache.has(k)){const p=renderPost(job,post,lang);renderCache.set(k,p);p.catch(()=>renderCache.delete(k));if(renderCache.size>90) renderCache.delete(renderCache.keys().next().value)}
+  return renderCache.get(k);
+}
+function drawPreviews(root){
+  if(S.view.name!=="job") return;const job=jobById(S.view.id);if(!job) return;
+  for(const cv of root.querySelectorAll("canvas[data-pid]")){
+    const post=(S.posts[job.id]||[]).find(p=>p.id===cv.dataset.pid);if(!post) continue;
+    renderCached(job,post,cv.dataset.lang).then(r=>{if(!cv.isConnected) return;cv.width=Math.round(r.canvas.width/2);cv.height=Math.round(r.canvas.height/2);const x=cv.getContext("2d");x.imageSmoothingQuality="high";x.drawImage(r.canvas,0,0,cv.width,cv.height);
+      const wEl=cv.closest(".post")?.querySelector("[data-warn]");if(wEl){wEl.hidden=!r.warn.length;wEl.textContent=r.warn.length?"Render notes: "+[...new Set(r.warn)].join(" "):""}}).catch(()=>{});
+  }
+}
+async function tryRender(job,post,design,langs){
+  const out={warn:[],blobs:[]};
+  for(const lang of langs){
+    try{const r=await renderPost(job,post,lang,design);out.warn.push(...r.warn);
+      const sc=Math.min(1,1100/Math.max(r.canvas.width,r.canvas.height));const t=document.createElement("canvas");t.width=Math.round(r.canvas.width*sc);t.height=Math.round(r.canvas.height*sc);t.getContext("2d").drawImage(r.canvas,0,0,t.width,t.height);
+      out.blobs.push(await canvasBlob(t,"image/jpeg",0.85));}
+    catch(e){return {error:e?.message||String(e)}}
+  }
+  out.warn=[...new Set(out.warn)];return out;
+}
+
+// ================= editable SVG export =================
+function xmlEsc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+async function exportSvg(job,post,lang){
+  const c=clientOf(job);const F=sizeOf(job,post),W=F.w,H=F.h;const d=post.design||defaultDesign(job,post);const warn=[];
+  const layer=async(src,prefix,id)=>{if(!src) return "";const p=prepSvg(src,W,H,prefix,warn);if(!p) return "";await inlineImages(job,p,warn);p.root.setAttribute("x","0");p.root.setAttribute("y","0");p.root.setAttribute("id",id);return new XMLSerializer().serializeToString(p.root)};
+  const bg=await layer(d.bg,"b-","background"),fg=await layer(d.fg,"f-","foreground");
+  const ctx=document.createElement("canvas").getContext("2d");let texts="";
+  for(const b of Array.isArray(d.texts)?d.texts:[]){
+    const L=await layoutBox(ctx,c,post,lang,b);if(!L) continue;
+    const rot=num(b.rotate)?` transform="rotate(${num(b.rotate)} ${L.x+L.w/2} ${L.y+L.h/2})"`:"";
+    let g=`<g id="${xmlEsc(b.slot)}"${rot} opacity="${clamp(num(b.opacity,1),0,1)}">`;
+    const hl=b.highlight&&hex(b.highlight.color)?b.highlight:null;
+    if(hl){const px=num(hl.padX,14),py=num(hl.padY,6);for(const l of L.lines) if(l.t) g+=`<rect x="${(l.x-px).toFixed(1)}" y="${(l.base-L.cap-py).toFixed(1)}" width="${(l.w+px*2).toFixed(1)}" height="${(L.cap+L.desc*0.55+py*2).toFixed(1)}" rx="${num(hl.radius,0)}" fill="${hex(hl.color)}"/>`}
+    const st=b.stroke&&hex(b.stroke.color)?` stroke="${hex(b.stroke.color)}" stroke-width="${num(b.stroke.width,3)}" stroke-linejoin="round" paint-order="stroke"`:"";
+    g+=`<text font-family="${xmlEsc(L.fd.family)}" font-weight="${L.fd.weight}"${L.fd.italic?' font-style="italic"':""} font-size="${L.size}" letter-spacing="${(L.tr*L.size).toFixed(2)}" fill="${b.fill===false?"none":hex(b.color)||"#111111"}"${st} xml:space="preserve">`;
+    for(const l of L.lines) if(l.t) g+=`<tspan x="${l.x.toFixed(1)}" y="${l.base.toFixed(1)}">${xmlEsc(l.t)}</tspan>`;
+    texts+=g+"</text></g>";
+  }
+  let logo="";
+  if(d.logo){const L=await logoSource(c,d.logo,warn);if(L){const b=logoBox(d.logo,L.w,L.h);let uri;if(L.src instanceof HTMLCanvasElement) uri=L.src.toDataURL("image/png");else uri=await assetURI(logoAsset(c,d.logo));logo=`<image id="logo" x="${b.x.toFixed(1)}" y="${b.y.toFixed(1)}" width="${b.w.toFixed(1)}" height="${b.h.toFixed(1)}" opacity="${clamp(num(d.logo.opacity,1),0,1)}" href="${uri}"/>`}}
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="${SVG_NS}" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">\n<rect width="${W}" height="${H}" fill="#FFFFFF"/>\n${bg}\n<g id="text">${texts}</g>\n${fg}\n${logo}\n</svg>`;
+}
+
+// ================= render plumbing =================
 function isEditing(){const a=document.activeElement;return a&&$("#app").contains(a)&&/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName)}
 function scheduleRender(){if(isEditing()){S.pendingRender=true;return}render()}
-document.addEventListener("focusout",()=>setTimeout(()=>{if(S.pendingRender&&!isEditing()){S.pendingRender=false;render()}},50));
-function go(view){S.view=view;S.confirm=null;S.editing=null;render();window.scrollTo(0,0)}
+document.addEventListener("focusout",()=>setTimeout(()=>{if(S.pendingRender&&!isEditing()){S.pendingRender=false;render()}},60));
+function go(view){S.view=view;S.confirm=null;S.editing=null;watchPosts(view.name==="job"?view.id:null);render();window.scrollTo(0,0)}
 $("#home").onclick=()=>go({name:"board"});
 $("#nav-clients").onclick=()=>go({name:"clients"});
 $("#nav-new").onclick=()=>go({name:"newjob"});
-
 function render(){
   const app=$("#app");const v=S.view;let html="";
   if(S.noRuntime) html+=`<div class="banner">Open this page in Claude to save jobs, upload files and run the agents. Outside Claude it only shows the layout.</div>`;
@@ -180,65 +602,62 @@ function render(){
   else if(v.name==="client") html+=viewClient(v.id);
   else if(v.name==="newjob") html+=viewNewJob();
   else if(v.name==="job") html+=viewJob(v.id);
-  app.innerHTML=html;
-  bind(app);
-  drawCanvases(app);
+  app.innerHTML=html;bind(app);drawPreviews(app);
 }
 
-// ---------- board ----------
+// ================= views: board & clients =================
 function stageOf(j){
   if(j.delivered) return "delivered";
-  const ps=j.posts||[];
-  if(!ps.length) return Object.values(j.agents||{}).some(a=>a&&a.status==="done")?"production":"brief";
-  if(ps.every(p=>p.status==="approved")) return "approved";
-  if(ps.some(p=>p.qa)) return "review";
-  return "production";
+  const s=j.summary,ag=j.agents||{};
+  if(s&&s.total){if(s.approved>=s.total) return "approved";if(ag.qa?.status==="done") return "review";return "production"}
+  if(Array.isArray(j.posts)&&j.posts.length) return "production";
+  return Object.values(ag).some(a=>a&&a.status==="done")?"production":"brief";
 }
-const STAGES=[["brief","Brief in"],["production","In production"],["review","Client-ready review"],["approved","Approved"],["delivered","Delivered"]];
+const STAGES=[["brief","Brief in"],["production","In production"],["review","Ready for review"],["approved","Approved"],["delivered","Delivered"]];
 function viewBoard(){
   const jobs=S.jobs.filter(j=>!S.filterClient||j.clientId===S.filterClient);
   const head=`<div class="page-head"><div class="stack" style="gap:4px"><span class="eyebrow">Production board</span><h1>Social media jobs</h1></div><span class="grow"></span>
     <label class="f" style="min-width:200px">Client<select id="f-client"><option value="">All clients</option>${S.clients.map(c=>`<option value="${esc(c.id)}" ${c.id===S.filterClient?"selected":""}>${esc(c.name)}</option>`).join("")}</select></label></div>`;
-  if(S.db&&S.loaded.jobs&&!S.jobs.length) return head+`<div class="panel stack"><h2>No jobs yet</h2><p class="muted" style="margin:0;max-width:62ch">Start by creating the client's brand profile with logos, colours and tone. Then create a job, paste or upload the briefing, add the visuals and references, and run the agents.</p><div class="row"><button class="primary" data-go="newclient">Create client</button><button data-go="newjob">New job</button></div></div>`;
+  if(S.db&&S.loaded.jobs&&!S.jobs.length) return head+`<div class="panel stack"><h2>No jobs yet</h2><p class="muted" style="margin:0;max-width:62ch">Create the client's brand profile first, with logos, brand fonts, colours and tone. Then create a job, upload the briefing, the photos and the style references, and run the agents.</p><div class="row"><button class="primary" data-go="newclient">Create client</button><button data-go="newjob">New job</button></div></div>`;
   if(S.db&&!S.loaded.jobs) return head+`<p class="muted">Loading jobs…</p>`;
   return head+`<div class="board">${STAGES.map(([k,l])=>{const list=jobs.filter(j=>stageOf(j)===k);return `<section class="col"><div class="col-h"><h3>${l}</h3><span class="chip mono">${list.length}</span></div>${list.map(cardJob).join("")||`<div class="empty">Nothing here</div>`}</section>`}).join("")}</div>`;
 }
 function cardJob(j){
-  const c=clientOf(j);const ps=j.posts||[];const appr=ps.filter(p=>p.status==="approved").length;
+  const c=clientOf(j);const s=j.summary;
   return `<button class="card" data-job="${esc(j.id)}"><span class="eyebrow">${esc(c?.name||"No client")}</span><span class="t">${esc(j.title)}</span>
   <span class="row" style="gap:4px">${(j.platforms||[]).map(p=>`<span class="chip">${esc(p)}</span>`).join("")}</span>
-  <span class="muted mono" style="font-size:12px">${ps.length?`${appr}/${ps.length} approved`:`${j.postCount||0} posts planned`}${j.endDate?` · due ${esc(fmtDate(j.endDate))}`:""}</span></button>`;
+  <span class="muted mono small">${s?.total?`${s.approved}/${s.total} approved`:`${j.postCount||0} posts planned`} · ${langsOf(j).map(l=>LANG_TAG[l]).join(" + ")}${j.endDate?` · due ${esc(fmtDate(j.endDate))}`:""}</span></button>`;
 }
-
-// ---------- clients ----------
 function viewClients(){
   return `<div class="page-head"><div class="stack" style="gap:4px"><span class="eyebrow">Brand profiles</span><h1>Clients</h1></div><span class="grow"></span><button class="primary" data-go="newclient">New client</button></div>
-  ${S.clients.length?`<div class="board">${S.clients.map(c=>`<button class="card" data-client="${esc(c.id)}"><span class="t">${esc(c.name)}</span><span class="muted" style="font-size:12px">${esc(c.sector||"")}</span><span class="swatches">${(c.palette||[]).map(h=>`<span class="sw" style="background:${esc(h)}"></span>`).join("")}</span><span class="muted mono" style="font-size:12px">${(c.logos||[]).length} logo files · ${S.jobs.filter(j=>j.clientId===c.id).length} jobs</span></button>`).join("")}</div>`:`<div class="panel"><p class="muted" style="margin:0">No clients yet. Create the first brand profile.</p></div>`}`;
+  ${S.clients.length?`<div class="board">${S.clients.map(c=>`<button class="card" data-client="${esc(c.id)}"><span class="t">${esc(c.name)}</span><span class="muted small">${esc(c.sector||"")}</span><span class="swatches">${(c.palette||[]).map(h=>`<span class="sw" style="background:${esc(h)}"></span>`).join("")}</span><span class="muted mono small">${(c.logos||[]).length} logos · ${(c.fonts||[]).length} brand fonts · ${S.jobs.filter(j=>j.clientId===c.id).length} jobs</span></button>`).join("")}</div>`:`<div class="panel"><p class="muted" style="margin:0">No clients yet. Create the first brand profile.</p></div>`}`;
 }
 function viewClient(id){
   const c=id?S.clients.find(x=>x.id===id):{};
-  if(id&&!c) return `<p class="muted">Loading client…</p>`;
+  if(id&&!c) return `<p class="muted" style="padding-top:24px">Loading client…</p>`;
   return `<div class="page-head"><div class="stack" style="gap:4px"><span class="eyebrow">Brand profile</span><h1>${id?esc(c.name):"New client"}</h1></div></div>
   <form class="panel stack" id="client-form">
     <div class="form-grid">
       <label class="f">Client name<input type="text" id="c-name" required value="${esc(c.name)}"></label>
       <label class="f">Sector<input type="text" id="c-sector" value="${esc(c.sector)}" placeholder="Telecoms, energy, banking, NGO…"></label>
-      <label class="f">Default language<select id="c-lang">${langOpts(c.language||"pt")}</select></label>
+      <label class="f">Social handles<input type="text" id="c-handles" value="${esc(c.handles)}" placeholder="@brand on Instagram, Brand MZ on Facebook"></label>
       <label class="f">Brand colours (hex, comma separated)<input type="text" id="c-palette" value="${esc((c.palette||[]).join(", "))}" placeholder="#E60000, #FFFFFF, #1A1A1A"></label>
     </div>
-    <label class="f">Tone of voice<textarea id="c-tone" rows="3" placeholder="How the brand speaks. Formal or close, warm or technical, what it never says.">${esc(c.tone)}</textarea></label>
+    <label class="f">Tone of voice<textarea id="c-tone" rows="3" placeholder="How the brand speaks in Portuguese and in English. Formal or close, tu or você, warm or technical, what it never says.">${esc(c.tone)}</textarea></label>
     <div class="form-grid">
       <label class="f">Always do<textarea id="c-dos" rows="3" placeholder="Mandatory mentions, legal lines, logo rules">${esc(c.dos)}</textarea></label>
       <label class="f">Never do<textarea id="c-donts" rows="3" placeholder="Forbidden words, competitors, sensitive topics">${esc(c.donts)}</textarea></label>
     </div>
-    <label class="f">Context the agents should know<textarea id="c-notes" rows="3" placeholder="Market position, stakeholders, recent issues, social handles">${esc(c.notes)}</textarea></label>
+    <label class="f">Visual identity notes<textarea id="c-look" rows="3" placeholder="What the brand looks like: photography style, graphic elements, what to avoid">${esc(c.look)}</textarea></label>
+    <label class="f">Context the agents should know<textarea id="c-notes" rows="3" placeholder="Market position, stakeholders, recent issues">${esc(c.notes)}</textarea></label>
     <div class="row"><button class="primary" type="submit">${id?"Save profile":"Create client"}</button><button type="button" class="ghost" data-go="clients">Cancel</button></div>
   </form>
-  ${id?`<div class="panel stack" style="margin-top:16px">${dropZone({k:"logo",label:"Logos",hint:"PNG with transparency works best on the posts. The first logo is placed on every post."},c.logos||[],"client",id)}</div>`:`<p class="muted">Logos are added after the client is created.</p>`}`;
+  ${id?`<div class="panel stack" style="margin-top:16px">${dropZone({k:"logo",label:"Logos",hint:"PNG with a transparent background, or SVG, works best: the art director can then use a white or black version. The first logo goes on every post.",accept:"image/*"},c.logos||[],"client",id)}</div>
+  <div class="panel stack" style="margin-top:16px">${dropZone({k:"font",label:"Brand fonts",hint:"TTF, OTF, WOFF or WOFF2 files. Check the family name and weight of each file below.",accept:".ttf,.otf,.woff,.woff2"},[],"client",id)}
+    ${(c.fonts||[]).map((f,i)=>`<div class="fontrow"><label class="f">Family<input type="text" data-font="${i}" data-k="family" value="${esc(f.family)}"></label><label class="f">Weight<input type="number" min="100" max="900" step="100" data-font="${i}" data-k="weight" value="${esc(f.weight||400)}"></label><label class="chk"><input type="checkbox" data-font="${i}" data-k="italic" ${f.italic?"checked":""}> Italic</label><button class="sm danger" type="button" data-rmfont="${i}">${S.confirm==="rmfont:"+i?"Confirm":"Remove"}</button></div><span class="muted small" style="font-family:'${esc(f.family)}';font-weight:${num(f.weight,400)};font-size:20px">${esc(f.family)} · Aa Bb Çç Ãã 123</span>`).join("")}
+  </div>`:`<p class="muted">Logos and brand fonts are added after the client is created.</p>`}`;
 }
-function langOpts(sel){return [["pt","Portuguese (European)"],["en","English"],["both","Portuguese and English"]].map(([v,l])=>`<option value="${v}" ${v===sel?"selected":""}>${l}</option>`).join("")}
-
-// ---------- new job ----------
+function langSelect(id,sel){return `<select id="${id}" ${id.startsWith("j-")?"":`data-field="languages"`}>${Object.entries(LANG_OPTS).map(([v,l])=>`<option value="${v}" ${v===(sel||"both")?"selected":""}>${l}</option>`).join("")}</select>`}
 function viewNewJob(){
   const today=new Date().toISOString().slice(0,10);
   if(S.db&&!S.clients.length) return `<div class="page-head"><h1>New job</h1></div><div class="panel stack"><p style="margin:0">Create the client's brand profile first. The agents use it on every job.</p><div><button class="primary" data-go="newclient">Create client</button></div></div>`;
@@ -248,68 +667,78 @@ function viewNewJob(){
       <label class="f">Client<select id="j-client" required>${S.clients.map(c=>`<option value="${esc(c.id)}">${esc(c.name)}</option>`).join("")}</select></label>
       <label class="f">Job title<input type="text" id="j-title" required placeholder="October always-on, product launch…"></label>
       <label class="f">Number of posts<input type="number" id="j-count" min="1" max="20" value="6"></label>
-      <label class="f">Main format<select id="j-format">${Object.entries(FORMAT_LABEL).map(([k,l])=>`<option value="${k}" ${k==="portrait"?"selected":""}>${l}</option>`).join("")}</select></label>
-      <label class="f">Language<select id="j-lang">${langOpts("")}<option value="" selected>Client default</option></select></label>
+      <label class="f">Main format<select id="j-format">${Object.entries(FORMATS).map(([k,f])=>`<option value="${k}" ${k==="portrait"?"selected":""}>${f.label}</option>`).join("")}</select></label>
+      <label class="f">Languages${langSelect("j-lang","both")}</label>
       <label class="f">Start<input type="date" id="j-start" value="${today}"></label>
       <label class="f">End<input type="date" id="j-end"></label>
     </div>
     <fieldset style="border:0;padding:0;margin:0" class="stack"><legend class="eyebrow" style="margin-bottom:6px">Platforms</legend>
       <div class="row">${PLATFORMS.map(p=>`<label class="chip" style="cursor:pointer"><input type="checkbox" name="plat" value="${p}" ${p==="Instagram"||p==="Facebook"?"checked":""}> ${p}</label>`).join("")}</div></fieldset>
-    <label class="f">Briefing (paste it here, or upload the document in the next step)<textarea id="j-brief" rows="10" placeholder="Objective, audience, key messages, offer, dates, mandatories…"></textarea></label>
+    <label class="f">Briefing (paste it here, or upload the documents in the next step)<textarea id="j-brief" rows="10" placeholder="Objective, audience, key messages, offer, dates, mandatories…"></textarea></label>
     <div class="row"><button class="primary" type="submit">Create job and add files</button><button type="button" class="ghost" data-go="board">Cancel</button></div>
   </form>`;
 }
 
-// ---------- job ----------
+// ================= views: job =================
 function viewJob(id){
-  const j=jobById(id); if(!j) return `<p class="muted" style="padding-top:24px">${S.loaded.jobs?"This job was deleted.":"Loading job…"}</p>`;
-  const c=clientOf(j); const run=S.runs[id]; const ag=j.agents||{};
-  const st=stageOf(j);
-  const del=S.confirm==="del-job";
+  const j=jobById(id);if(!j) return `<p class="muted" style="padding-top:24px">${S.loaded.jobs?"This job was deleted.":"Loading job…"}</p>`;
+  const c=clientOf(j);const run=S.runs[id];const ag=j.agents||{};const posts=S.posts[id]||[];const langs=langsOf(j);
+  if(!langs.includes(S.lang)) S.lang=langs[0];
+  const st=stageOf(j);const del=S.confirm==="del-job";
+  const legacy=Array.isArray(j.posts)&&j.posts.length&&!posts.length;
+  const docs=(j.assets||[]).filter(a=>a.kind==="briefing"||a.kind==="other");
+  const extracted=(j.assets||[]).filter(a=>a.kind==="briefimg"||a.kind==="briefpage");
+  const visuals=(j.assets||[]).filter(a=>a.kind==="visual"||a.kind==="generated");
+  const refs=(j.assets||[]).filter(a=>a.kind==="reference");
   return `<div class="page-head"><div class="stack" style="gap:4px;min-width:0"><span class="eyebrow">${esc(c?.name||"No client")} · ${esc(STAGES.find(s=>s[0]===st)[1])}</span><h1>${esc(j.title)}</h1>
-    <span class="muted mono" style="font-size:12px">${(j.platforms||[]).join(" · ")} · ${j.postCount} posts · ${esc(FORMAT_LABEL[j.format]||"")} · ${esc(langName(jobLang(j)))}${j.startDate?` · ${esc(fmtDate(j.startDate))}`:""}${j.endDate?` to ${esc(fmtDate(j.endDate))}`:""}</span></div>
+    <span class="muted mono small">${(j.platforms||[]).join(" · ")} · ${esc(j.postCount)} posts · ${esc(FORMATS[j.format]?.label||"")} · ${langs.map(l=>LANG_TAG[l]).join(" + ")}${j.startDate?` · ${esc(fmtDate(j.startDate))}`:""}${j.endDate?` to ${esc(fmtDate(j.endDate))}`:""}</span></div>
     <span class="grow"></span>
-    <div class="row">${(j.posts||[]).length?`<button data-act="export" ${S.downloads?"":"disabled"}>Download package</button>`:""}
+    <div class="row">${posts.length?`<button data-act="export" ${S.downloads?"":"disabled"}>Download package</button>`:""}
     <button data-act="delivered">${j.delivered?"Reopen":"Mark delivered"}</button>
     <button class="danger ${del?"primary":""}" data-act="del-job">${del?"Confirm delete":"Delete"}</button></div></div>
-  <div class="pipe">${AGENTS.map((a,i)=>{const s=run?.running&&run.stage===a.k?"running":(ag[a.k]?.status||"idle");return `<div class="step ${s}"><span class="n">${String(i+1).padStart(2,"0")} · ${s==="running"?"working":s==="done"?"done "+fmtDate(ag[a.k].at):s==="error"?"failed":"waiting"}</span><h3>${a.name}</h3></div>`}).join("")}</div>
+  <div class="pipe">${AGENTS.map((a,i)=>{const s=run?.running&&run.stage===a.k?"running":(ag[a.k]?.status||"idle");return `<div class="step ${s}"><span class="n">${String(i+1).padStart(2,"0")} · ${s==="running"?"working":s==="done"?"done "+fmtDate(ag[a.k].at):s==="error"?"failed":"waiting"}</span><h3>${a.name}</h3>${s==="running"?`<span class="d">${esc(run.detail||"")}</span>`:""}</div>`}).join("")}</div>
   <div class="jgrid">
     <div class="stack">
-      <section class="panel stack"><div class="row"><h2>Brief</h2><span class="grow"></span><span class="muted mono" style="font-size:12px">${(j.briefText||"").length.toLocaleString()} chars</span></div>
-        <textarea id="brief" rows="12" data-field="briefText" placeholder="Paste the brief or upload the briefing document below.">${esc(j.briefText)}</textarea>
+      <section class="panel stack"><div class="row"><h2>Brief</h2><span class="grow"></span><span class="muted mono small">${(j.briefText||"").length.toLocaleString()} chars</span></div>
+        <textarea id="brief" rows="12" data-field="briefText" placeholder="Paste the brief or upload the briefing documents below.">${esc(j.briefText)}</textarea>
         <details><summary>Job settings</summary><div class="form-grid" style="margin-top:10px">
-          <label class="f">Posts<input type="number" min="1" max="20" data-field="postCount" value="${j.postCount}"></label>
-          <label class="f">Main format<select data-field="format">${Object.entries(FORMAT_LABEL).map(([k,l])=>`<option value="${k}" ${k===j.format?"selected":""}>${l}</option>`).join("")}</select></label>
-          <label class="f">Language<select data-field="language"><option value="" ${!j.language?"selected":""}>Client default</option>${langOpts(j.language)}</select></label>
+          <label class="f">Posts<input type="number" min="1" max="20" data-field="postCount" value="${esc(j.postCount)}"></label>
+          <label class="f">Main format<select data-field="format">${Object.entries(FORMATS).map(([k,f])=>`<option value="${k}" ${k===j.format?"selected":""}>${f.label}</option>`).join("")}</select></label>
+          <label class="f">Languages${langSelect("s-lang",j.languages)}</label>
           <label class="f">Platforms (comma separated)<input type="text" data-field="platforms" value="${esc((j.platforms||[]).join(", "))}"></label>
           <label class="f">Start<input type="date" data-field="startDate" value="${esc(j.startDate||"")}"></label>
-          <label class="f">End<input type="date" data-field="endDate" value="${esc(j.endDate||"")}"></label></div></details>
+          <label class="f">End<input type="date" data-field="endDate" value="${esc(j.endDate||"")}"></label>
+          <label class="f">Design mode<select data-field="quality"><option value="best" ${j.quality!=="fast"?"selected":""}>Best: strongest model and self-review (slower)</option><option value="fast" ${j.quality==="fast"?"selected":""}>Fast: one pass per post</option></select></label>
+          ${S.canva?`<label class="chk" style="align-self:end"><input type="checkbox" data-field="canva" ${j.canva!==false?"checked":""}> Generate missing images with Canva (beta)</label>`:""}
+        </div></details>
       </section>
       <section class="panel stack"><h2>Client files</h2>
-        ${S.assets?"":`<p class="muted" style="margin:0">You can view files but not upload. Uploading needs edit access to this page.</p>`}
-        ${KINDS.map(k=>dropZone(k,(j.assets||[]).filter(a=>a.kind===k.k),"job",id)).join("")}
+        ${S.assets?"":`<p class="muted" style="margin:0">You can see the files but not upload. Uploading needs edit access to this page.</p>`}
+        ${dropZone(GROUPS[0],docs,"job",id,extracted)}
+        ${dropZone(GROUPS[1],visuals,"job",id)}
+        ${dropZone(GROUPS[2],refs,"job",id)}
         <div class="stack" style="gap:6px"><div class="drop-h"><h3>Logos</h3><button class="ghost sm" data-client="${esc(c?.id||"")}">Edit in client profile</button></div>
-        <div class="files">${(c?.logos||[]).map(a=>fileTile(a,null)).join("")||`<span class="muted" style="font-size:12px">No logo on the client profile yet.</span>`}</div></div>
+        <div class="files">${(c?.logos||[]).map(a=>fileTile({...a,kind:"logo"},null)).join("")||`<span class="muted small">No logo on the client profile yet. Posts will show the client name instead.</span>`}</div></div>
       </section>
     </div>
     <section class="panel stack">
       <div class="row"><h2>Agents</h2><span class="grow"></span>
         ${run?.running?`<button data-act="stop">Stop</button>`:`<button class="primary" data-act="run-all" ${S.sample?"":"disabled"}>Run full pipeline</button>`}</div>
       ${S.sample?"":`<p class="muted" style="margin:0">The agents need Claude access in this view. Open the page in Claude while signed in.</p>`}
-      ${run?.running||run?.live?`<div class="live" id="live">${esc(run.live||"")}</div>`:""}
-      ${AGENTS.map(a=>agentBlock(j,a,run)).join("")}
+      ${S.sample&&S.ready&&!canSendImages()?`<div class="note">This view can't send images to the agents, so the art director can only read file names and earlier descriptions. For full quality, open the page in Claude in a desktop browser.</div>`:""}
+      ${run?.log?.length||run?.running?`<div class="live" id="live">${esc(liveText(run))}</div>`:""}
+      ${AGENTS.map(a=>agentBlock(j,a,run,posts)).join("")}
     </section>
   </div>
-  ${(j.posts||[]).length?`<div class="page-head" style="padding-top:32px"><div class="stack" style="gap:4px"><span class="eyebrow">Proofs</span><h2 style="font-size:22px">Posts</h2></div><span class="grow"></span>
-    <span class="muted mono">${j.posts.filter(p=>p.status==="approved").length} of ${j.posts.length} approved</span><button data-act="approve-all">Approve all</button></div>
-    <div class="posts">${j.posts.map((p,i)=>postCard(j,p,i)).join("")}</div>`:""}`;
+  ${legacy?`<div class="banner row"><span class="grow">This job was made with the first version of the studio. Run the Copywriter, Art director and Brand QA again to get the bilingual posts and the new designs. The brief, files and strategy are kept.</span><button class="primary sm" data-act="rerun-legacy" ${S.sample&&!run?.running&&j.analysis?"":"disabled"}>Run them now</button></div>`:""}
+  ${posts.length?`<div class="page-head" style="padding-top:32px"><div class="stack" style="gap:4px"><span class="eyebrow">Proofs</span><h2 style="font-size:22px">Posts</h2></div><span class="grow"></span>
+    ${langs.length>1?`<div class="seg" role="group" aria-label="Language">${langs.map(l=>`<button data-lang="${l}" aria-pressed="${S.lang===l}">${LANG_TAG[l]}</button>`).join("")}</div>`:""}
+    <span class="muted mono">${posts.filter(p=>p.status==="approved").length} of ${posts.length} approved</span><button data-act="approve-all">Approve all</button></div>
+    <div class="posts">${posts.map(p=>postCard(j,p)).join("")}</div>`:""}`;
 }
-function langName(l){return {pt:"Portuguese (PT)",en:"English",both:"PT + EN"}[l]||l}
-function jobLang(j){return j.language||clientOf(j)?.language||"pt"}
-
-function agentBlock(j,a,run){
-  const st=j.agents?.[a.k]; const busy=run?.running;
-  let out="";
+function liveText(run){if(!run) return "";const streams=Object.entries(run.streams||{}).map(([k,v])=>`${k} is writing… ${v.toLocaleString()} characters`);return [...(run.log||[]).slice(-9),...streams].join("\n")}
+function agentBlock(j,a,run,posts){
+  const st=j.agents?.[a.k];const busy=run?.running;let out="";
   if(a.k==="strategist"&&j.analysis){const x=j.analysis;out=`<div class="out"><p style="margin:0">${esc(x.summary)}</p>
     <dl class="kv"><dt>Objective</dt><dd>${esc(x.objective)}</dd><dt>Tone</dt><dd>${esc(x.tone)}</dd>
     <dt>Audiences</dt><dd>${(x.audiences||[]).map(a=>`<b>${esc(a.name)}</b>: ${esc(a.insight)}`).join("<br>")}</dd>
@@ -317,122 +746,146 @@ function agentBlock(j,a,run){
     <dt>Messages</dt><dd>${(x.keyMessages||[]).map(esc).join("<br>")}</dd></dl>
     ${(x.gaps||[]).length?`<details open><summary>Questions for the client (${x.gaps.length})</summary><ul>${x.gaps.map(g=>`<li>${esc(g)}</li>`).join("")}</ul><button class="sm" data-act="copy-gaps">Copy questions</button></details>`:""}
     ${(x.risks||[]).length?`<details><summary>Risks</summary><ul>${x.risks.map(g=>`<li>${esc(g)}</li>`).join("")}</ul></details>`:""}</div>`}
-  if(a.k==="copy"&&(j.posts||[]).length) out=`<p class="out muted" style="margin:0">${j.posts.length} posts written. See the proofs below.</p>`;
-  if(a.k==="visual"&&j.identity){const id=j.identity;out=`<div class="out"><div class="row"><span class="swatches">${(id.palette||[]).filter(hex).map(h=>`<span class="sw" style="background:${h}"></span>`).join("")}</span><span class="muted">${esc(id.mood)}</span></div>${id.notes?`<p style="margin:0">${esc(id.notes)}</p>`:""}</div>`}
+  if(a.k==="copy"&&posts.length) out=`<p class="out muted" style="margin:0">${posts.length} posts written in ${langsOf(j).map(l=>LANG_TAG[l]).join(" and ")}. See the proofs below.</p>`;
+  if(a.k==="visual"&&j.direction) out=directionCard(j);
   if(a.k==="qa"&&j.qaOverall) out=`<p class="out" style="margin:0">${esc(j.qaOverall)}</p>`;
-  const needs={strategist:!(j.briefText||"").trim()?"Add the brief first":"",copy:!j.analysis?"Needs the strategist":"",visual:!(j.posts||[]).length?"Needs the copy":"",qa:!(j.posts||[]).length?"Needs the copy":""}[a.k];
+  const needs={strategist:!(j.briefText||"").trim()&&!(j.assets||[]).some(x=>x.kind==="briefpage")?"Add the brief first":"",copy:!j.analysis?"Needs the strategist":"",visual:!posts.length?"Needs the copy":"",qa:!posts.length?"Needs the copy":""}[a.k];
   return `<div class="agent"><div class="agent-h"><h3>${a.name}</h3>${st?.status==="done"?`<span class="chip ok">done ${esc(fmtDate(st.at))}</span>`:st?.status==="error"?`<span class="chip bad">failed</span>`:""}<span class="grow"></span>
     <button class="sm" data-run="${a.k}" ${busy||!S.sample||needs?"disabled":""} title="${esc(needs)}">${st?.status==="done"?"Run again":"Run"}</button></div>
-    <span class="muted" style="font-size:12px">${esc(a.role)}${needs?` <b>${esc(needs)}.</b>`:""}</span>
-    ${st?.status==="error"?`<span class="chip bad" style="white-space:normal">${esc(st.error)}</span>`:""}${out}</div>`;
+    <span class="muted small">${esc(a.role)}${needs?` <b>${esc(needs)}.</b>`:""}</span>
+    ${st?.status==="error"&&st.error?`<div class="note">${esc(st.error)}</div>`:""}${out}</div>`;
 }
-
-function dropZone(k,list,ownerType,ownerId){
-  return `<div class="drop" data-drop="${k.k}" data-owner="${ownerType}" data-oid="${esc(ownerId)}">
-    <div class="drop-h"><h3>${esc(k.label)} <span class="muted mono" style="font-weight:400">${list.length||""}</span></h3>
-    ${S.assets?`<label class="btn sm" style="cursor:pointer">Upload<input type="file" multiple hidden data-upload="${k.k}"></label>`:""}</div>
-    <span class="muted" style="font-size:12px">${esc(k.hint)}${S.assets?" Drag files here.":""}</span>
-    ${list.length?`<div class="files">${list.map(a=>fileTile(a,S.assets?`${ownerType}:${ownerId}:${a.id||a.name}`:null)).join("")}</div>`:""}</div>`;
+function directionCard(j){
+  const d=j.direction,c=clientOf(j);const ty=d.typography||{};
+  const tSample=(t,label)=>{if(!t?.family) return "";const fd=resolveFont(c,t.family,t.weight,false);return `<span style="font-family:'${esc(fd.family)}';font-weight:${fd.weight}">${t.case==="upper"?"ACÇÃO":"Acção"}<small>${esc(label)}: ${esc(fd.family)} ${fd.weight}</small></span>`};
+  return `<div class="dir">
+    ${d.bigIdea?`<p class="idea">${esc(d.bigIdea)}</p>`:""}${d.concept?`<p style="margin:0">${esc(d.concept)}</p>`:""}
+    ${(d.palette||[]).length?`<div class="pal">${d.palette.filter(p=>hex(p.hex)).map(p=>`<span><i style="background:${hex(p.hex)}"></i>${hex(p.hex)}<br>${esc(p.role||"")}</span>`).join("")}</div>`:""}
+    <div class="types">${tSample(ty.display,"Display")}${tSample(ty.text,"Text")}${tSample(ty.accent,"Accent")}</div>
+    ${d.photoTreatment?`<p style="margin:0" class="small"><b>Photos.</b> ${esc(d.photoTreatment)}</p>`:""}
+    ${(d.graphicDevices||[]).length?`<p style="margin:0" class="small"><b>Graphic devices.</b> ${d.graphicDevices.map(esc).join(" · ")}</p>`:""}
+    ${d.layoutSystem?`<p style="margin:0" class="small"><b>Layouts.</b> ${esc(d.layoutSystem)}</p>`:""}
+    ${(d.fromReferences||[]).length?`<div class="stack" style="gap:6px"><span class="eyebrow">Taken from the references</span><div class="refs">${d.fromReferences.map(r=>{const a=assetByCode(j,r.code);return `<div class="ref">${a?`<img src="/_blob/${esc(a.id)}" alt="">`:""}<span>${esc(r.take)}</span></div>`}).join("")}</div></div>`:""}
+  </div>`;
+}
+function dropZone(g,list,ownerType,ownerId,extracted){
+  return `<div class="drop" data-drop="${g.k}" data-owner="${ownerType}" data-oid="${esc(ownerId)}">
+    <div class="drop-h"><h3>${esc(g.label)} <span class="muted mono" style="font-weight:400">${list.length||""}</span></h3>
+    ${S.assets?`<label class="btn sm" style="cursor:pointer">Upload<input type="file" multiple hidden accept="${esc(g.accept||"")}" data-upload="${g.k}"></label>`:""}</div>
+    <span class="muted small">${esc(g.hint)}${S.assets?" You can also drag files here.":""}</span>
+    ${list.length?`<div class="files">${list.map(a=>fileTile(a,S.assets&&g.k!=="font"?`${ownerType}:${ownerId}:${a.id||a.name}`:null)).join("")}</div>`:""}
+    ${extracted&&extracted.length?`<span class="eyebrow">Found inside the documents (${extracted.length})</span><div class="files">${extracted.map(a=>fileTile(a,S.assets?`${ownerType}:${ownerId}:${a.id}`:null)).join("")}</div>`:""}</div>`;
 }
 function fileTile(a,removeKey){
-  const isImg=a.id&&/^image\//.test(a.type||"");
-  const ext=(a.name||"").split(".").pop().toUpperCase().slice(0,4);
-  const conf=S.confirm==="rm:"+removeKey;
-  const th=isImg?`<img src="/_blob/${esc(a.id)}" alt="" loading="lazy">`:esc(ext);
-  return `<div class="file"><div class="th">${a.id?`<a href="/_blob/${esc(a.id)}" target="_blank" rel="noopener" style="display:contents">${th}</a>`:th}</div><span class="nm" title="${esc(a.name)}">${esc(a.name)}</span>
-  ${removeKey?`<button data-rm="${esc(removeKey)}" ${conf?'style="color:var(--bad)"':""}>${conf?"Confirm":"Remove"}</button>`:""}</div>`;
+  const img=isImg(a);const ext=(a.name||"").split(".").pop().toUpperCase().slice(0,4);const conf=S.confirm==="rm:"+removeKey;
+  const th=img?`<img src="/_blob/${esc(a.id)}" alt="" loading="lazy">`:esc(ext);
+  const role=img&&IMG_KINDS.includes(a.kind)?roleOf(a):null;
+  const tip=[a.name,a.meta?.what,a.from?`from ${a.from}`:"",a.textChars?`${a.textChars.toLocaleString()} characters of text extracted`:""].filter(Boolean).join(" · ");
+  return `<div class="file" title="${esc(tip)}"><div class="th">${a.id?`<a href="/_blob/${esc(a.id)}" target="_blank" rel="noopener" style="display:contents">${th}</a>`:th}</div>
+  ${role&&removeKey?`<button class="role ${role}" data-role="${esc(removeKey)}" title="Use in posts, style reference only, or skip. Click to change.">${ROLE_LABEL[role]||role}</button>`:role?`<span class="role ${role}">${ROLE_LABEL[role]||role}</span>`:""}
+  <span class="nm">${esc(a.name)}</span>
+  ${removeKey?`<button class="rm" data-rm="${esc(removeKey)}" ${conf?'style="color:var(--bad)"':""}>${conf?"Confirm":"Remove"}</button>`:""}</div>`;
 }
-
-function postCard(j,p,i){
-  const v=p.visual||{}; const qa=p.qa; const ed=S.editing===`${j.id}:${i}`;
+function postCard(j,p){
+  const lang=S.lang;const L=p[lang]||{};const d=p.design;const qa=p.qa;const ed=S.editing===p.id;const busy=S.runs[j.id]?.running;
   const cls=p.status==="approved"?"approved":p.status==="changes"?"changes":"";
-  const visuals=(j.assets||[]).filter(a=>a.kind==="visual"&&a.id&&/^image\//.test(a.type||""));
   const qaCls=qa?(qa.score>=4?"good":qa.score>=3?"mid":"low"):"";
-  const hasFix=qa?.fix&&Object.values(qa.fix).some(x=>x&&String(x).trim());
+  const fix=qa?.fix||{};const hasFix=["pt","en"].some(l=>fix[l]&&typeof fix[l]==="object"&&Object.values(fix[l]).some(v=>v&&String(v).trim()));
+  const onImage=SLOTS.filter(s=>L[s]).map(s=>`<b>${esc(SLOT_LABEL[s].split(" ")[0])}:</b> ${esc(L[s])}`).join("<br>");
+  const gen=p.gen;const pid=esc(p.id);
   return `<article class="post ${cls}">
-    <div class="cv"><canvas data-post="${i}" width="1080" height="1080" aria-label="Post ${p.n} preview"></canvas></div>
+    <div class="cv"><canvas data-pid="${pid}" data-lang="${lang}" width="540" height="675" aria-label="Post ${esc(p.n)} preview, ${LANG_TAG[lang]}"></canvas>${!d?`<span class="chip warn badge">Draft layout</span>`:""}</div>
     <div class="body">
-      <div class="row" style="gap:5px"><span class="chip mono">#${esc(p.n)}</span><span class="chip">${esc(p.platform)}</span><span class="chip">${esc(FORMAT_LABEL[p.format]||p.format)}</span>${p.date?`<span class="chip mono">${esc(p.date)}</span>`:""}
+      <div class="row" style="gap:5px"><span class="chip mono">#${esc(p.n)}</span><span class="chip">${esc(p.platform)}</span><span class="chip">${esc(FORMATS[p.format]?.label||p.format)}</span>${p.date?`<span class="chip mono">${esc(p.date)}</span>`:""}
         <span class="grow"></span>${p.status==="approved"?`<span class="chip ok">approved</span>`:p.status==="changes"?`<span class="chip warn">changes</span>`:`<span class="chip">draft</span>`}</div>
       ${p.pillar?`<span class="eyebrow">${esc(p.pillar)}</span>`:""}
-      ${ed?`<label class="f">On-image headline<input type="text" id="e-headline" value="${esc(p.headline)}"></label>
-        <label class="f">On-image subline<input type="text" id="e-subline" value="${esc(p.subline)}"></label>
-        <label class="f">Caption<textarea id="e-caption" rows="8">${esc(p.caption)}</textarea></label>
-        ${p.captionEn!=null?`<label class="f">Caption (English)<textarea id="e-captionEn" rows="6">${esc(p.captionEn)}</textarea></label>`:""}
-        <label class="f">Hashtags<input type="text" id="e-tags" value="${esc((p.hashtags||[]).join(" "))}"></label>
-        <div class="form-grid"><label class="f">Layout<select id="e-layout">${LAYOUTS.map(l=>`<option ${l===(v.layout||"type")?"selected":""}>${l}</option>`).join("")}</select></label>
-        <label class="f">Visual<select id="e-visual"><option value="">None</option>${visuals.map((a,vi)=>`<option value="V${vi+1}" ${v.visual==="V"+(vi+1)?"selected":""}>V${vi+1} ${esc(a.name)}</option>`).join("")}</select></label>
-        <label class="f">Background<input type="text" id="e-bg" value="${esc(v.bg||"")}"></label><label class="f">Text colour<input type="text" id="e-fg" value="${esc(v.fg||"")}"></label></div>
-        <div class="row"><button class="primary sm" data-pact="save" data-i="${i}">Save</button><button class="sm ghost" data-pact="cancel" data-i="${i}">Cancel</button></div>`
-      :`<div class="caption">${esc(p.caption)}</div>${p.captionEn?`<details><summary>English version</summary><div class="caption">${esc(p.captionEn)}</div></details>`:""}
-        <div class="tags">${(p.hashtags||[]).map(esc).join(" ")}</div>`}
-      ${v.concept||v.genPrompt||v.designerNotes||p.altText?`<details><summary>Art direction</summary><div class="out" style="margin-top:6px">
-        ${v.concept?`<p style="margin:0"><b>Concept.</b> ${esc(v.concept)}</p>`:""}
-        ${v.designerNotes?`<p style="margin:0"><b>For the designer.</b> ${esc(v.designerNotes)}</p>`:""}
-        ${v.genPrompt?`<p style="margin:0"><b>Image prompt.</b> <span class="mono" style="font-size:12px">${esc(v.genPrompt)}</span></p><div><button class="sm" data-pact="copy-prompt" data-i="${i}">Copy prompt</button></div>`:""}
-        ${p.altText?`<p style="margin:0"><b>Alt text.</b> ${esc(p.altText)}</p>`:""}</div></details>`:""}
+      <div class="note" data-warn hidden></div>
+      ${ed?editForm(p,lang):`<div class="caption">${esc(L.caption||"")}</div><div class="tags">${(L.hashtags||[]).map(esc).join(" ")}</div>
+        ${onImage?`<details><summary>Text on the image (${LANG_TAG[lang]})</summary><p class="small" style="margin:6px 0 0">${onImage}</p></details>`:""}`}
+      ${(d&&!d.draft)||p.plan?`<details><summary>Art direction</summary><div class="out" style="margin-top:6px">
+        ${p.plan?.idea?`<p style="margin:0"><b>Idea.</b> ${esc(p.plan.idea)}</p>`:""}
+        ${d?.concept&&!d.draft?`<p style="margin:0"><b>Design.</b> ${esc(d.concept)}</p>`:""}
+        ${p.plan?.imagePrompt?`<p style="margin:0"><b>Image to produce.</b> <span class="mono small">${esc(p.plan.imagePrompt)}</span></p><div class="row"><button class="sm" data-pact="copy-prompt" data-pid="${pid}">Copy prompt</button>${S.canva?`<button class="sm" data-pact="canva" data-pid="${pid}" ${busy?"disabled":""}>Generate with Canva</button>`:""}</div>`:""}
+        ${gen?.status==="error"&&gen.error?`<div class="note">Canva: ${esc(gen.error)}</div>`:""}
+        ${(gen?.links||[]).length?`<p style="margin:0" class="small">${gen.links.map((u,i)=>`<a href="${esc(u)}" target="_blank" rel="noopener">Open generated image${gen.links.length>1?" "+(i+1):""}</a>`).join(" · ")}${gen.status==="links"?" (download it, add it to Photos and graphics, then click New design)":""}</p>`:""}
+      </div></details>`:""}
       ${qa?`<div class="qa ${qaCls}"><b>QA ${esc(qa.score)}/5</b>${(qa.issues||[]).length?`<ul>${qa.issues.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`:" No issues found."}
-        ${hasFix?`<div style="margin-top:6px"><button class="sm" data-pact="apply-fix" data-i="${i}">Apply suggested fix</button></div>`:""}</div>`:""}
+        ${hasFix?`<div style="margin-top:6px"><button class="sm" data-pact="apply-fix" data-pid="${pid}">Apply suggested text fixes</button></div>`:""}</div>`:""}
       ${p.note?`<div class="qa mid"><b>Change request.</b> ${esc(p.note)}</div>`:""}
-      ${S.confirm===`note:${i}`?`<label class="f">What should change?<textarea id="note-${i}" rows="3">${esc(p.note||"")}</textarea></label>
-        <div class="row"><button class="sm primary" data-pact="note-save" data-i="${i}">Save request</button><button class="sm" data-pact="revise" data-i="${i}" ${S.sample&&!S.runs[j.id]?.running?"":"disabled"}>Save and revise with AI</button><button class="sm ghost" data-pact="note-cancel" data-i="${i}">Cancel</button></div>`:""}
+      ${S.confirm==="note:"+p.id?`<label class="f">What should change?<textarea id="note-${pid}" rows="3">${esc(p.note||"")}</textarea></label>
+        <div class="row"><button class="sm" data-pact="note-save" data-pid="${pid}">Save note</button><button class="sm primary" data-pact="note-copy" data-pid="${pid}" ${S.sample&&!busy?"":"disabled"}>Rewrite copy</button><button class="sm primary" data-pact="note-design" data-pid="${pid}" ${S.sample&&!busy?"":"disabled"}>Redesign</button><button class="sm ghost" data-pact="note-cancel" data-pid="${pid}">Cancel</button></div>`:""}
     </div>
     <div class="foot">
-      ${p.status==="approved"?`<button class="sm" data-pact="unapprove" data-i="${i}">Undo approval</button>`:`<button class="sm primary" data-pact="approve" data-i="${i}">Approve</button>`}
-      <button class="sm" data-pact="note" data-i="${i}">Request changes</button>
-      ${ed?"":`<button class="sm" data-pact="edit" data-i="${i}">Edit</button>`}
+      ${p.status==="approved"?`<button class="sm" data-pact="unapprove" data-pid="${pid}">Undo approval</button>`:`<button class="sm primary" data-pact="approve" data-pid="${pid}">Approve</button>`}
+      <button class="sm" data-pact="note" data-pid="${pid}">Request changes</button>
+      ${ed?"":`<button class="sm" data-pact="edit" data-pid="${pid}">Edit text</button>`}
+      <button class="sm" data-pact="variant" data-pid="${pid}" ${S.sample&&!busy&&j.direction?"":"disabled"} title="${j.direction?"Ask the art director for a different design":"Run the art director first"}">New design</button>
+      ${p.prevDesign?`<button class="sm ghost" data-pact="undo-design" data-pid="${pid}">Previous design</button>`:""}
       <span class="grow"></span>
-      <button class="sm ghost" data-pact="copy" data-i="${i}">Copy caption</button>
-      <button class="sm ghost" data-pact="png" data-i="${i}" ${S.downloads?"":"disabled"}>PNG</button>
+      <button class="sm ghost" data-pact="copy" data-pid="${pid}">Copy caption</button>
+      <button class="sm ghost" data-pact="png" data-pid="${pid}" ${S.downloads?"":"disabled"}>PNG</button>
+      <button class="sm ghost" data-pact="svg" data-pid="${pid}" ${S.downloads?"":"disabled"} title="Editable file for Illustrator or Figma">SVG</button>
     </div></article>`;
 }
+function editForm(p,lang){
+  const L=p[lang]||{};const id=esc(p.id);
+  return `<div class="stack" style="gap:8px"><span class="eyebrow">Editing ${LANG_TAG[lang]}</span>
+    ${SLOTS.map(s=>`<label class="f">${SLOT_LABEL[s]}<input type="text" id="e-${s}" value="${esc(L[s]||"")}"></label>`).join("")}
+    <label class="f">Caption<textarea id="e-caption" rows="8">${esc(L.caption||"")}</textarea></label>
+    <label class="f">Hashtags<input type="text" id="e-tags" value="${esc((L.hashtags||[]).join(" "))}"></label>
+    <label class="f">Alt text<input type="text" id="e-alt" value="${esc(L.altText||"")}"></label>
+    <div class="row"><button class="primary sm" data-pact="save" data-pid="${id}">Save</button><button class="sm ghost" data-pact="cancel" data-pid="${id}">Cancel</button></div></div>`;
+}
 
-// ---------- events ----------
+// ================= events =================
 function bind(app){
   app.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{const g=b.dataset.go;go(g==="newclient"?{name:"client"}:{name:g})});
   app.querySelectorAll("[data-job]").forEach(b=>b.onclick=()=>go({name:"job",id:b.dataset.job}));
   app.querySelectorAll("[data-client]").forEach(b=>b.onclick=()=>b.dataset.client&&go({name:"client",id:b.dataset.client}));
-  const fc=$("#f-client"); if(fc) fc.onchange=()=>{S.filterClient=fc.value;render()};
-  const cf=$("#client-form"); if(cf) cf.onsubmit=e=>{e.preventDefault();saveClient()};
-  const jf=$("#job-form"); if(jf) jf.onsubmit=e=>{e.preventDefault();createJob()};
+  const fc=$("#f-client");if(fc) fc.onchange=()=>{S.filterClient=fc.value;render()};
+  const cf=$("#client-form");if(cf) cf.onsubmit=e=>{e.preventDefault();saveClient()};
+  const jf=$("#job-form");if(jf) jf.onsubmit=e=>{e.preventDefault();createJob()};
   app.querySelectorAll("[data-field]").forEach(el=>el.onchange=()=>saveField(el));
   app.querySelectorAll("[data-act]").forEach(b=>b.onclick=()=>jobAction(b.dataset.act));
   app.querySelectorAll("[data-run]").forEach(b=>b.onclick=()=>runPipeline(S.view.id,[b.dataset.run]));
-  app.querySelectorAll("[data-pact]").forEach(b=>b.onclick=()=>postAction(b.dataset.pact,+b.dataset.i));
+  app.querySelectorAll("[data-pact]").forEach(b=>b.onclick=()=>postAction(b.dataset.pact,b.dataset.pid));
+  app.querySelectorAll("[data-lang]").forEach(b=>b.onclick=()=>{S.lang=b.dataset.lang;S.editing=null;render()});
   app.querySelectorAll("[data-upload]").forEach(inp=>inp.onchange=()=>{const z=inp.closest("[data-drop]");handleFiles([...inp.files],z.dataset.drop,z.dataset.owner,z.dataset.oid);inp.value=""});
   app.querySelectorAll("[data-rm]").forEach(b=>b.onclick=()=>removeFile(b.dataset.rm));
+  app.querySelectorAll("[data-role]").forEach(b=>b.onclick=()=>cycleRole(b.dataset.role));
+  app.querySelectorAll("[data-font]").forEach(el=>el.onchange=()=>saveFontField(el));
+  app.querySelectorAll("[data-rmfont]").forEach(b=>b.onclick=()=>removeFont(+b.dataset.rmfont));
   if(S.assets) app.querySelectorAll("[data-drop]").forEach(z=>{
     z.ondragover=e=>{e.preventDefault();z.classList.add("over")};
     z.ondragleave=()=>z.classList.remove("over");
     z.ondrop=e=>{e.preventDefault();z.classList.remove("over");handleFiles([...e.dataTransfer.files],z.dataset.drop,z.dataset.owner,z.dataset.oid)};
   });
 }
-
 async function saveClient(){
   if(!S.db) return toast("Storage isn't available in this view.");
   const id=S.view.id;
-  const data={name:$("#c-name").value.trim(),sector:$("#c-sector").value.trim(),language:$("#c-lang").value,
+  const data={name:$("#c-name").value.trim(),sector:$("#c-sector").value.trim(),handles:$("#c-handles").value.trim(),
     palette:$("#c-palette").value.split(/[\s,;]+/).map(hex).filter(Boolean),tone:$("#c-tone").value.trim(),
-    dos:$("#c-dos").value.trim(),donts:$("#c-donts").value.trim(),notes:$("#c-notes").value.trim(),updatedAt:Date.now()};
+    dos:$("#c-dos").value.trim(),donts:$("#c-donts").value.trim(),look:$("#c-look").value.trim(),notes:$("#c-notes").value.trim(),updatedAt:Date.now()};
   if(!data.name) return toast("Add the client name.");
   try{
     if(id){await patchDoc("clients/"+id,data);toast("Profile saved")}
-    else{const ref=await S.db.collection("clients").add({...data,logos:[],createdAt:Date.now()});toast("Client created. Add the logos now.");go({name:"client",id:ref.id})}
-  }catch(e){if(!id)toast(dbMsg(e))}
+    else{const ref=await S.db.collection("clients").add({...data,logos:[],fonts:[],createdAt:Date.now()});toast("Client created. Add the logos and brand fonts now.");go({name:"client",id:ref.id})}
+  }catch(e){if(!id) toast(dbMsg(e))}
 }
 async function createJob(){
   if(!S.db) return toast("Storage isn't available in this view.");
   const plats=[...document.querySelectorAll("input[name=plat]:checked")].map(x=>x.value);
-  const data={clientId:$("#j-client").value,title:$("#j-title").value.trim(),postCount:Math.max(1,Math.min(20,+$("#j-count").value||6)),
-    format:$("#j-format").value,language:$("#j-lang").value,startDate:$("#j-start").value,endDate:$("#j-end").value,platforms:plats.length?plats:["Instagram"],
-    briefText:$("#j-brief").value.trim(),assets:[],posts:[],agents:{},createdAt:Date.now(),updatedAt:Date.now()};
+  const data={v:2,clientId:$("#j-client").value,title:$("#j-title").value.trim(),postCount:clamp(Math.round(num($("#j-count").value,6)),1,20),
+    format:$("#j-format").value,languages:$("#j-lang").value||"both",quality:"best",canva:true,startDate:$("#j-start").value,endDate:$("#j-end").value,platforms:plats.length?plats:["Instagram"],
+    briefText:$("#j-brief").value.trim(),assets:[],agents:{},summary:{total:0,approved:0},createdAt:Date.now(),updatedAt:Date.now()};
   if(!data.title) return toast("Give the job a title.");
-  try{const ref=await S.db.collection("jobs").add(data);go({name:"job",id:ref.id});toast("Job created. Upload the client files.")}catch(e){toast(dbMsg(e))}
+  try{const ref=await S.db.collection("jobs").add(data);go({name:"job",id:ref.id});toast("Job created. Upload the briefing, photos and references.")}catch(e){toast(dbMsg(e))}
 }
 function saveField(el){
-  const id=S.view.id;const f=el.dataset.field;let val=el.value;
-  if(f==="postCount") val=Math.max(1,Math.min(20,+val||1));
-  if(f==="platforms") val=val.split(",").map(s=>s.trim()).filter(Boolean);
+  const id=S.view.id;const f=el.dataset.field;let val=el.type==="checkbox"?el.checked:el.value;
+  if(f==="postCount") val=clamp(Math.round(num(val,1)),1,20);
+  if(f==="platforms") val=String(val).split(",").map(s=>s.trim()).filter(Boolean);
   patchDoc("jobs/"+id,{[f]:val,updatedAt:Date.now()}).then(()=>toast("Saved"),()=>{});
 }
 async function jobAction(act){
@@ -440,177 +893,175 @@ async function jobAction(act){
   if(act==="del-job"){
     if(S.confirm!=="del-job"){S.confirm="del-job";render();setTimeout(()=>{if(S.confirm==="del-job"){S.confirm=null;render()}},5000);return}
     S.confirm=null;
-    try{await S.db.doc("jobs/"+id).delete();
+    try{const posts=await getPosts(id);for(const p of posts) await S.db.doc(`jobs/${id}/posts/${p.id}`).delete();await S.db.doc("jobs/"+id).delete();
       if(S.assets) for(const a of j.assets||[]) if(a.id) await S.assets.delete(a.id).catch(()=>{});
       toast("Job deleted");go({name:"board"})}catch(e){toast(dbMsg(e))}
   }
-  if(act==="delivered") patchDoc("jobs/"+id,{delivered:!j.delivered,updatedAt:Date.now()});
+  if(act==="delivered") patchDoc("jobs/"+id,{delivered:!j.delivered,updatedAt:Date.now()}).catch(()=>{});
   if(act==="run-all") runPipeline(id,AGENTS.map(a=>a.k));
-  if(act==="stop"){S.runs[id]?.ctl?.abort()}
+  if(act==="rerun-legacy") runPipeline(id,["copy","visual","qa"]);
+  if(act==="stop") S.runs[id]?.ctl?.abort();
   if(act==="copy-gaps") copyText((j.analysis?.gaps||[]).map((g,i)=>`${i+1}. ${g}`).join("\n"));
-  if(act==="approve-all") savePosts(id,(j.posts||[]).map(p=>({...p,status:"approved",approvedAt:Date.now()})));
+  if(act==="approve-all"){const posts=S.posts[id]||[];for(const p of posts) if(p.status!=="approved") await savePost(id,p.id,cur=>cur&&{...cur,status:"approved",approvedAt:Date.now()}).catch(()=>{});writeSummary(id,posts.map(p=>({...p,status:"approved"})))}
   if(act==="export") exportPackage(j);
 }
-function savePosts(id,posts){return patchDoc("jobs/"+id,{posts,updatedAt:Date.now()})}
-async function postAction(act,i){
-  const id=S.view.id;const j=jobById(id);const posts=clone(j.posts);const p=posts[i];
-  if(act==="approve"){p.status="approved";p.approvedAt=Date.now();return savePosts(id,posts)}
-  if(act==="unapprove"){p.status="draft";return savePosts(id,posts)}
-  if(act==="note"){S.confirm=`note:${i}`;render();$(`#note-${i}`)?.focus();return}
+async function postAction(act,pid){
+  const id=S.view.id;const j=jobById(id);const p=(S.posts[id]||[]).find(x=>x.id===pid);if(!j||!p) return;const lang=S.lang;
+  const setStatus=async st=>{await savePost(id,pid,cur=>cur&&{...cur,status:st,...(st==="approved"?{approvedAt:Date.now()}:{})}).catch(()=>{});writeSummary(id,(S.posts[id]||[]).map(x=>x.id===pid?{...x,status:st}:x))};
+  if(act==="approve") return setStatus("approved");
+  if(act==="unapprove") return setStatus("draft");
+  if(act==="note"){S.confirm="note:"+pid;render();$(`#note-${pid}`)?.focus();return}
   if(act==="note-cancel"){S.confirm=null;return render()}
-  if(act==="note-save"||act==="revise"){const n=$(`#note-${i}`).value.trim();if(!n) return toast("Write what should change.");p.note=n;p.status="changes";S.confirm=null;await savePosts(id,posts);if(act==="revise") revisePost(id,i,n);return}
-  if(act==="edit"){S.editing=`${id}:${i}`;return render()}
+  if(act==="note-save"||act==="note-copy"||act==="note-design"){
+    const n=$(`#note-${pid}`)?.value.trim();if(!n) return toast("Write what should change.");
+    S.confirm=null;await savePost(id,pid,cur=>cur&&{...cur,note:n,status:"changes"}).catch(()=>{});writeSummary(id,(S.posts[id]||[]).map(x=>x.id===pid?{...x,status:"changes"}:x));
+    if(act==="note-copy") return runTask(id,`Rewriting post ${p.n}`,run=>reviseCopy(id,pid,n,run));
+    if(act==="note-design") return runTask(id,`Redesigning post ${p.n}`,run=>designPost(id,pid,run,{note:n}));
+    return render();
+  }
+  if(act==="variant") return runTask(id,`New design for post ${p.n}`,run=>designPost(id,pid,run,{variant:true}));
+  if(act==="undo-design") return savePost(id,pid,cur=>cur&&cur.prevDesign?{...cur,design:cur.prevDesign,prevDesign:cur.design}:null).then(()=>toast("Previous design restored"),()=>{});
+  if(act==="edit"){S.editing=pid;return render()}
   if(act==="cancel"){S.editing=null;return render()}
   if(act==="save"){
-    p.headline=$("#e-headline").value.trim();p.subline=$("#e-subline").value.trim();p.caption=$("#e-caption").value;
-    if($("#e-captionEn")) p.captionEn=$("#e-captionEn").value;
-    p.hashtags=$("#e-tags").value.split(/\s+/).filter(Boolean).map(t=>t.startsWith("#")?t:"#"+t);
-    p.visual={...(p.visual||{}),layout:$("#e-layout").value,visual:$("#e-visual").value||null,bg:hex($("#e-bg").value)||p.visual?.bg||"",fg:hex($("#e-fg").value)||p.visual?.fg||""};
-    S.editing=null;await savePosts(id,posts);return toast("Post saved")}
-  if(act==="apply-fix"){const f=p.qa.fix||{};for(const k of ["headline","subline","caption"]) if(f[k]&&String(f[k]).trim()) p[k]=f[k];p.qa={...p.qa,fix:null,issues:[...(p.qa.issues||[])],applied:true};return savePosts(id,posts).then(()=>toast("Fix applied"))}
-  if(act==="copy") return copyText(`${p.caption}${p.captionEn?"\n\n"+p.captionEn:""}\n\n${(p.hashtags||[]).join(" ")}`);
-  if(act==="copy-prompt") return copyText(p.visual?.genPrompt||"");
-  if(act==="png"){const blob=await renderBlob(j,p);saveFile(`${slug(j.title)}-post-${p.n}.png`,blob)}
+    const vals={};for(const s of SLOTS) vals[s]=$(`#e-${s}`).value.trim();
+    vals.caption=$("#e-caption").value;vals.hashtags=$("#e-tags").value.split(/\s+/).filter(Boolean).map(t=>t.startsWith("#")?t:"#"+t);vals.altText=$("#e-alt").value.trim();
+    S.editing=null;await savePost(id,pid,cur=>cur&&{...cur,[lang]:{...(cur[lang]||{}),...vals}}).catch(()=>{});return toast("Post saved");
+  }
+  if(act==="apply-fix") return savePost(id,pid,cur=>{if(!cur?.qa?.fix) return null;const f=cur.qa.fix;for(const l of ["pt","en"]) for(const [k,v] of Object.entries(f[l]||{})) if(v&&String(v).trim()&&(SLOTS.includes(k)||k==="caption"||k==="altText")) cur[l]={...(cur[l]||{}),[k]:String(v)};cur.qa={...cur.qa,fix:null,applied:true};return cur}).then(()=>toast("Fixes applied"),()=>{});
+  if(act==="copy"){const L=p[lang]||{};return copyText(`${L.caption||""}\n\n${(L.hashtags||[]).join(" ")}`.trim())}
+  if(act==="copy-prompt") return copyText(p.plan?.imagePrompt||"");
+  if(act==="canva") return runTask(id,`Canva image for post ${p.n}`,async run=>{const ok=await canvaForPost(id,pid,run);if(ok) await designPost(id,pid,run,{})});
+  if(act==="png"){try{const r=await renderPost(j,p,lang);await saveFile(`${slug(j.title)}-${String(p.n).padStart(2,"0")}-${LANG_TAG[lang]}.png`,await canvasBlob(r.canvas))}catch(e){toast("Couldn't export this post.")}return}
+  if(act==="svg"){try{await saveFile(`${slug(j.title)}-${String(p.n).padStart(2,"0")}-${LANG_TAG[lang]}.svg`,new Blob([await exportSvg(j,p,lang)],{type:"image/svg+xml"}))}catch(e){toast("Couldn't export the SVG.")}return}
+}
+async function saveFile(name,data){
+  if(!S.downloads) return toast("Downloads aren't available in this view.");
+  try{await S.downloads.save({filename:name,data})}catch(e){if(e?.code!=="declined") toast("Download failed. Try again.")}
 }
 
-// ---------- files ----------
-function typeFor(file){const ext=(file.name.split(".").pop()||"").toLowerCase();return EXT_TYPES[ext]||null}
-async function extractText(file){
-  const ext=(file.name.split(".").pop()||"").toLowerCase();
-  if(["txt","md","csv"].includes(ext)) return await file.text();
-  if(ext==="pdf"){
-    if(!window.pdfjsLib){await loadScript(PDFJS);const w=new Blob([`importScripts("${PDFJS_WORKER}");`],{type:"text/javascript"});window.pdfjsLib.GlobalWorkerOptions.workerSrc=URL.createObjectURL(w)}
-    const doc=await window.pdfjsLib.getDocument({data:new Uint8Array(await file.arrayBuffer())}).promise;const out=[];
-    for(let i=1;i<=Math.min(doc.numPages,60);i++){const pg=await doc.getPage(i);const tc=await pg.getTextContent();out.push(tc.items.map(t=>t.str).join(" "))}
-    return out.join("\n\n").replace(/[ \t]+\n/g,"\n").trim();
-  }
-  if(ext==="docx"){if(!window.mammoth) await loadScript(MAMMOTH);const r=await window.mammoth.extractRawText({arrayBuffer:await file.arrayBuffer()});return r.value.trim()}
-  return null;
+// ================= files =================
+async function ensurePdf(){if(!window.pdfjsLib){await loadScript(CDN.pdf);window.pdfjsLib.GlobalWorkerOptions.workerSrc=URL.createObjectURL(new Blob([`importScripts("${CDN.pdfWorker}");`],{type:"text/javascript"}))}return window.pdfjsLib}
+async function ensureZip(){if(!window.JSZip) await loadScript(CDN.zip);return window.JSZip}
+function pdfObj(pg,name){return new Promise(res=>{const store=name.startsWith("g_")?pg.commonObjs:pg.objs;const t=setTimeout(()=>res(null),5000);try{store.get(name,o=>{clearTimeout(t);res(o)})}catch(e){clearTimeout(t);res(null)}})}
+function pdfImgCanvas(o){
+  if(!o) return null;const cv=document.createElement("canvas");
+  if(o.bitmap){cv.width=o.bitmap.width;cv.height=o.bitmap.height;cv.getContext("2d").drawImage(o.bitmap,0,0);return cv}
+  if(!o.data||!o.width||!o.height) return null;cv.width=o.width;cv.height=o.height;const x=cv.getContext("2d");const id=x.createImageData(o.width,o.height);
+  if(o.kind===3) id.data.set(o.data.subarray?o.data.subarray(0,id.data.length):o.data);
+  else if(o.kind===2){for(let s=0,d=0;d<id.data.length;s+=3,d+=4){id.data[d]=o.data[s];id.data[d+1]=o.data[s+1];id.data[d+2]=o.data[s+2];id.data[d+3]=255}}
+  else return null;
+  x.putImageData(id,0,0);return cv;
 }
+async function extractPdf(file,progress){
+  const lib=await ensurePdf();const doc=await lib.getDocument({data:new Uint8Array(await file.arrayBuffer())}).promise;
+  const n=Math.min(doc.numPages,60);const texts=[],pages=[],images=[];const seen=new Set();
+  for(let i=1;i<=n;i++){
+    progress(`Reading ${file.name}, page ${i} of ${n}…`);
+    const pg=await doc.getPage(i);
+    const tc=await pg.getTextContent();texts.push(tc.items.map(t=>t.str+(t.hasEOL?"\n":" ")).join("").replace(/[ \t]+\n/g,"\n").trim());
+    if(i<=12){const vp=pg.getViewport({scale:1});const sc=Math.min(2.5,1400/Math.max(vp.width,vp.height));const v2=pg.getViewport({scale:sc});const cv=document.createElement("canvas");cv.width=Math.round(v2.width);cv.height=Math.round(v2.height);const x=cv.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,cv.width,cv.height);await pg.render({canvasContext:x,viewport:v2}).promise;pages.push({blob:await canvasBlob(cv,"image/jpeg",0.85),w:cv.width,h:cv.height,page:i})}
+    if(images.length<16){try{
+      const ops=await pg.getOperatorList();
+      for(let k=0;k<ops.fnArray.length&&images.length<16;k++){
+        const fn=ops.fnArray[k];if(fn!==lib.OPS.paintImageXObject&&fn!==lib.OPS.paintImageXObjectRepeat) continue;
+        const name=ops.argsArray[k][0];const key=name.startsWith("g_")?name:i+":"+name;if(seen.has(key)) continue;seen.add(key);
+        const cv=pdfImgCanvas(await pdfObj(pg,name));if(!cv||Math.min(cv.width,cv.height)<280) continue;
+        const sig=cv.width+"x"+cv.height;if(seen.has(sig)) continue;seen.add(sig);
+        const sc=Math.min(1,2400/Math.max(cv.width,cv.height));let out=cv;if(sc<1){out=document.createElement("canvas");out.width=Math.round(cv.width*sc);out.height=Math.round(cv.height*sc);out.getContext("2d").drawImage(cv,0,0,out.width,out.height)}
+        images.push({blob:await canvasBlob(out,"image/jpeg",0.9),type:"image/jpeg",w:out.width,h:out.height,page:i});
+      }
+    }catch(e){}}
+  }
+  return {text:texts.filter(Boolean).join("\n\n"),pages,images};
+}
+function officeText(xml,ns){
+  const doc=new DOMParser().parseFromString(xml,"application/xml");const P=doc.getElementsByTagName(ns+":p");const lines=[];
+  for(const p of P){let s="";for(const n of p.getElementsByTagName("*")){const ln=n.localName;if(ln==="t") s+=n.textContent;else if(ln==="tab") s+="\t";else if(ln==="br") s+="\n"}if(s.trim()) lines.push(s.trim())}
+  return lines.join("\n");
+}
+async function extractOffice(file,ext,progress){
+  const Zip=await ensureZip();progress(`Reading ${file.name}…`);const zip=await Zip.loadAsync(await file.arrayBuffer());let text="";
+  if(ext==="docx"){const xml=await zip.file("word/document.xml")?.async("string");text=xml?officeText(xml,"w"):""}
+  else{const slides=Object.keys(zip.files).filter(p=>/^ppt\/slides\/slide\d+\.xml$/.test(p)).sort((a,b)=>+a.match(/(\d+)\.xml$/)[1]-+b.match(/(\d+)\.xml$/)[1]);const out=[];for(const s of slides){const t=officeText(await zip.file(s).async("string"),"a");if(t) out.push(`[Slide ${s.match(/(\d+)\.xml$/)[1]}]\n${t}`)}text=out.join("\n\n")}
+  const media=Object.keys(zip.files).filter(p=>/^(word|ppt)\/media\/[^/]+\.(png|jpe?g|gif|webp)$/i.test(p));const images=[];
+  for(const m of media){if(images.length>=20) break;try{const b=await zip.file(m).async("blob");const nm=m.split("/").pop();const f=new File([b],nm,{type:EXT_TYPES[nm.split(".").pop().toLowerCase()]});const info=await prepImageBlob(f);if(Math.min(info.w,info.h)<280) continue;images.push({...info,name:nm})}catch(e){}}
+  return {text,images};
+}
+async function storeBlob(blob,type,rec){const r=await S.assets.upload(blob,{type});return {...rec,id:r.id,type,size:r.sizeBytes,at:Date.now()}}
 async function handleFiles(files,kind,ownerType,ownerId){
   if(!S.assets||!files.length) return;
-  const recs=[];let added="";
+  const recs=[];let added="";const progress=m=>toast(m);
   for(const file of files){
-    toast(`Uploading ${file.name}…`);
-    let text=null;
-    if(kind==="briefing"){try{text=await extractText(file)}catch(e){toast(`Couldn't read the text in ${file.name}. Paste the brief into the text box instead.`)}}
-    const type=typeFor(file);const rec={name:file.name,kind,type:type||file.type||"",size:file.size,at:Date.now(),id:null};
-    if(type){try{const r=await S.assets.upload(file,{type});rec.id=r.id}catch(e){toast(`${file.name}: ${({too_large:"file is over 20 MB",unsupported_type:"this file type can't be stored",quota_or_state:"storage is full"})[e.code]||"upload failed"}.`);if(!text) continue}}
-    else if(!text){toast(`${file.name}: use PDF, Word (text only), images, TXT or MD.`);continue}
-    if(text){rec.textChars=text.length;added+=`\n\n--- From ${file.name} ---\n${text.slice(0,60000)}`}
-    recs.push(rec);
+    const ext=(file.name.split(".").pop()||"").toLowerCase();const type=EXT_TYPES[ext]||"";
+    try{
+      if(kind==="font"){if(!/^font\//.test(type)){toast(`${file.name}: use TTF, OTF, WOFF or WOFF2.`);continue}
+        const base=file.name.replace(/\.[^.]+$/,"");const wmap=[[/thin|hairline/i,100],[/extra ?light|ultra ?light/i,200],[/light/i,300],[/medium/i,500],[/semi ?bold|demi/i,600],[/extra ?bold|ultra ?bold/i,800],[/black|heavy/i,900],[/bold/i,700]];
+        const weight=(wmap.find(([r])=>r.test(base))||[0,400])[1];const italic=/italic|oblique/i.test(base);
+        const family=base.replace(/([-_ ]?(thin|hairline|extra ?light|ultra ?light|light|regular|book|medium|semi ?bold|demi ?bold|extra ?bold|ultra ?bold|bold|black|heavy|italic|oblique))+$/ig,"").replace(/[-_]+/g," ").trim()||base;
+        progress(`Uploading ${file.name}…`);recs.push(await storeBlob(file,type,{name:file.name,kind:"font",family,weight,italic}));continue}
+      if(kind==="logo"||kind==="visual"||kind==="reference"||(kind==="briefing"&&/^image\//.test(type))){
+        if(!/^image\//.test(type)){toast(`${file.name}: use JPG, PNG, WebP or SVG.${/heic|heif/.test(ext)?" Convert HEIC photos to JPG first.":""}`);continue}
+        progress(`Uploading ${file.name}…`);const info=await prepImageBlob(file);
+        recs.push(await storeBlob(info.blob,info.type,{name:file.name,kind:kind==="briefing"?"briefimg":kind,w:info.w,h:info.h,alpha:info.alpha}));continue}
+      if(kind==="briefing"){
+        let text="",pages=[],images=[];
+        if(ext==="pdf"){({text,pages,images}=await extractPdf(file,progress))}
+        else if(ext==="docx"||ext==="pptx"){({text,images}=await extractOffice(file,ext,progress))}
+        else if(ext==="txt"||ext==="md"||ext==="csv") text=await file.text();
+        else{toast(`${file.name}: use PDF, Word (.docx), PowerPoint (.pptx) or TXT.${/^(doc|ppt)$/.test(ext)?" Save it in the newer format first.":""}`);continue}
+        const rec={name:file.name,kind:"briefing",type:type||file.type||"",size:file.size,textChars:text.length,at:Date.now(),id:null};
+        if(type&&file.size<=2e7){try{Object.assign(rec,await storeBlob(file,type,rec))}catch(e){}}
+        recs.push(rec);
+        for(const p of pages){progress(`Saving page ${p.page} of ${file.name}…`);recs.push(await storeBlob(p.blob,"image/jpeg",{name:`${file.name} p.${p.page}`,kind:"briefpage",from:file.name,page:p.page,w:p.w,h:p.h}))}
+        let k=0;for(const im of images){k++;progress(`Saving image ${k} of ${images.length} from ${file.name}…`);recs.push(await storeBlob(im.blob,im.type||"image/jpeg",{name:im.name||`${file.name} image ${k}`,kind:"briefimg",from:file.name,page:im.page||null,w:im.w,h:im.h,alpha:!!im.alpha}))}
+        if(text) added+=`\n\n--- From ${file.name} ---\n${text.slice(0,60000)}`;
+        continue;
+      }
+    }catch(e){toast(`${file.name}: ${({too_large:"the file is over 20 MB",unsupported_type:"this file type can't be stored",quota_or_state:"storage is full"})[e?.code]||e?.message||"upload failed"}.`)}
   }
   if(!recs.length) return;
   try{
-    if(ownerType==="client"){const c=S.clients.find(x=>x.id===ownerId);await patchDoc("clients/"+ownerId,{logos:[...clone(c.logos||[]),...recs],updatedAt:Date.now()})}
-    else{const j=jobById(ownerId);const patch={assets:[...clone(j.assets||[]),...recs],updatedAt:Date.now()};if(added) patch.briefText=((j.briefText||"")+added).trim();await patchDoc("jobs/"+ownerId,patch)}
-    toast(`${recs.length} file${recs.length>1?"s":""} added${added?". Brief text extracted":""}.`);
-  }catch(e){}
+    if(ownerType==="client"){await queued("clients/"+ownerId,async()=>{const c=S.clients.find(x=>x.id===ownerId);const field=kind==="font"?"fonts":"logos";const next=[...clone(c?.[field]||[]),...recs];await S.db.doc("clients/"+ownerId).update({[field]:next,updatedAt:Date.now()});if(c) c[field]=next})}
+    else{await queued("jobs/"+ownerId,async()=>{const j=jobById(ownerId);const patch={assets:[...clone(j.assets||[]),...recs],updatedAt:Date.now()};if(added) patch.briefText=((j.briefText||"")+added).trim();await S.db.doc("jobs/"+ownerId).update(patch);Object.assign(j,patch)})}
+    const nImg=recs.filter(r=>r.kind==="briefimg"||r.kind==="briefpage").length;
+    toast(`${recs.length} file${recs.length>1?"s":""} added${added?". Brief text extracted":""}${nImg&&kind==="briefing"?`. ${nImg} pictures and pages found in the documents`:""}.`);
+    render();
+  }catch(e){toast(dbMsg(e))}
 }
 async function removeFile(key){
   if(S.confirm!=="rm:"+key){S.confirm="rm:"+key;render();return}
   S.confirm=null;const [type,oid,...rest]=key.split(":");const ref=rest.join(":");
-  if(type==="client"){const c=S.clients.find(x=>x.id===oid);await patchDoc("clients/"+oid,{logos:clone(c.logos||[]).filter(a=>(a.id||a.name)!==ref)})}
-  else{const j=jobById(oid);await patchDoc("jobs/"+oid,{assets:clone(j.assets||[]).filter(a=>(a.id||a.name)!==ref)})}
-  if(/^[0-9a-f]{32}$/.test(ref)) S.assets.delete(ref).catch(()=>{});
-  toast("File removed");
-}
-async function saveFile(name,data){
-  if(!S.downloads) return toast("Downloads aren't available in this view.");
-  try{await S.downloads.save({filename:name,data})}catch(e){if(e.code!=="declined") toast("Download failed. Try again.")}
-}
-
-// ---------- canvas renderer ----------
-let fontsReady=null;
-function ensureFonts(){return fontsReady||(fontsReady=Promise.all(Object.values(FONTS).map(([w,f])=>document.fonts.load(`${w} 60px "${f}"`).catch(()=>{}))).then(()=>document.fonts.load('400 40px "IBM Plex Sans"').catch(()=>{})))}
-function loadImg(id){if(!S.imgCache.has(id)) S.imgCache.set(id,new Promise((res,rej)=>{const im=new Image();im.onload=()=>res(im);im.onerror=()=>rej(new Error("img"));im.src="/_blob/"+id}));return S.imgCache.get(id).catch(()=>null)}
-function visualAsset(j,ref){if(!ref) return null;const m=/^V(\d+)$/i.exec(String(ref));const vis=(j.assets||[]).filter(a=>a.kind==="visual"&&a.id&&/^image\//.test(a.type||""));return m?vis[+m[1]-1]||null:null}
-function wrap(ctx,text,maxW){const words=String(text||"").split(/\s+/).filter(Boolean);const lines=[];let cur="";for(const w of words){const t=cur?cur+" "+w:w;if(ctx.measureText(t).width>maxW&&cur){lines.push(cur);cur=w}else cur=t}if(cur) lines.push(cur);return lines}
-function fit(ctx,text,maxW,maxH,weight,family,start,min,lh){
-  for(let s=start;s>=min;s-=4){ctx.font=`${weight} ${s}px "${family}"`;const L=wrap(ctx,text,maxW);if(L.length*s*lh<=maxH&&L.every(l=>ctx.measureText(l).width<=maxW)) return {size:s,lines:L}}
-  ctx.font=`${weight} ${min}px "${family}"`;return {size:min,lines:wrap(ctx,text,maxW)}
-}
-function cover(ctx,img,x,y,w,h){const r=Math.max(w/img.width,h/img.height);const iw=img.width*r,ih=img.height*r;ctx.save();ctx.beginPath();ctx.rect(x,y,w,h);ctx.clip();ctx.drawImage(img,x+(w-iw)/2,y+(h-ih)/2,iw,ih);ctx.restore()}
-async function drawPost(cv,j,p){
-  const c=clientOf(j);const v=p.visual||{};const [W,H]=FORMATS[p.format]||FORMATS[j.format]||FORMATS.feed;
-  cv.width=W;cv.height=H;const ctx=cv.getContext("2d");await ensureFonts();
-  const pal=((j.identity?.palette)||c?.palette||[]).map(hex).filter(Boolean);
-  const bg=hex(v.bg)||pal[0]||"#15211F";let fg=hex(v.fg)||contrastOn(bg);if(contrastRatio(fg,bg)<3) fg=contrastOn(bg);
-  const accent=hex(v.accent)||pal.find(x=>x!==bg&&contrastRatio(x,bg)>1.6)||(luminance(bg)>.4?"#15211F":"#F2C14E");
-  const [fw,ff]=FONTS[v.font]||FONTS[j.identity?.typography]||FONTS.archivo;
-  let layout=LAYOUTS.includes(v.layout)?v.layout:"type";const va=visualAsset(j,v.visual);
-  const img=layout!=="type"&&va?await loadImg(va.id):null; if(!img) layout="type";
-  const logoA=(c?.logos||[]).find(a=>a.id&&/^image\//.test(a.type||""));const logo=logoA?await loadImg(logoA.id):null;
-  const pad=Math.round(W*.08);const foot=Math.round(H*.11);
-  ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
-  let box; // text region
-  if(layout==="photo"){
-    cover(ctx,img,0,0,W,H);
-    const pos=v.textPosition||"bottom";const g=pos==="top"?ctx.createLinearGradient(0,0,0,H*.7):ctx.createLinearGradient(0,H,0,H*.3);
-    const rgb=parseInt(bg.slice(1),16);const col=`${rgb>>16},${rgb>>8&255},${rgb&255}`;
-    g.addColorStop(0,`rgba(${col},.92)`);g.addColorStop(1,`rgba(${col},0)`);ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
-    box=pos==="top"?{x:pad,y:pad,w:W-2*pad,h:H*.42,align:"top"}:{x:pad,y:H*.45,w:W-2*pad,h:H*.55-foot-pad*.3,align:"bottom"};
-  }else if(layout==="split"){
-    const ih=Math.round(H*.58);cover(ctx,img,0,0,W,ih);
-    box={x:pad,y:ih+pad*.7,w:W-2*pad,h:H-ih-foot-pad*.7,align:"top"};
-  }else if(layout==="frame"){
-    const m=Math.round(W*.06);const ih=Math.round(H*.6);cover(ctx,img,m,m,W-2*m,ih);
-    box={x:pad,y:m+ih+pad*.55,w:W-2*pad,h:H-ih-m-foot-pad*.55,align:"top"};
-  }else{
-    ctx.fillStyle=accent;ctx.fillRect(pad,pad,Math.round(W*.09),Math.round(W*.012));
-    const pos=v.textPosition||"center";
-    box={x:pad,y:pad*1.6,w:W-2*pad,h:H-pad*1.6-foot-pad*.4,align:pos==="top"?"top":pos==="bottom"?"bottom":"center"};
-  }
-  const head=String(p.headline||"").trim();const sub=String(p.subline||"").trim();
-  const subH=sub?Math.min(box.h*.3,W*.16):0;
-  const hf=fit(ctx,head,box.w,box.h-subH-(sub?W*.03:0),fw,ff,Math.round(W*(layout==="type"?.12:.095)),Math.round(W*.045),1.08);
-  let sf={size:0,lines:[]};if(sub) sf=fit(ctx,sub,box.w*.95,subH,"400","IBM Plex Sans",Math.round(W*.038),Math.round(W*.026),1.3);
-  const total=hf.lines.length*hf.size*1.08+(sub?W*.03+sf.lines.length*sf.size*1.3:0);
-  let y=box.align==="top"?box.y:box.align==="bottom"?box.y+box.h-total:box.y+(box.h-total)/2;
-  ctx.textBaseline="top";ctx.fillStyle=fg;ctx.font=`${fw} ${hf.size}px "${ff}"`;
-  for(const l of hf.lines){ctx.fillText(l,box.x,y);y+=hf.size*1.08}
-  if(sub){y+=W*.03;ctx.font=`400 ${sf.size}px "IBM Plex Sans"`;ctx.globalAlpha=.88;for(const l of sf.lines){ctx.fillText(l,box.x,y);y+=sf.size*1.3}ctx.globalAlpha=1}
-  // footer: logo right, handle left
-  const fy=H-foot;
-  if(logo){const mw=W*.2,mh=foot*.5;const r=Math.min(mw/logo.width,mh/logo.height);const lw=logo.width*r,lh=logo.height*r;ctx.drawImage(logo,W-pad-lw,fy+(foot-lh)/2-pad*.15,lw,lh)}
-  else if(c?.name){ctx.font=`600 ${Math.round(W*.026)}px "IBM Plex Sans"`;ctx.fillStyle=fg;ctx.globalAlpha=.85;ctx.textAlign="right";ctx.fillText(c.name,W-pad,fy+foot*.35);ctx.textAlign="left";ctx.globalAlpha=1}
-  if(p.cta){ctx.font=`500 ${Math.round(W*.024)}px "IBM Plex Sans"`;ctx.fillStyle=fg;ctx.globalAlpha=.8;const t=wrap(ctx,p.cta,W*.55)[0]||"";ctx.fillText(t,pad,fy+foot*.35);ctx.globalAlpha=1}
-}
-async function drawCanvases(app){
-  if(S.view.name!=="job") return;const j=jobById(S.view.id);if(!j) return;
-  for(const cv of app.querySelectorAll("canvas[data-post]")){const p=j.posts?.[+cv.dataset.post];if(p) drawPost(cv,j,p).catch(()=>{})}
-}
-async function renderBlob(j,p){const cv=document.createElement("canvas");await drawPost(cv,j,p);return await new Promise(r=>cv.toBlob(r,"image/png"))}
-function csvCell(s){s=String(s??"");return /[",\n]/.test(s)?`"${s.replace(/"/g,'""')}"`:s}
-async function exportPackage(j){
-  toast("Building the package…");
   try{
-    if(!window.JSZip) await loadScript(JSZIP);
-    const zip=new window.JSZip();const rows=[["post","date","platform","format","pillar","headline","subline","caption","caption_en","hashtags","cta","alt_text","status","image_prompt"]];
-    for(const p of j.posts){const b=await renderBlob(j,p);zip.file(`post-${String(p.n).padStart(2,"0")}-${slug(p.platform)}.png`,b);
-      rows.push([p.n,p.date,p.platform,p.format,p.pillar,p.headline,p.subline,p.caption,p.captionEn,(p.hashtags||[]).join(" "),p.cta,p.altText,p.status,p.visual?.genPrompt])}
-    zip.file("captions.csv","﻿"+rows.map(r=>r.map(csvCell).join(",")).join("\n"));
-    if(j.analysis) zip.file("strategy.json",JSON.stringify(j.analysis,null,2));
-    const blob=await zip.generateAsync({type:"blob"});
-    await saveFile(`${slug(clientOf(j)?.name)}-${slug(j.title)}.zip`,blob);
-  }catch(e){toast("Couldn't build the zip here. Download the PNGs one by one.")}
+    if(type==="client") await queued("clients/"+oid,async()=>{const c=S.clients.find(x=>x.id===oid);const next=clone(c.logos||[]).filter(a=>(a.id||a.name)!==ref);await S.db.doc("clients/"+oid).update({logos:next});c.logos=next});
+    else await mergeAssets(oid,list=>list.filter(a=>(a.id||a.name)!==ref));
+    if(/^[0-9a-f]{32}$/.test(ref)) S.assets.delete(ref).catch(()=>{});
+    toast("File removed");render();
+  }catch(e){toast(dbMsg(e))}
 }
+async function cycleRole(key){
+  const [type,oid,...rest]=key.split(":");const ref=rest.join(":");if(type!=="job") return;
+  await mergeAssets(oid,list=>list.map(a=>{if((a.id||a.name)!==ref) return a;const next=ROLE_NEXT[roleOf(a)]||"post";return {...a,meta:{...(a.meta||{}),use:next,userUse:true}}})).catch(e=>toast(dbMsg(e)));
+  render();
+}
+async function saveFontField(el){const id=S.view.id;const c=S.clients.find(x=>x.id===id);const fonts=clone(c.fonts||[]);const f=fonts[+el.dataset.font];if(!f) return;const k=el.dataset.k;f[k]=k==="italic"?el.checked:k==="weight"?clamp(Math.round(num(el.value,400)/100)*100,100,900):el.value.trim();await patchDoc("clients/"+id,{fonts,updatedAt:Date.now()}).catch(()=>{});toast("Font saved")}
+async function removeFont(i){const id=S.view.id;if(S.confirm!=="rmfont:"+i){S.confirm="rmfont:"+i;return render()}S.confirm=null;const c=S.clients.find(x=>x.id===id);const fonts=clone(c.fonts||[]);const [f]=fonts.splice(i,1);await patchDoc("clients/"+id,{fonts}).catch(()=>{});if(f?.id) S.assets?.delete(f.id).catch(()=>{});toast("Font removed")}
 
-// ---------- agents ----------
-function langRules(l){
-  const pt="Write in European Portuguese as used in Portugal and Mozambique, with pre-1990 Orthographic Agreement spelling where it applies (projecto, objectivo, acção, direcção, óptimo, actual). Never Brazilian Portuguese: use equipa (not time), telemóvel (not celular), utilizador (not usuário), registar (not registrar). Avoid bureaucratic openers such as 'no âmbito de' or 'vimos por este meio'.";
-  const en="Write in clear international English.";
-  return l==="pt"?pt:l==="en"?en:`Primary language Portuguese, plus an English version of every caption. ${pt} ${en}`;
-}
-const STYLE="Style: plain, specific and human. No clichés (elevate, unlock, journey, game-changer, dive in, seamless, 'nos dias de hoje', 'mais do que nunca'). No em dashes. No exaggerated claims. At most one emoji per caption, and only if the tone allows it. Only state facts that appear in the brief or the client profile; never invent prices, dates, statistics, quotes or promises.";
+// ================= prompts =================
+const PT_RULES="Portuguese for Mozambique: the European Portuguese norm as written in Mozambique, with the spelling from before the 1990 Orthographic Agreement (acção, direcção, projecto, objectivo, óptimo, actual, facto, contacto, recepção) and month names with a capital letter (Outubro). Never Brazilian Portuguese: equipa not time, telemóvel not celular, ecrã not tela, utilizador not usuário, registar not registrar, pequeno-almoço not café da manhã, autocarro or machimbombo not ônibus, 'estar a fazer' not 'estar fazendo'. Use Mozambican references only where they are natural (meticais, MT, bairro, chapa, capulana), never as decoration or stereotype. Dates like 12 de Outubro, times like 10h00, money like 1.500 MT. Avoid bureaucratic formulas such as 'no âmbito de' or 'vimos por este meio'.";
+const EN_RULES="English for South Africa: British spelling (colour, organise, centre, programme, licence as a noun, travelling) and South African usage where natural (cellphone, R150 for rand amounts). No American spelling or idioms. Use local slang only if the brand's tone clearly allows it. Dates like 12 October 2026, times like 10:00.";
+function langRules(j){const L=langsOf(j);const parts=[];if(L.includes("pt")) parts.push("pt = "+PT_RULES);if(L.includes("en")) parts.push("en = "+EN_RULES);if(L.length>1) parts.push("Every post exists in both versions. They are adaptations of the same post, not word-for-word translations: same facts, offer and idea, natural idiom in each language. The Portuguese version speaks to Mozambique; the English version is written in South African English.");return parts.join("\n")}
+const STYLE="Style: plain, specific and human, like a sharp senior copywriter. No clichés (elevate, unlock, journey, game-changer, seamless, 'nos dias de hoje', 'mais do que nunca', 'venha descobrir'). No em dashes. No exaggerated claims. At most one emoji per caption, only if the tone allows it. Only state facts that are in the brief or the client profile; never invent prices, dates, statistics, quotes or promises.";
 function context(j){
   const c=clientOf(j)||{};
-  return `CLIENT PROFILE
+  return `CLIENT
 Name: ${c.name||""}
 Sector: ${c.sector||""}
+Social handles: ${c.handles||"-"}
 Tone of voice: ${c.tone||"not specified"}
 Always do: ${c.dos||"-"}
 Never do: ${c.donts||"-"}
+Visual identity notes: ${c.look||"-"}
 Context: ${c.notes||"-"}
 Brand colours: ${(c.palette||[]).join(", ")||"not specified"}
 
@@ -618,185 +1069,491 @@ JOB
 Title: ${j.title}
 Platforms: ${(j.platforms||[]).join(", ")}
 Number of posts: ${j.postCount}
-Main format: ${j.format} (feed = 1:1, portrait = 4:5, story = 9:16)
-Language: ${langName(jobLang(j))}
+Main format: ${j.format} (feed 1:1, portrait 4:5, story 9:16)
+Languages: ${langsOf(j).map(l=>LANG_TAG[l]).join(" and ")}
 Period: ${j.startDate||"?"} to ${j.endDate||"?"}
 
 BRIEF
 """
-${String(j.briefText||"").slice(0,80000)}
+${String(j.briefText||"").slice(0,70000)}
 """`;
 }
+const langKeys=j=>langsOf(j).map(l=>`"${l}":{"kicker":"","headline":"","subline":"","body":"","cta":"","footnote":"","caption":"","hashtags":["#tag"],"altText":""}`).join(",");
+const compactDir=d=>JSON.stringify({bigIdea:d?.bigIdea,concept:d?.concept,fromReferences:d?.fromReferences,palette:d?.palette,typography:d?.typography,photoTreatment:d?.photoTreatment,graphicDevices:d?.graphicDevices,layoutSystem:d?.layoutSystem,logoRule:d?.logoRule});
 const PROMPTS={
-  strategist:j=>`You are the Strategist agent in a social media production pipeline at Playground, a communication and marketing consultancy based in Maputo, Mozambique. Read the client brief and profile and produce the plan that a copywriter agent and an art director agent will execute.
+  catalogue:(j,used)=>`You are the image analyst in Playground's social media studio in Maputo. Describe each attached image for the art director, who will not see all of them again.
+
+Client: ${clientOf(j)?.name||""} (${clientOf(j)?.sector||""}).
+Attached images, in order:
+${attachLines(used)}
+
+For each image give:
+- what: one factual sentence (subject, people, setting, products, any visible text or logos)
+- colours: the 3 dominant colours as hex
+- mood: a few words
+- focus: the main point of interest as fractions of width and height, e.g. {"x":0.62,"y":0.4}
+- textSpace: where there is calm space that could take text (e.g. "top third, plain sky"), or "none"
+- quality: high, ok or low
+- use: "post" if it can appear in this client's posts (their products, people, places, brand graphics), "style" if it is an example to learn from (another brand's ad, a moodboard, a layout example, a page of a document), "none" if not useful
+- rights: "client", "third-party" or "unclear"
+- notes: anything the art director must know (watermark, another brand's logo, mostly text)
+
+Reply with only a JSON array, same order:
+[{"code":"img-xxxxxxxx","what":"","colours":["#RRGGBB"],"mood":"","focus":{"x":0.5,"y":0.5},"textSpace":"","quality":"high","use":"post","rights":"client","notes":""}]`,
+
+  strategist:(j,used)=>`You are the Strategist in a social media production pipeline at Playground, a communication and marketing consultancy in Maputo, Mozambique. Read the brief and the client profile and produce the plan the copywriter and the art director will execute.
 
 ${context(j)}
-
-Rules: base everything on the brief. If important information is missing, do not invent it; write it as a direct question for the client in "gaps". Take the local market context seriously and avoid stereotypes. Spread the posts across the platforms and the period. Dates in YYYY-MM-DD within the period, or empty if no period.
+${used.length?`\nATTACHED IMAGES: pages and pictures from the briefing documents. Read them as part of the brief.\n${attachLines(used)}\n`:""}
+Rules: base everything on the brief. If important information is missing, do not invent it; write it as a direct question for the client in "gaps". Take the local context seriously and avoid stereotypes. Spread the posts across the platforms and the period. Dates in YYYY-MM-DD within the period, or empty if there is no period. Posts will be produced in ${langsOf(j).map(l=>LANG_TAG[l]).join(" and ")}.
 
 Reply with only JSON in this shape:
-{"summary":"2-3 sentences","objective":"","audiences":[{"name":"","insight":""}],"keyMessages":[""],"tone":"","mandatories":[""],"restrictions":[""],"pillars":[{"name":"","purpose":""}],"gaps":[""],"risks":[""],"plan":[{"n":1,"date":"","platform":"","format":"feed|portrait|story","pillar":"","angle":"one sentence on what this post does"}]}
+{"summary":"2-3 sentences","objective":"","audiences":[{"name":"","insight":""}],"keyMessages":[""],"tone":"","mandatories":[""],"restrictions":[""],"visualMandatories":["what the brief requires visually: logos, images, colours"],"pillars":[{"name":"","purpose":""}],"gaps":[""],"risks":[""],"plan":[{"n":1,"date":"","platform":"","format":"feed|portrait|story","pillar":"","angle":"one sentence on what this post does"}]}
 The plan must have exactly ${j.postCount} items.`,
-  copy:j=>`You are the Copywriter agent in a social media production pipeline at Playground, Maputo. Write every post in the strategist's plan.
+
+  copy:j=>`You are the Copywriter in a social media production pipeline at Playground in Maputo. Write every post in the strategist's plan.
 
 ${context(j)}
 
 STRATEGY
 ${JSON.stringify(j.analysis)}
 
-LANGUAGE: ${langRules(jobLang(j))}
+LANGUAGES
+${langRules(j)}
+
 ${STYLE}
-Adapt to the platform: LinkedIn longer and professional; Instagram and Facebook short paragraphs; X under 270 characters; TikTok and stories very short. The headline is text placed on the image: maximum 7 words, strong and readable. The subline supports it: maximum 14 words, can be empty.
+
+TEXT ON THE IMAGE (short: the caption carries the detail)
+- kicker: optional label, max 3 words (e.g. the date, "Novo", "Evento")
+- headline: max 7 words, the hook of the visual
+- subline: optional, max 14 words
+- body: optional, max 25 words, only when the post needs details such as time and place
+- cta: optional, max 4 words
+- footnote: optional, only for a legal or mandatory line from the brief
+CAPTIONS: adapt to the platform. LinkedIn longer and professional; Instagram and Facebook short paragraphs; X under 270 characters; TikTok and stories very short.
 
 Reply with only a JSON array, one object per post in plan order:
-[{"n":1,"platform":"","format":"","date":"","pillar":"","hook":"first line of the caption","headline":"","subline":"","caption":"full caption, use \\n for line breaks"${jobLang(j)==="both"?',"captionEn":"English version of the caption"':""},"hashtags":["#tag"],"cta":"short call to action","altText":"description of the intended image for accessibility"}]`,
-  visual:(j,imgList)=>`You are the Art Director agent in a social media production pipeline at Playground, Maputo. Define the visual identity for this set of posts and art-direct each one.
+[{"n":1,"platform":"","format":"","date":"","pillar":"",${langKeys(j)}}]
+Use \\n for line breaks inside captions.`,
+
+  direction:(j,posts,used,lib)=>`You are the Art Director of Playground, a communication agency in Maputo with clients across Mozambique and South Africa. Set the visual direction for this social media campaign. Your bar is the best agency work in Johannesburg, Lisbon and London: bold, simple, memorable and specific to this client. Never generic, never a stock template, never clip-art.
 
 ${context(j)}
 
+STRATEGY
+${JSON.stringify({objective:j.analysis?.objective,audiences:j.analysis?.audiences,keyMessages:j.analysis?.keyMessages,tone:j.analysis?.tone,visualMandatories:j.analysis?.visualMandatories,pillars:j.analysis?.pillars})}
+
 POSTS
-${JSON.stringify((j.posts||[]).map(p=>({n:p.n,platform:p.platform,format:p.format,pillar:p.pillar,headline:p.headline,subline:p.subline,caption:String(p.caption||"").slice(0,400)})))}
+${JSON.stringify(posts.map(p=>({n:p.n,platform:p.platform,format:p.format,pillar:p.pillar,headline:p.pt?.headline||p.en?.headline,headlineEn:p.en?.headline,subline:p.pt?.subline||p.en?.subline})))}
 
 IMAGES ATTACHED (in order)
-${imgList.length?imgList.map((x,i)=>`Image ${i+1}: ${x.label}`).join("\n"):"None attached."}
-Visuals named V1, V2… are client-approved and may be placed in posts. References named R1, R2… are inspiration only: never place them in a post. Logos named L1… show the brand identity. All client visuals, attached or not: ${(j.assets||[]).filter(a=>a.kind==="visual"&&a.id&&/^image\//.test(a.type||"")).map((a,i)=>"V"+(i+1)+" \""+a.name+"\"").join(", ")||"none"}. Choose a visual you have not seen only if its file name makes it clearly suitable.
+${used.length?attachLines(used):"None could be attached. Work from the library descriptions."}
 
-The page renders each post automatically from your spec with these layouts:
-- "photo": visual full-bleed, text over a scrim in the bg colour
-- "split": visual on the top 58%, colour block with text below
-- "frame": colour frame around the visual, text below it
-- "type": colour block with typography only
-Use photo, split or frame only when a suitable V# exists. Otherwise use "type" and write genPrompt, a detailed prompt to produce the right image later (subject, setting in Mozambique if relevant, light, composition, leave space for text, no text in the image). Vary layouts across the set so the feed has rhythm. Use the brand palette; fg must contrast strongly with bg.
+IMAGE LIBRARY (every image available, by code)
+${lib.map(imgLine).join("\n")||"No images uploaded."}
+
+FONTS AVAILABLE (exact family names and weights)
+${fontListText(clientOf(j))}
+
+How to use the material:
+- Style references set the look. Study each one and say precisely what you take from it: layout structure, type treatment (weight, case, scale contrast), colour use, photo treatment, graphic devices, texture, rhythm. Translate it into this brand. Never copy another brand's logo, slogan or artwork.
+- The client's photos and graphics are the main material. Use them in every post where one fits and decide which image goes where. Images marked "post" from the briefing documents can be used too.
+- Where no image fits, plan an original graphic composition (shapes, pattern, flat illustration, bold typography) and write an image prompt so a matching image can be generated or shot.
+- Respect the brand colours, the visual identity notes and the client's rules. The logo goes on every post.
 
 Reply with only JSON:
-{"identity":{"palette":["#RRGGBB"],"mood":"few words","typography":"archivo|fraunces|plex","notes":"one or two sentences on the art direction"},"posts":[{"n":1,"concept":"","layout":"photo|split|frame|type","visual":"V1 or null","bg":"#RRGGBB","fg":"#RRGGBB","accent":"#RRGGBB","font":"archivo|fraunces|plex","textPosition":"top|center|bottom","genPrompt":"","designerNotes":"what a designer should refine before publishing"}]}`,
-  qa:j=>`You are the Brand QA agent in a social media production pipeline at Playground, Maputo. Check every post as a demanding account director would, before it goes to the client.
+{"bigIdea":"the campaign's visual idea in one line","concept":"2-3 sentences","fromReferences":[{"code":"img-xxxxxxxx","take":"what exactly we take from it"}],"palette":[{"hex":"#RRGGBB","role":"background, accent, text..."}],"typography":{"display":{"family":"","weight":800,"case":"upper|none"},"text":{"family":"","weight":400},"accent":{"family":"","weight":700}},"photoTreatment":"","graphicDevices":["",""],"layoutSystem":"how the layouts vary across the set while staying one family","logoRule":"where the logo sits and which colour version","posts":[{"n":1,"idea":"what this post's visual does","layout":"the composition in one sentence","images":["img-xxxxxxxx"],"needsNewImage":false,"imagePrompt":""}]}
+"images" lists the images to place in that post (0 to 2), by code. When no suitable image exists set needsNewImage true and write imagePrompt: subject, setting (Mozambique or South Africa when relevant), people, light, composition with space for text, photographic or illustration style, and no words in the image.`,
+
+  design:(j,p,plan,used,lib,o)=>{const F=sizeOf(j,p),W=F.w,H=F.h;const langs=langsOf(j);
+    const texts=SLOTS.map(s=>{const v=langs.map(l=>p[l]?.[s]?`${LANG_TAG[l]} "${p[l][s]}"`:"").filter(Boolean);return v.length?`${s}: ${v.join(" | ")}`:""}).filter(Boolean).join("\n");
+    return `You are the Art Director of Playground in Maputo. Design post ${p.n} of the campaign as a finished, publish-ready visual. It must look like premium agency work, not a template.
+
+CAMPAIGN DIRECTION (follow it)
+${compactDir(j.direction)}
+
+CLIENT: ${clientOf(j)?.name||""}. Brand colours: ${(clientOf(j)?.palette||[]).join(", ")||"see direction"}. Visual identity notes: ${clientOf(j)?.look||"-"}. Never do: ${clientOf(j)?.donts||"-"}.
+
+THIS POST
+Platform: ${p.platform} | Format: ${F.label}, canvas ${W}x${H}px | Date: ${p.date||"-"} | Pillar: ${p.pillar||"-"}
+Idea: ${plan?.idea||"-"}
+Planned composition: ${plan?.layout||"-"}
+Images planned for this post: ${(plan?.images||[]).join(", ")||"none (create an original graphic composition)"}
+${o.note?`CHANGE REQUESTED BY THE ACCOUNT TEAM: ${o.note}\n`:""}${o.variant?"Make a clearly different composition from the current design, still inside the campaign system.\n":""}
+TEXT FOR THE IMAGE (${langs.length>1?"one design serves both languages; make the boxes fit the longer version":"one language"})
+${texts||"(no text)"}
+
+IMAGES ATTACHED (in order)
+${used.length?attachLines(used):"None could be attached. Use the library descriptions."}
+The logo is placed by the page: you only set its box and colour version. ${o.logoNote||""}
+
+IMAGE LIBRARY (any of these can be placed by code)
+${lib.map(imgLine).join("\n")||"No images."}
+
+FONTS (exact family names and weights)
+${fontListText(clientOf(j))}
+${o.current?`\nCURRENT DESIGN (${o.variant?"do something clearly different":"revise it according to the request, keep what works"})\n${designToText(o.current)}\n`:""}
+HOW THE POST IS BUILT
+The page composes four layers in this order:
+1. Background: an SVG you write. Everything visual except words and the logo: colour fields, photos, masks, shapes, patterns, illustration, texture.
+2. Text boxes: set by the page with real fonts. It wraps lines and shrinks the size to fit each box, separately for each language.
+3. Foreground: an optional SVG drawn over the text (a sticker, a frame, a shape overlapping a letter). Usually empty.
+4. Logo: drawn by the page inside the box you define.
+
+SVG RULES
+- Root: <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 ${W} ${H}' width='${W}' height='${H}'>. Use single quotes for every attribute value.
+- Place images with <image href='img-xxxxxxxx' x='0' y='0' width='${W}' height='${H}' preserveAspectRatio='xMidYMid slice'/>. Crop with intent: choose the alignment (xMinYMin to xMaxYMax) that keeps the focal point, or make the image bigger than its frame inside a clipPath. Never distort an image.
+- Allowed: rect, circle, ellipse, line, polyline, polygon, path, g, use, defs, linearGradient, radialGradient, stop, pattern, clipPath, mask, filter (feTurbulence, feColorMatrix, feComponentTransfer, feGaussianBlur, feOffset, feFlood, feComposite, feBlend, feMerge, feDisplacementMap, feMorphology).
+- Not allowed: text, tspan, foreignObject, script, external URLs, base64 data. Every word goes in a text box.
+- Keep each SVG under 12 KB.
+
+TECHNIQUES THAT LOOK GOOD (pick what fits the direction)
+- Duotone or tinted photo: feColorMatrix, or a colour rect over the photo with style='mix-blend-mode:multiply'.
+- Film grain: feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' with feColorMatrix to a low alpha, on a rect over the whole canvas.
+- Photo inside a circle, arch, rounded card, organic blob or torn edge via clipPath.
+- Bold diagonal or curved colour blocks, offset colour frames, overlapping cards with soft shadows (feGaussianBlur on a dark shape).
+- Pattern fills (dots, stripes, geometric textile-inspired motifs) via <pattern>, used with restraint.
+- Gradient scrim behind text that sits on a photo.
+- A simple flat illustration built from shapes when no photo fits.
+
+TEXT BOX FIELDS (example)
+{"slot":"headline","x":80,"y":700,"w":920,"h":330,"font":"Anton","weight":400,"italic":false,"size":180,"minSize":80,"lineHeight":0.95,"tracking":0,"case":"upper","color":"#FFFFFF","align":"left","valign":"bottom","highlight":null,"stroke":null,"fill":true,"shadow":null,"rotate":0,"opacity":1}
+- slot: headline, subline, kicker, body, cta, footnote, or custom. A custom box adds "text":{"pt":"…","en":"…"} for extra words such as a date badge or "NOVO / NEW".
+- Every slot that has text above needs a box (body and footnote may be left out if the design is better without them). Never repeat the same words in two boxes.
+- size is the largest size in px; the page shrinks it to fit. Make boxes generous for the longer language. Headlines usually 110 to 230 px on feed and portrait, 130 to 260 px on story. Nothing below 28 px.
+- lineHeight is a multiple of the size. tracking is in em (0.06 = 6%). case is "upper" or "none".
+- highlight draws a marker block behind each line: {"color":"#RRGGBB","padX":16,"padY":8,"radius":4}.
+- stroke outlines letters: {"color":"#RRGGBB","width":3}; add "fill":false for outline-only type.
+- shadow: {"color":"rgba(0,0,0,0.35)","blur":24,"x":0,"y":8}.
+
+LOGO FIELDS
+{"x":${W-300},"y":${H-170},"w":220,"h":90,"align":"right","variant":"original","opacity":1}
+variant: original, white, black or a hex colour. Use white or black when the original would not read on its background.
+
+QUALITY BAR
+- One clear focal point and an obvious hierarchy: headline, image, details.
+- Margins of at least 64 px.${p.format==="story"?" Keep text and logo between y=250 and y=1580 (the app covers the rest), but let the background art fill the whole canvas.":""}
+- Text never sits on a busy part of a photo without a block, scrim or highlight. Contrast at least 4.5:1 for small text and 3:1 for the headline.
+- Never put text over faces or the product.
+- Fewer, bigger elements, and breathing space.
+- It must clearly belong to the campaign system and show what the direction takes from the references.
+
+Reply in exactly this format and nothing else:
+<concept>Two sentences: the idea of this post and what it takes from the references.</concept>
+<background>
+<svg ...>...</svg>
+</background>
+<foreground>
+</foreground>
+<spec>
+{"texts":[...],"logo":{...}}
+</spec>`},
+
+  review:(j,p,plan,labels,text,warn)=>`You are the Art Director of Playground checking your own post before it goes to the creative director.
+Attached images, in order:
+${labels.map((u,i)=>`Image ${i+1} = ${u}`).join("\n")}
+
+CAMPAIGN DIRECTION
+${compactDir(j.direction)}
+
+THIS POST: ${p.platform}, ${sizeOf(j,p).label} (${sizeOf(j,p).w}x${sizeOf(j,p).h}px). Idea: ${plan?.idea||"-"}
+
+YOUR DESIGN
+${text}
+${warn.length?`\nTHE PAGE REPORTED\n- ${warn.join("\n- ")}\n`:""}
+Look hard at the renders as a demanding creative director would. Check the hierarchy and focal point, legibility and contrast, text over faces, products or busy areas, text that is too small, cramped or badly broken into lines, awkward crops, empty or unbalanced areas, logo size, clear space and colour, alignment and margins, consistency with the campaign direction, and whether it really looks like premium agency work. Fix everything that is not excellent, keep what works, and do not make it busier.
+
+Reply in exactly the same format (<concept>, <background>, <foreground>, <spec>) with the complete corrected design. Same rules: single quotes in the SVG, images only by their img- code, no words inside the SVG, all text in text boxes.`,
+
+  fix:(err,text)=>`The page could not render this design: ${err}
+
+${text}
+
+Return the complete corrected design in exactly the same format (<concept>, <background>, <foreground>, <spec>): valid XML in the SVGs with single-quoted attributes, images only by their img- code, and valid JSON in <spec>.`,
+
+  qa:(j,posts,used)=>`You are the Brand QA lead at Playground in Maputo. Check every post as a demanding account director would before it goes to the client.
 
 ${context(j)}
 
 STRATEGY
 ${JSON.stringify({mandatories:j.analysis?.mandatories,restrictions:j.analysis?.restrictions,keyMessages:j.analysis?.keyMessages,tone:j.analysis?.tone})}
 
-POSTS
-${JSON.stringify((j.posts||[]).map(p=>({n:p.n,platform:p.platform,headline:p.headline,subline:p.subline,caption:p.caption,captionEn:p.captionEn,hashtags:p.hashtags,cta:p.cta})))}
+LANGUAGES
+${langRules(j)}
 
-LANGUAGE: ${langRules(jobLang(j))}
 ${STYLE}
-Check: facts or claims not supported by the brief, legal or reputational risk, wrong language variety or spelling, clichés, tone, length for the platform, headline readability, CTA clarity, hashtag relevance, mandatories respected, restrictions respected.
-Score 5 = ready for the client, 3 = needs edits, 1 = should be rewritten.
+
+POSTS
+${JSON.stringify(posts.map(p=>{const o={n:p.n,platform:p.platform};for(const l of langsOf(j)) o[l]=p[l];return o}))}
+${used.length?`\nRENDERED DESIGNS ATTACHED (in order)\n${used.map((u,i)=>`Image ${i+1} = ${u}`).join("\n")}\n`:""}
+Check: facts or claims not in the brief; legal or reputational risk; wrong language variety or spelling (Brazilian Portuguese, post-Agreement spelling, American English); the two versions saying different things; clichés; tone; length for the platform; on-image text that is too long; CTA; hashtags; mandatories and restrictions${used.length?"; and in the renders: legibility, contrast, crop, clutter, logo, consistency across the set":""}.
+Score 5 = ready for the client, 3 = needs edits, 1 = rewrite.
 
 Reply with only JSON:
-{"overall":"two sentences on the set","posts":[{"n":1,"score":5,"issues":["specific issue"],"fix":{"headline":"","subline":"","caption":""}}]}
-Fill a fix field only when you would change it; leave it empty otherwise.`
-};
+{"overall":"two sentences on the set","posts":[{"n":1,"score":5,"issues":["[PT] specific issue","[EN] ...","[Design] ..."],"fix":{"pt":{"headline":"","caption":""},"en":{}}}]}
+In "fix" include only fields you would change, with the full corrected text. Design issues are listed, not fixed.`,
 
-async function collectImages(j){
-  const max=S.limits?.images?.maxCount||0;if(!max) return {blobs:[],list:[]};
-  const c=clientOf(j);const ok=a=>a.id&&SAMPLE_IMG_TYPES.includes(a.type);
-  const logos=(c?.logos||[]).filter(ok).slice(0,1).map((a,i)=>({a,label:`L${i+1} logo "${a.name}"`}));
-  const allVis=(j.assets||[]).filter(a=>a.kind==="visual"&&a.id&&/^image\//.test(a.type||""));
-  const vis=allVis.map((a,i)=>({a,label:`V${i+1} visual "${a.name}"`})).filter(x=>ok(x.a));
-  const refs=(j.assets||[]).filter(a=>a.kind==="reference").filter(ok).map((a,i)=>({a,label:`R${i+1} reference "${a.name}"`}));
-  const room=Math.max(0,max-logos.length);
-  const nRef=Math.min(refs.length,3,vis.length?Math.max(0,room-Math.min(vis.length,Math.max(1,room-3))):room);
-  const picked=[...logos,...vis.slice(0,room-nRef),...refs.slice(0,nRef)].slice(0,max);
-  const blobs=[],list=[];
-  for(const x of picked){try{const r=await fetch("/_blob/"+x.a.id);if(!r.ok) continue;const b=await r.blob();if(b.size>(S.limits.images.maxInputBytes||2e7)) continue;blobs.push(b);list.push(x)}catch(e){}}
-  return {blobs,list};
-}
-
-function setLive(id,txt){const r=S.runs[id];if(!r) return;r.live=txt;const el=$("#live");if(el&&S.view.name==="job"&&S.view.id===id){el.textContent=txt;el.scrollTop=el.scrollHeight}}
-
-async function runPipeline(id,stages){
-  if(!S.sample) return toast("The agents need Claude access in this view.");
-  if(S.runs[id]?.running) return;
-  const run=S.runs[id]={running:true,stage:null,ctl:null,live:"Starting…"};render();
-  try{
-    for(const k of stages){
-      const j=jobById(id);if(!j) break;
-      if(k==="strategist"&&!(j.briefText||"").trim()) throw {code:"user",message:"Add the brief first."};
-      if(k==="copy"&&!j.analysis) throw {code:"user",message:"Run the strategist first."};
-      if((k==="visual"||k==="qa")&&!(j.posts||[]).length) throw {code:"user",message:"Run the copywriter first."};
-      run.stage=k;run.ctl=new AbortController();const name=AGENTS.find(a=>a.k===k).name;
-      setLive(id,`${name} is thinking…`);render();
-      let opts={signal:run.ctl.signal,cache:false,onText:({text})=>setLive(id,`${name} is writing… ${text.length.toLocaleString()} characters\n\n${text.slice(-500)}`)};
-      let prompt;
-      if(k==="visual"){const {blobs,list}=await collectImages(j);prompt=PROMPTS.visual(j,list);if(blobs.length) opts.images=blobs;setLive(id,`${name} is looking at ${blobs.length} image${blobs.length===1?"":"s"}…`)}
-      else prompt=PROMPTS[k](j);
-      let out;
-      try{out=await S.sample.json(prompt,opts)}
-      catch(e){if(e?.code!=="cancelled") await patchDoc("jobs/"+id,{agents:{...clone(jobById(id).agents||{}),[k]:{status:"error",at:Date.now(),error:sampleMsg(e)}}}).catch(()=>{});throw e}
-      await applyOutput(id,k,out);
-    }
-    setLive(id,"Done. Review the posts below.");toast("Agents finished");
-  }catch(e){
-    if(e?.code==="user"){toast(e.message);setLive(id,e.message)}
-    else{setLive(id,sampleMsg(e));if(e?.code!=="cancelled") toast(sampleMsg(e))}
-  }finally{run.running=false;run.stage=null;render()}
-}
-async function applyOutput(id,k,out){
-  const j=jobById(id);const agents={...clone(j.agents||{}),[k]:{status:"done",at:Date.now()}};const patch={agents,updatedAt:Date.now()};
-  if(k==="strategist"){
-    if(!out||typeof out!=="object"||!Array.isArray(out.plan)) throw {code:"invalid_json"};
-    patch.analysis=out;
-  }
-  if(k==="copy"){
-    const arr=Array.isArray(out)?out:Array.isArray(out?.posts)?out.posts:null;if(!arr) throw {code:"invalid_json"};
-    const old=j.posts||[];
-    patch.posts=arr.map((p,i)=>{const n=p.n??i+1;const prev=old.find(o=>o.n===n);return {n,platform:p.platform||j.platforms?.[0]||"",format:FORMATS[p.format]?p.format:j.format,date:p.date||"",pillar:p.pillar||"",hook:p.hook||"",headline:p.headline||"",subline:p.subline||"",caption:p.caption||"",...(p.captionEn!=null?{captionEn:p.captionEn}:{}),hashtags:Array.isArray(p.hashtags)?p.hashtags:[],cta:p.cta||"",altText:p.altText||"",visual:prev?.visual||null,status:"draft"}});
-    patch.qaOverall=null;
-  }
-  if(k==="visual"){
-    if(!out||!Array.isArray(out.posts)) throw {code:"invalid_json"};
-    patch.identity=out.identity||null;
-    patch.posts=clone(j.posts).map(p=>{const v=out.posts.find(x=>x.n===p.n);return v?{...p,visual:{concept:v.concept||"",layout:LAYOUTS.includes(v.layout)?v.layout:"type",visual:v.visual&&v.visual!=="null"?v.visual:null,bg:hex(v.bg)||"",fg:hex(v.fg)||"",accent:hex(v.accent)||"",font:FONTS[v.font]?v.font:"archivo",textPosition:v.textPosition||"",genPrompt:v.genPrompt||"",designerNotes:v.designerNotes||""}}:p});
-  }
-  if(k==="qa"){
-    if(!out||!Array.isArray(out.posts)) throw {code:"invalid_json"};
-    patch.qaOverall=out.overall||"";
-    patch.posts=clone(j.posts).map(p=>{const q=out.posts.find(x=>x.n===p.n);return q?{...p,qa:{score:Math.max(1,Math.min(5,+q.score||3)),issues:Array.isArray(q.issues)?q.issues:[],fix:q.fix||null}}:p});
-  }
-  await patchDoc("jobs/"+id,patch);
-  const cur=jobById(id);if(cur) Object.assign(cur,clone(patch));
-}
-async function revisePost(id,i,note){
-  if(!S.sample) return;const j=jobById(id);const p=j.posts[i];
-  const run=S.runs[id]={running:true,stage:"copy",ctl:new AbortController(),live:`Copywriter is revising post ${p.n}…`};render();
-  try{
-    const out=await S.sample.json(`You are the Copywriter agent in a social media production pipeline at Playground, Maputo. The account manager asked for changes to one post. Rewrite it following the note, keeping everything that was not criticised.
+  reviseCopy:(j,p,note)=>`You are the Copywriter at Playground in Maputo. The account team asked for changes to one post. Rewrite it following the note and keep what was not criticised.
 
 ${context(j)}
 
-LANGUAGE: ${langRules(jobLang(j))}
+LANGUAGES
+${langRules(j)}
+
 ${STYLE}
 
 CURRENT POST
-${JSON.stringify({n:p.n,platform:p.platform,headline:p.headline,subline:p.subline,caption:p.caption,captionEn:p.captionEn,hashtags:p.hashtags,cta:p.cta})}
+${JSON.stringify(Object.fromEntries(langsOf(j).map(l=>[l,p[l]])))}
 
-ACCOUNT MANAGER NOTE
+NOTE FROM THE ACCOUNT TEAM
 ${note}
 
-Reply with only one JSON object with the same keys as the current post.`,{signal:run.ctl.signal,cache:false,onText:({text})=>setLive(id,`Revising post ${p.n}… ${text.length} characters`)});
-    const posts=clone(jobById(id).posts);const q=posts[i];
-    for(const k of ["headline","subline","caption","captionEn","cta"]) if(typeof out?.[k]==="string") q[k]=out[k];
-    if(Array.isArray(out?.hashtags)) q.hashtags=out.hashtags;
-    q.status="draft";q.revisedFrom=note;q.note="";q.qa=null;
-    await savePosts(id,posts);setLive(id,`Post ${p.n} revised. Check it and approve.`);toast(`Post ${p.n} revised`);
-  }catch(e){setLive(id,sampleMsg(e));if(e?.code!=="cancelled") toast(sampleMsg(e))}
-  finally{run.running=false;run.stage=null;render()}
+Reply with only one JSON object: {${langKeys(j)}}`
+};
+function designToText(d){return `<concept>${d.concept||""}</concept>\n<background>\n${d.bg||""}\n</background>\n<foreground>\n${d.fg||""}\n</foreground>\n<spec>\n${JSON.stringify({texts:d.texts||[],logo:d.logo||null})}\n</spec>`}
+function parseDesign(text,W,H){
+  const get=tag=>{const m=new RegExp(`<${tag}>([\\s\\S]*?)</${tag}>`,"i").exec(text);return m?m[1].trim():""};
+  const svgOf=s=>{const a=s.search(/<svg[\s>]/i),b=s.toLowerCase().lastIndexOf("</svg>");return a>=0&&b>a?s.slice(a,b+6):""};
+  const bg=svgOf(get("background"));if(!bg) throw {svg:true,message:"The design has no background SVG."};
+  const raw=get("spec").replace(/^```(?:json)?/i,"").replace(/```$/,"").trim();const a=raw.indexOf("{"),b=raw.lastIndexOf("}");if(a<0||b<a) throw {svg:true,message:"The <spec> block is missing."};
+  let spec;try{spec=JSON.parse(raw.slice(a,b+1))}catch(e){throw {svg:true,message:"The <spec> block is not valid JSON."}}
+  const texts=(Array.isArray(spec.texts)?spec.texts:[]).filter(t=>t&&(SLOTS.includes(t.slot)||t.slot==="custom")).map(t=>({...t,x:num(t.x),y:num(t.y),w:num(t.w,W-160),h:num(t.h,200),size:num(t.size,80)}));
+  const lg=spec.logo&&typeof spec.logo==="object"?spec.logo:{x:W-300,y:H-170,w:220,h:90,align:"right",variant:"original"};
+  return {concept:get("concept"),bg,fg:svgOf(get("foreground")),texts,logo:lg};
 }
 
-// ---------- boot ----------
+// ================= agents =================
+function logLine(run,line){run.log=[...(run.log||[]),line].slice(-40);updateLive(run)}
+function updateLive(run){const el=$("#live");if(el&&S.view.name==="job"&&S.runs[S.view.id]===run){el.textContent=liveText(run);el.scrollTop=el.scrollHeight}}
+function setDetail(run,d){run.detail=d;const step=document.querySelector(".pipe .step.running .d");if(step) step.textContent=d}
+function sampleMsg(e){return ({not_granted:"Claude access was declined for this page, so the agents can't run. Allow it from the page's permissions menu and reload.",rate_limited:"Too many requests right now. Wait a minute and run the agent again.",session_expired:"Your Claude session expired. Sign in again.",refused:"Claude declined this request. Check the brief for unusual content and try again.",invalid_json:"The agent's answer could not be read. Run it again.",prompt_too_large:"The brief is too long. Shorten it or remove extracted text you don't need.",sampling_disabled:"Claude is not available for this account.",image_rejected:"One of the images could not be read. Try PNG or JPG.",images_unavailable:"This view can't send images to Claude.",cancelled:"Stopped.",user:e?.message})[e?.code]||e?.message||"The agent hit a problem. Run it again."}
+async function ask(run,who,prompt,{json=false,images=null,tier="default"}={}){
+  const opts={signal:run.ctl.signal,cache:false,modelTier:tier,onText:({text})=>{run.streams={...(run.streams||{}),[who]:text.length};updateLive(run)}};
+  if(images&&images.length) opts.images=images;
+  const t0=Date.now();
+  try{const r=json?await S.sample.json(prompt,opts):(await S.sample(prompt,opts)).text;logLine(run,`${who}: done in ${Math.round((Date.now()-t0)/1000)} s`);return r}
+  finally{if(run.streams){delete run.streams[who];updateLive(run)}}
+}
+async function runTask(id,label,fn){
+  if(!S.sample) return toast("The agents need Claude access in this view.");
+  if(S.runs[id]?.running) return toast("The agents are already working on this job.");
+  const run=S.runs[id]={running:true,stage:null,ctl:new AbortController(),log:[label+"…"],streams:{},detail:""};render();
+  try{await fn(run);logLine(run,"Done.");toast(label+": done")}
+  catch(e){logLine(run,sampleMsg(e));if(e?.code!=="cancelled") toast(sampleMsg(e))}
+  finally{run.running=false;run.streams={};render()}
+}
+async function runPipeline(id,stages){
+  if(!S.sample) return toast("The agents need Claude access in this view.");
+  if(S.runs[id]?.running) return;
+  const run=S.runs[id]={running:true,stage:null,ctl:new AbortController(),log:[],streams:{},detail:""};render();
+  try{
+    for(const k of stages){
+      if(run.ctl.signal.aborted) throw {code:"cancelled"};
+      run.stage=k;run.detail="";logLine(run,`${AGENTS.find(a=>a.k===k).name} started`);render();
+      await RUNNERS[k](id,run);
+      await patchDoc("jobs/"+id,{agents:{[k]:{status:"done",at:Date.now(),error:""}},updatedAt:Date.now()}).catch(()=>{});
+    }
+    logLine(run,stages.length>1?"All agents finished. Review the proofs below.":"Finished.");toast("Agents finished");
+  }catch(e){
+    const msg=sampleMsg(e);logLine(run,msg);
+    if(run.stage&&e?.code!=="cancelled") await patchDoc("jobs/"+id,{agents:{[run.stage]:{status:"error",at:Date.now(),error:msg}}}).catch(()=>{});
+    if(e?.code!=="cancelled") toast(msg);
+  }finally{run.running=false;run.stage=null;run.streams={};render()}
+}
+const RUNNERS={
+  async strategist(id,run){
+    const j=jobById(id);const pages=(j.assets||[]).filter(a=>isImg(a)&&a.kind==="briefpage");
+    if(!(j.briefText||"").trim()&&!pages.length) throw userErr("Add the brief first.");
+    const {blobs,used}=canSendImages()?await blobsFor(pages.slice(0,Math.min(6,maxImages()))):{blobs:[],used:[]};
+    setDetail(run,"reading the brief");
+    const out=await ask(run,"Strategist",PROMPTS.strategist(j,used),{json:true,images:blobs});
+    if(!out||typeof out!=="object"||!Array.isArray(out.plan)) throw {code:"invalid_json"};
+    await patchDoc("jobs/"+id,{analysis:out,updatedAt:Date.now()});jobById(id).analysis=out;
+  },
+  async copy(id,run){
+    const j=jobById(id);if(!j.analysis) throw userErr("Run the strategist first.");
+    setDetail(run,"writing the posts");
+    const out=await ask(run,"Copywriter",PROMPTS.copy(j),{json:true});
+    const arr=Array.isArray(out)?out:Array.isArray(out?.posts)?out.posts:null;if(!arr||!arr.length) throw {code:"invalid_json"};
+    const existing=await getPosts(id);const langs=langsOf(j);
+    const clean=o=>{const r={};for(const s of SLOTS) r[s]=String(o?.[s]||"").trim();r.caption=String(o?.caption||"");r.hashtags=Array.isArray(o?.hashtags)?o.hashtags.map(String):[];r.altText=String(o?.altText||"");return r};
+    for(let i=0;i<arr.length;i++){
+      const it=arr[i],n=i+1,pid=pidOf(n),prev=existing.find(p=>p.id===pid),plan=j.analysis.plan?.[i]||{};
+      const doc={n,platform:it.platform||plan.platform||j.platforms?.[0]||"",format:FORMATS[it.format]?it.format:FORMATS[plan.format]?plan.format:j.format,date:it.date||plan.date||"",pillar:it.pillar||plan.pillar||"",angle:plan.angle||"",
+        status:"draft",note:"",qa:null,design:prev?.design||null,prevDesign:prev?.prevDesign||null,plan:prev?.plan||null,gen:prev?.gen||null,updatedAt:Date.now()};
+      for(const l of langs) doc[l]=clean(it[l]||(langs.length===1?it:null));
+      await S.db.doc(`jobs/${id}/posts/${pid}`).set(doc);
+    }
+    for(const p of existing) if(p.n>arr.length) await S.db.doc(`jobs/${id}/posts/${p.id}`).delete().catch(()=>{});
+    await patchDoc("jobs/"+id,{summary:{total:arr.length,approved:0},posts:null,qaOverall:"",v:2,updatedAt:Date.now()});
+  },
+  async visual(id,run){
+    await catalogue(id,run);
+    let j=jobById(id);const posts=await getPosts(id);if(!posts.length) throw userErr("Run the copywriter first.");
+    setDetail(run,"creative direction");
+    const lib=allImages(j).filter(a=>a.kind!=="logo"&&roleOf(a)!=="none");
+    const c=clientOf(j);const logo=(c?.logos||[]).find(isImg);
+    const refs=lib.filter(a=>roleOf(a)==="style"&&a.kind!=="briefpage"),pageRefs=lib.filter(a=>a.kind==="briefpage"),vis=lib.filter(a=>roleOf(a)==="post");
+    const max=maxImages();const pick=max?[...(logo?[{...logo,kind:"logo"}]:[]),...refs.slice(0,4),...vis.slice(0,6),...pageRefs.slice(0,2)].slice(0,max):[];
+    const {blobs,used}=await blobsFor(pick);
+    const dir=await ask(run,"Art director",PROMPTS.direction(j,posts,used,lib),{json:true,images:blobs,tier:j.quality==="fast"?"default":"complex"});
+    if(!dir||typeof dir!=="object"||!Array.isArray(dir.posts)) throw {code:"invalid_json"};
+    await patchDoc("jobs/"+id,{direction:dir,updatedAt:Date.now()});j=jobById(id);j.direction=dir;
+    for(const p of posts){const pl=dir.posts.find(x=>+x.n===+p.n)||{};const plan={idea:String(pl.idea||""),layout:String(pl.layout||""),images:(Array.isArray(pl.images)?pl.images:[]).map(x=>String(x).toLowerCase()).filter(cd=>assetByCode(j,cd)).slice(0,2),needsNewImage:!!pl.needsNewImage,imagePrompt:String(pl.imagePrompt||"")};await savePost(id,p.id,cur=>cur&&{...cur,plan})}
+    if(S.canva&&j.canva!==false){
+      for(const p of await getPosts(id)){if(!p.plan?.needsNewImage||!p.plan?.imagePrompt) continue;if(run.ctl.signal.aborted) throw {code:"cancelled"};setDetail(run,`Canva image for post ${p.n}`);await canvaForPost(id,p.id,run)}
+    }
+    let done=0;setDetail(run,`designing 0 of ${posts.length}`);
+    await pool(posts,2,async p=>{if(run.ctl.signal.aborted) return;try{await designPost(id,p.id,run,{})}catch(e){if(e?.code==="cancelled") return;logLine(run,`Post ${p.n}: ${sampleMsg(e)}`)}done++;setDetail(run,`designing ${done} of ${posts.length}`)});
+    if(run.ctl.signal.aborted) throw {code:"cancelled"};
+  },
+  async qa(id,run){
+    const j=jobById(id);const posts=await getPosts(id);if(!posts.length) throw userErr("Run the copywriter first.");
+    setDetail(run,"checking copy and designs");
+    const blobs=[],used=[];
+    if(canSendImages()){for(const p of posts.slice(0,maxImages())){if(!p.design) continue;try{const r=await renderPost(j,p,langsOf(j)[0]);const sc=Math.min(1,800/Math.max(r.canvas.width,r.canvas.height));const t=document.createElement("canvas");t.width=Math.round(r.canvas.width*sc);t.height=Math.round(r.canvas.height*sc);t.getContext("2d").drawImage(r.canvas,0,0,t.width,t.height);blobs.push(await canvasBlob(t,"image/jpeg",0.82));used.push(`post ${p.n} rendered (${LANG_TAG[langsOf(j)[0]]})`)}catch(e){}}}
+    const out=await ask(run,"Brand QA",PROMPTS.qa(j,posts,used),{json:true,images:blobs});
+    if(!out||!Array.isArray(out.posts)) throw {code:"invalid_json"};
+    for(const p of posts){const q=out.posts.find(x=>+x.n===+p.n);if(!q) continue;await savePost(id,p.id,cur=>cur&&{...cur,qa:{score:clamp(Math.round(num(q.score,3)),1,5),issues:Array.isArray(q.issues)?q.issues.map(String):[],fix:q.fix&&typeof q.fix==="object"?q.fix:null}})}
+    await patchDoc("jobs/"+id,{qaOverall:String(out.overall||""),updatedAt:Date.now()});
+  }
+};
+async function catalogue(id,run){
+  const j=jobById(id);
+  const todo=[];for(const a of (j.assets||[]).filter(a=>isImg(a)&&IMG_KINDS.includes(a.kind)&&!a.meta?.what)) todo.push(await withDims(clone(a)).catch(()=>clone(a)));
+  if(!todo.length) return;
+  if(!canSendImages()){logLine(run,"Images can't be sent to the agents in this view, so they were not described.");return}
+  const per=Math.max(1,Math.min(8,maxImages()));let doneN=0;
+  for(let i=0;i<todo.length;i+=per){
+    if(run.ctl.signal.aborted) throw {code:"cancelled"};
+    setDetail(run,`looking at images ${Math.min(i+per,todo.length)} of ${todo.length}`);
+    const {blobs,used}=await blobsFor(todo.slice(i,i+per));if(!blobs.length) continue;
+    let out;try{out=await ask(run,"Image analyst",PROMPTS.catalogue(jobById(id),used),{json:true,images:blobs})}catch(e){if(e?.code==="cancelled") throw e;logLine(run,"Image analyst: "+sampleMsg(e));continue}
+    const arr=Array.isArray(out)?out:Array.isArray(out?.images)?out.images:[];
+    await mergeAssets(id,list=>list.map(a=>{const k=used.findIndex(u=>u.id===a.id);if(k<0) return a;const m=arr.find(x=>String(x?.code||"").toLowerCase()===codeOf(a))||arr[k];const base={...a,w:a.w||used[k].w,h:a.h||used[k].h};if(!m) return base;
+      const meta={what:String(m.what||""),colours:(Array.isArray(m.colours)?m.colours:[]).map(hex).filter(Boolean).slice(0,4),mood:String(m.mood||""),focus:m.focus&&typeof m.focus==="object"?{x:clamp(num(m.focus.x,.5),0,1),y:clamp(num(m.focus.y,.5),0,1)}:null,textSpace:String(m.textSpace||""),quality:String(m.quality||""),use:["post","style","none"].includes(m.use)?m.use:"post",rights:String(m.rights||""),notes:String(m.notes||"")};
+      if(a.meta?.userUse){meta.use=a.meta.use;meta.userUse=true}
+      return {...base,meta}}));
+    doneN+=used.length;
+  }
+  logLine(run,`Image analyst described ${doneN} image${doneN===1?"":"s"}.`);
+}
+async function designPost(id,pid,run,o){
+  const j=jobById(id);const cur=(await getPosts(id)).find(p=>p.id===pid);if(!cur) return;
+  if(!j.direction) throw userErr("Run the art director first so the campaign direction exists.");
+  const F=sizeOf(j,cur);const langs=langsOf(j);const plan=cur.plan||{};
+  const c=clientOf(j);const logo=(c?.logos||[]).find(isImg);
+  const lib=allImages(j).filter(a=>a.kind!=="logo"&&roleOf(a)!=="none");
+  const planned=(plan.images||[]).map(cd=>assetByCode(j,cd)).filter(Boolean);
+  const refs=(j.direction.fromReferences||[]).map(r=>assetByCode(j,String(r?.code||"").toLowerCase())).filter(Boolean);
+  const max=maxImages();const pick=max?[...planned.slice(0,2),...refs.slice(0,2),...(logo?[{...logo,kind:"logo"}]:[])].slice(0,max):[];
+  const {blobs,used}=await blobsFor(pick);
+  const tier=j.quality==="fast"?"default":"complex";
+  logLine(run,`Post ${cur.n}: designing${o.note?" with your note":o.variant?" a new version":""}…`);
+  const lnote=await logoNote(c).catch(()=>"");
+  let text=await ask(run,`Post ${cur.n}`,PROMPTS.design(j,cur,plan,used,lib,{note:o.note,variant:o.variant,logoNote:lnote,current:(o.note||o.variant)&&cur.design&&!cur.design.draft?cur.design:null}),{images:blobs,tier});
+  let d,test;
+  for(let attempt=0;attempt<2;attempt++){
+    try{d=parseDesign(text,F.w,F.h);test=await tryRender(j,cur,d,langs)}catch(e){test={error:e?.message||String(e)}}
+    if(!test.error) break;
+    if(attempt===1) throw new Error(`Post ${cur.n}: the design could not be rendered (${test.error})`);
+    logLine(run,`Post ${cur.n}: fixing a render problem…`);
+    text=await ask(run,`Post ${cur.n} fix`,PROMPTS.fix(test.error,text),{tier:"default"});
+  }
+  if(j.quality!=="fast"&&canSendImages()&&!run.ctl.signal.aborted){
+    try{
+      const imgs=[...test.blobs];const labels=langs.map(l=>`your post rendered in ${LANG_TAG[l]}`);
+      if(planned[0]&&imgs.length<max){const b=await sampleBlob(planned[0]);if(b){imgs.push(b);labels.push(`the source photo ${codeOf(planned[0])}`)}}
+      logLine(run,`Post ${cur.n}: reviewing its own render…`);
+      const t2=await ask(run,`Post ${cur.n} review`,PROMPTS.review(j,cur,plan,labels.slice(0,max),designToText(d),test.warn),{images:imgs.slice(0,max),tier:"default"});
+      const d2=parseDesign(t2,F.w,F.h);const r2=await tryRender(j,cur,d2,langs);
+      if(!r2.error){d=d2;test=r2}else logLine(run,`Post ${cur.n}: kept the first version (${r2.error})`);
+    }catch(e){if(e?.code==="cancelled") throw e;logLine(run,`Post ${cur.n}: review skipped (${sampleMsg(e)})`)}
+  }
+  await savePost(id,pid,p=>p&&{...p,design:{...d,at:Date.now(),warn:test.warn||[]},prevDesign:p.design&&!p.design.draft?p.design:p.prevDesign||null,status:p.status==="approved"||o.note?"draft":p.status,...(o.note?{note:"",revisedFrom:o.note}:{})});
+  logLine(run,`Post ${cur.n}: design ready.`);
+}
+async function reviseCopy(id,pid,note,run){
+  const j=jobById(id);const cur=(await getPosts(id)).find(p=>p.id===pid);if(!cur) return;
+  const out=await ask(run,`Post ${cur.n} copy`,PROMPTS.reviseCopy(j,cur,note),{json:true});
+  await savePost(id,pid,p=>{if(!p) return null;for(const l of langsOf(j)){const src=out?.[l];if(!src||typeof src!=="object") continue;const next={...(p[l]||{})};for(const k of [...SLOTS,"caption","altText"]) if(typeof src[k]==="string") next[k]=src[k];if(Array.isArray(src.hashtags)) next.hashtags=src.hashtags.map(String);p[l]=next}p.status="draft";p.revisedFrom=note;p.note="";p.qa=null;return p});
+}
+
+// ================= Canva (beta) =================
+function deepFind(o,pred,depth=0){if(!o||typeof o!=="object"||depth>6) return undefined;for(const [k,v] of Object.entries(o)){if(pred(k,v)) return v;const r=deepFind(v,pred,depth+1);if(r!==undefined) return r}return undefined}
+function deepStrings(o,out=[],depth=0){if(typeof o==="string") out.push(o);else if(o&&typeof o==="object"&&depth<7) for(const v of Object.values(o)) deepStrings(v,out,depth+1);return out}
+function mcpImages(r){const out=[];for(const b of r?.content||[]){if(b?.type==="image"&&b.data) out.push({data:b.data,mime:b.mimeType||"image/png"});if(b?.type==="resource"&&b.resource?.blob&&/^image\//.test(b.resource.mimeType||"")) out.push({data:b.resource.blob,mime:b.resource.mimeType})}for(const s of deepStrings(r?.payload)){const m=/^data:(image\/[a-z+]+);base64,([\s\S]+)$/.exec(s);if(m) out.push({data:m[2],mime:m[1]})}return out}
+function mcpLinks(r){const s=[...(r?.content||[]).filter(b=>b?.type==="text").map(b=>b.text),...deepStrings(r?.payload)].join(" ");return [...new Set((s.match(/https:\/\/[^\s"'<>)\]]+/g)||[]).filter(u=>/canva/i.test(u)))].slice(0,3)}
+function mcpText(r){return [...(r?.content||[]).filter(b=>b?.type==="text").map(b=>b.text),JSON.stringify(r?.payload??"")].join(" ")}
+function mcpMsg(e){return ({needs_reauth:"Reconnect Canva in claude.ai Settings, Connectors.",server_not_connected:"Add the Canva connector in claude.ai Settings, Connectors.",not_in_manifest:"Canva was not allowed for this page.",blocked_by_policy:"Your organisation blocks this Canva tool.",approval_required:"This Canva tool needs approval from your organisation.",selection_required:"Choose which Canva connection to use when the page asks."})[e?.code]||e?.message||"Canva could not generate the image."}
+async function canvaForPost(id,pid,run){
+  const cur=(await getPosts(id)).find(p=>p.id===pid);const prompt=cur?.plan?.imagePrompt;if(!prompt) throw userErr("This post has no image prompt yet. Run the art director first.");
+  if(!S.mcp||!S.canva) throw userErr("Canva is not connected in this view.");
+  const F=sizeOf(jobById(id),cur);logLine(run,`Post ${cur.n}: asking Canva for an image…`);
+  const intent="Generate a campaign image for a social media post being designed in Playground Social Studio";
+  try{
+    const start=await S.mcp.callTool("Canva","generate-image",{prompt:prompt.slice(0,1800),aspectRatio:F.canva,user_intent:intent});
+    let imgs=mcpImages(start),links=mcpLinks(start);
+    const jobId=deepFind(start?.payload,(k,v)=>/^job_?id$/i.test(k)&&typeof v==="string")||(/job[_ ]?id\W{0,4}([A-Za-z0-9_-]{6,})/i.exec(mcpText(start))||[])[1];
+    const t0=Date.now();
+    while(!imgs.length&&jobId&&Date.now()-t0<200000){
+      if(run.ctl.signal.aborted) throw {code:"cancelled"};
+      await sleep(5000);
+      const r=await S.mcp.callTool("Canva","get-generate-image-job",{jobId,user_intent:intent},{cache:false});
+      imgs=mcpImages(r);links=[...new Set([...links,...mcpLinks(r)])];
+      const status=String(deepFind(r?.payload,(k,v)=>/^status$/i.test(k)&&typeof v==="string")||(/\b(SUCCESS|FAILURE|FAILED|PENDING|IN_PROGRESS)\b/.exec(mcpText(r))||[])[1]||"");
+      if(/FAIL/i.test(status)) throw new Error(String(deepFind(r?.payload,(k,v)=>/failure_?message/i.test(k)&&typeof v==="string")||"Canva could not generate the image."));
+      if(/SUCC/i.test(status)&&!imgs.length&&links.length) break;
+    }
+    if(imgs.length){
+      const b=b64Blob(imgs[0].data,imgs[0].mime);const info=await prepImageBlob(new File([b],"canva."+(imgs[0].mime.split("/")[1]||"png"),{type:imgs[0].mime}));
+      const rec=await storeBlob(info.blob,info.type,{name:`canva-post-${cur.n}.${info.type==="image/png"?"png":"jpg"}`,kind:"generated",w:info.w,h:info.h,alpha:info.alpha,forPost:cur.n,meta:{what:"Generated with Canva for post "+cur.n+": "+prompt.slice(0,240),use:"post",rights:"client",quality:"high",colours:[],textSpace:"",notes:""}});
+      await mergeAssets(id,list=>[...list,rec]);
+      await savePost(id,pid,p=>p&&{...p,plan:{...(p.plan||{}),images:[codeOf(rec),...((p.plan?.images)||[])].slice(0,2),needsNewImage:false},gen:{status:"done",links,at:Date.now()}});
+      logLine(run,`Post ${cur.n}: Canva image added to the job.`);return true;
+    }
+    await savePost(id,pid,p=>p&&{...p,gen:{status:links.length?"links":"error",links,error:links.length?"":"Canva did not return an image.",at:Date.now()}});
+    logLine(run,`Post ${cur.n}: Canva ${links.length?"made the image, but it can only be opened in Canva":"did not return an image"}.`);return false;
+  }catch(e){
+    if(e?.code==="cancelled") throw e;
+    await savePost(id,pid,p=>p&&{...p,gen:{status:"error",links:[],error:mcpMsg(e),at:Date.now()}}).catch(()=>{});
+    logLine(run,`Post ${cur.n}: ${mcpMsg(e)}`);return false;
+  }
+}
+
+// ================= export =================
+function csvCell(s){s=String(s??"");return /[",\n]/.test(s)?`"${s.replace(/"/g,'""')}"`:s}
+async function exportPackage(j){
+  toast("Building the package…");
+  try{
+    const Zip=await ensureZip();const zip=new Zip();const posts=S.posts[j.id]||[];const langs=langsOf(j);
+    const head=["post","date","platform","format","pillar","status"];for(const l of langs) head.push(...["headline","subline","caption","hashtags","cta","alt_text"].map(k=>`${k}_${l}`));head.push("image_prompt");
+    const rows=[head];
+    for(const p of posts){
+      for(const l of langs){const r=await renderPost(j,p,l);const nm=`${String(p.n).padStart(2,"0")}-${slug(p.platform)}`;zip.file(`${LANG_TAG[l]}/${nm}.png`,await canvasBlob(r.canvas));try{zip.file(`editable-svg/${LANG_TAG[l]}/${nm}.svg`,await exportSvg(j,p,l))}catch(e){}}
+      const row=[p.n,p.date,p.platform,p.format,p.pillar,p.status];for(const l of langs){const L=p[l]||{};row.push(L.headline,L.subline,L.caption,(L.hashtags||[]).join(" "),L.cta,L.altText)}row.push(p.plan?.imagePrompt||"");rows.push(row);
+    }
+    zip.file("captions.csv","﻿"+rows.map(r=>r.map(csvCell).join(",")).join("\n"));
+    if(j.analysis) zip.file("strategy.json",JSON.stringify(j.analysis,null,2));
+    if(j.direction) zip.file("art-direction.json",JSON.stringify(j.direction,null,2));
+    await saveFile(`${slug(clientOf(j)?.name)}-${slug(j.title)}.zip`,await zip.generateAsync({type:"blob"}));
+  }catch(e){toast("Couldn't build the zip here. Download the posts one by one.")}
+}
+
+// ================= boot =================
 render();
 (async()=>{
+  injectFontLinks();
   if(!window.claude?.use){S.noRuntime=true;S.ready=true;render();return}
   const use=n=>window.claude.use(n).catch(()=>null);
-  const [db,assets,sample,downloads]=await Promise.all([use("db"),use("assets"),use("sample"),use("downloads")]);
-  Object.assign(S,{db,assets,sample,downloads,ready:true});
+  const [db,assets,sample,downloads,mcp]=await Promise.all(["db","assets","sample","downloads","mcp"].map(use));
+  Object.assign(S,{db,assets,sample,downloads,mcp,ready:true});
   if(sample) S.limits=await sample.limits().catch(()=>null);
+  if(mcp){try{const lt=await mcp.listTools("Canva");S.canva=(lt?.servers||[]).some(s=>s.server==="Canva")}catch(e){S.canva=false}}
   if(db){
     db.collection("clients").onSnapshot(s=>{S.clients=s.docs.map(d=>({...d.data(),id:d.id})).sort((a,b)=>String(a.name).localeCompare(String(b.name)));S.loaded.clients=true;scheduleRender()},()=>{});
     db.collection("jobs").orderBy("updatedAt","desc").onSnapshot(s=>{S.jobs=s.docs.map(d=>({...d.data(),id:d.id}));S.loaded.jobs=true;scheduleRender()},()=>{});
+    if(S.view.name==="job"){S.postsFor=null;watchPosts(S.view.id)}
   }
   render();
 })();
