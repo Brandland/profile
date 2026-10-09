@@ -1,0 +1,15 @@
+{
+  "name": "social-studio-tests",
+  "private": true,
+  "description": "Local end-to-end tests for Playground Social Studio with a fake Claude runtime",
+  "scripts": {
+    "assets": "python3 make-assets.py",
+    "server": "node server.js",
+    "test": "node run.js && node run2.js && node run3.js"
+  },
+  "devDependencies": {
+    "jszip": "3.10.1",
+    "pdfjs-dist": "3.11.174",
+    "playwright-core": "^1.55.0"
+  }
+}
