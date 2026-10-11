@@ -29,6 +29,17 @@ const b64=f=>fs.readFileSync(path.join(__dirname,'assets',f)).toString('base64')
   await page.fill('#arch-q','');await sleep(600);
   await page.click('[data-arch=dl]');await sleep(800);
   await page.click('[data-arch=job]');await sleep(800);console.log('view',await page.evaluate(()=>S.view.name));
+  await page.click('#nav-archive');await sleep(1000);
+  // an orphan file
+  await page.evaluate(async()=>{await S.assets.upload(new Blob(['x'.repeat(5000)],{type:'text/plain'}),{type:'text/plain'})});
+  await page.click('[data-clean=refresh]');await sleep(800);
+  await page.screenshot({path:path.join(OUT,'p-storage.png'),fullPage:true});
+  await page.click('[data-clean=orphans]');await sleep(200);await page.click('[data-clean=orphans]');await sleep(1500);
+  console.log('after orphans', await page.$eval('.meter + span',e=>e.textContent));
+  await page.check('[data-asel]');await sleep(300);await page.click('[data-clean=selected]');await sleep(200);await page.click('[data-clean=selected]');await sleep(1500);
+  console.log('archive cell',await page.$eval('table.arch tbody tr',e=>e.textContent.includes('PDF removed')));
+  await page.click('#nav-help');await sleep(800);await page.screenshot({path:path.join(OUT,'p-help.png')});
+  await page.click('[data-help=off]');await sleep(300);console.log('help hidden',!(await page.$('.help')));
   await page.click('#nav-clients');await sleep(800);await page.screenshot({path:path.join(OUT,'p-clients.png'),fullPage:true});
   console.log('ERRORS',errors.join('\n')||'none');await b.close();
 })();

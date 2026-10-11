@@ -128,6 +128,12 @@ table.arch tr:last-child td{border-bottom:0}
 table.arch .num{text-align:right}
 table.arch .acts{display:flex;gap:6px;justify-content:flex-end;white-space:nowrap}
 a.btn{text-decoration:none;display:inline-block}
+.meter{height:10px;border-radius:99px;background:var(--sunk);overflow:hidden}.meter i{display:block;height:100%}
+.clean{display:grid;grid-template-columns:1fr auto;gap:12px 16px;align-items:center}.clean>div{display:flex;flex-direction:column;gap:2px;min-width:0}
+.help .steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:16px 24px}
+.help .steps li{display:flex;gap:12px;align-items:flex-start}
+.help .steps .num{flex:none;width:30px;height:30px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font:700 14px var(--f-mono)}
+.help .steps p{margin:4px 0 0;font-size:13px;color:var(--muted)}
 .linkbtn{background:none;border:0;padding:0;color:var(--accent);font:inherit;cursor:pointer;text-align:left}
 .swbtn{width:30px;height:30px;border-radius:50%;border:2px solid var(--line);padding:0}
 .swbtn[aria-pressed="true"]{outline:3px solid var(--accent);outline-offset:2px}
@@ -137,6 +143,7 @@ a.btn{text-decoration:none;display:inline-block}
 <header class="top"><div class="wrap">
   <button class="brand" id="home">Playground Social Studio<small>brief to post</small></button>
   <span class="grow"></span>
+  <button class="ghost" id="nav-help">How it works</button>
   <button id="nav-archive">Archive</button>
   <button id="nav-clients">Clients</button>
   <button class="primary" id="nav-new">New job</button>
@@ -196,7 +203,7 @@ const PIXEL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCA
 // ================= state =================
 const S={db:null,assets:null,sample:null,downloads:null,mcp:null,ready:false,noRuntime:false,canva:false,
   clients:[],jobs:[],posts:{},postsFor:null,postsUnsub:null,loaded:{clients:false,jobs:false,posts:null},
-  agency:null,prColor:null,exports:[],archQ:"",archClient:"",proposalFor:null,view:{name:"board"},runs:{},limits:null,filterClient:"",pendingRender:false,confirm:null,editing:null,lang:"pt"};
+  agency:null,prColor:null,exports:[],help:(()=>{try{return localStorage.getItem("pss-help-off")!=="1"}catch(e){return true}})(),storage:null,archSel:new Set(),cleanAge:6,archQ:"",archClient:"",proposalFor:null,view:{name:"board"},runs:{},limits:null,filterClient:"",pendingRender:false,confirm:null,editing:null,lang:"pt"};
 
 // ================= helpers =================
 const $=s=>document.querySelector(s);
@@ -603,7 +610,8 @@ document.addEventListener("focusout",()=>setTimeout(()=>{if(S.pendingRender&&!is
 function go(view){S.view=view;S.confirm=null;S.editing=null;watchPosts(view.name==="job"?view.id:null);render();window.scrollTo(0,0)}
 $("#home").onclick=()=>go({name:"board"});
 $("#nav-clients").onclick=()=>go({name:"clients"});
-$("#nav-archive").onclick=()=>go({name:"archive"});
+$("#nav-archive").onclick=()=>{go({name:"archive"});loadStorage()};
+$("#nav-help").onclick=()=>{S.help=true;go({name:"board"})};
 $("#nav-new").onclick=()=>go({name:"newjob"});
 function render(){
   const app=$("#app");const v=S.view;let html="";
@@ -628,12 +636,13 @@ function stageOf(j){
 }
 const STAGES=[["brief","Brief in"],["production","In production"],["review","Ready for review"],["approved","Approved"],["delivered","Delivered"]];
 function viewBoard(){
+  const help=S.help?helpCard():"";
   const jobs=S.jobs.filter(j=>!S.filterClient||j.clientId===S.filterClient);
   const head=`<div class="page-head"><div class="stack" style="gap:4px"><span class="eyebrow">Production board</span><h1>Social media jobs</h1></div><span class="grow"></span>
     <label class="f" style="min-width:200px">Client<select id="f-client"><option value="">All clients</option>${S.clients.map(c=>`<option value="${esc(c.id)}" ${c.id===S.filterClient?"selected":""}>${esc(c.name)}</option>`).join("")}</select></label></div>`;
-  if(S.db&&S.loaded.jobs&&!S.jobs.length) return head+`<div class="panel stack"><h2>No jobs yet</h2><p class="muted" style="margin:0;max-width:62ch">Create the client's brand profile first, with logos, brand fonts, colours and tone. Then create a job, upload the briefing, the photos and the style references, and run the agents.</p><div class="row"><button class="primary" data-go="newclient">Create client</button><button data-go="newjob">New job</button></div></div>`;
+  if(S.db&&S.loaded.jobs&&!S.jobs.length) return head+help+`<div class="panel stack"><h2>No jobs yet</h2><p class="muted" style="margin:0;max-width:62ch">Create the client's brand profile first, with logos, brand fonts, colours and tone. Then create a job, upload the briefing, the photos and the style references, and run the agents.</p><div class="row"><button class="primary" data-go="newclient">Create client</button><button data-go="newjob">New job</button></div></div>`;
   if(S.db&&!S.loaded.jobs) return head+`<p class="muted">Loading jobs…</p>`;
-  return head+`<div class="board">${STAGES.map(([k,l])=>{const list=jobs.filter(j=>stageOf(j)===k);return `<section class="col"><div class="col-h"><h3>${l}</h3><span class="chip mono">${list.length}</span></div>${list.map(cardJob).join("")||`<div class="empty">Nothing here</div>`}</section>`}).join("")}</div>`;
+  return head+help+`<div class="board">${STAGES.map(([k,l])=>{const list=jobs.filter(j=>stageOf(j)===k);return `<section class="col"><div class="col-h"><h3>${l}</h3><span class="chip mono">${list.length}</span></div>${list.map(cardJob).join("")||`<div class="empty">Nothing here</div>`}</section>`}).join("")}</div>`;
 }
 function cardJob(j){
   const c=clientOf(j);const s=j.summary;
@@ -867,6 +876,11 @@ function bind(app){
   app.querySelectorAll("[data-upload]").forEach(inp=>inp.onchange=()=>{const z=inp.closest("[data-drop]");handleFiles([...inp.files],z.dataset.drop,z.dataset.owner,z.dataset.oid);inp.value=""});
   app.querySelectorAll("[data-rm]").forEach(b=>b.onclick=()=>removeFile(b.dataset.rm));
   app.querySelectorAll("[data-role]").forEach(b=>b.onclick=()=>cycleRole(b.dataset.role));
+  app.querySelectorAll("[data-help]").forEach(b=>b.onclick=()=>{S.help=false;try{localStorage.setItem("pss-help-off","1")}catch(e){}render()});
+  app.querySelectorAll("[data-clean]").forEach(b=>b.onclick=()=>cleanAction(b.dataset.clean));
+  const ca=$("#clean-age");if(ca) ca.onchange=()=>{S.cleanAge=+ca.value;S.confirm=null;render()};
+  app.querySelectorAll("[data-asel]").forEach(c=>c.onchange=()=>{c.checked?S.archSel.add(c.dataset.asel):S.archSel.delete(c.dataset.asel);render()});
+  const aa=$("#arch-all");if(aa) aa.onchange=()=>{app.querySelectorAll("[data-asel]").forEach(c=>aa.checked?S.archSel.add(c.dataset.asel):S.archSel.delete(c.dataset.asel));render()};
   app.querySelectorAll("[data-arch]").forEach(b=>b.onclick=()=>archiveAction(b.dataset.arch,b.dataset.id));
   const aq=$("#arch-q");if(aq) aq.oninput=()=>{S.archQ=aq.value;clearTimeout(S._aqT);S._aqT=setTimeout(()=>{const pos=aq.selectionStart;S.pendingRender=false;render();const n=$("#arch-q");n.focus();n.setSelectionRange(pos,pos)},250)};
   const ac=$("#arch-client");if(ac) ac.onchange=()=>{S.archClient=ac.value;render()};
@@ -1802,11 +1816,12 @@ function viewArchive(){
     <label class="f" style="min-width:200px">Client<select id="arch-client"><option value="">All clients</option>${clients.map(([id,n])=>`<option value="${esc(id)}" ${id===S.archClient?"selected":""}>${esc(n)}</option>`).join("")}</select></label></div>
   ${!S.exports.length?`<div class="panel"><p class="muted" style="margin:0;max-width:65ch">Every client proposal you export is kept here, with the PDF, the client, the job and the date. Open a job, approve the posts and click "Client proposal (PDF)" to add the first one.</p></div>`:
   !list.length?`<p class="muted">No exports match.</p>`:
-  `<div class="panel" style="padding:0;overflow-x:auto"><table class="arch"><thead><tr><th>Exported</th><th>Client</th><th>Job</th><th>Document</th><th class="num">Posts</th><th>Language</th><th></th></tr></thead><tbody>
-  ${list.map(x=>`<tr><td class="mono">${esc(fmt(x.createdAt))}</td><td><b>${esc(x.clientName)}</b></td><td>${jobById(x.jobId)?`<button class="linkbtn" data-arch="job" data-id="${esc(x.id)}">${esc(x.jobTitle)}</button>`:`${esc(x.jobTitle)} <span class="muted small">(deleted)</span>`}</td><td>${esc(x.title)}${x.period?` · ${esc(x.period)}`:""}</td><td class="num mono">${esc(x.posts)}</td><td class="mono small">${esc(langLabel[x.lang]||x.lang||"")}</td>
-  <td class="acts">${x.assetId?`<a class="btn sm" href="/_blob/${esc(x.assetId)}" target="_blank" rel="noopener">Open</a><button class="sm" data-arch="dl" data-id="${esc(x.id)}" ${S.downloads?"":"disabled"}>Download</button>`:`<span class="muted small">File not kept</span>`}<button class="sm ghost danger" data-arch="del" data-id="${esc(x.id)}">${S.confirm==="arch:"+x.id?"Confirm":"Remove"}</button></td></tr>`).join("")}
+  `<div class="panel" style="padding:0;overflow-x:auto"><table class="arch"><thead><tr><th><input type="checkbox" id="arch-all" aria-label="Select all"></th><th>Exported</th><th>Client</th><th>Job</th><th>Document</th><th class="num">Posts</th><th>Language</th><th></th></tr></thead><tbody>
+  ${list.map(x=>`<tr><td>${x.assetId?`<input type="checkbox" data-asel="${esc(x.id)}" ${S.archSel.has(x.id)?"checked":""} aria-label="Select">`:""}</td><td class="mono">${esc(fmt(x.createdAt))}</td><td><b>${esc(x.clientName)}</b></td><td>${jobById(x.jobId)?`<button class="linkbtn" data-arch="job" data-id="${esc(x.id)}">${esc(x.jobTitle)}</button>`:`${esc(x.jobTitle)} <span class="muted small">(deleted)</span>`}</td><td>${esc(x.title)}${x.period?` · ${esc(x.period)}`:""}</td><td class="num mono">${esc(x.posts)}</td><td class="mono small">${esc(langLabel[x.lang]||x.lang||"")}</td>
+  <td class="acts">${x.assetId?`<a class="btn sm" href="/_blob/${esc(x.assetId)}" target="_blank" rel="noopener">Open</a><button class="sm" data-arch="dl" data-id="${esc(x.id)}" ${S.downloads?"":"disabled"}>Download</button>`:`<span class="muted small">${x.cleaned?"PDF removed":"File not kept"}</span>`}<button class="sm ghost danger" data-arch="del" data-id="${esc(x.id)}">${S.confirm==="arch:"+x.id?"Confirm":"Remove"}</button></td></tr>`).join("")}
   </tbody></table></div>
-  <p class="muted small">${list.length} of ${S.exports.length} exports. Direct link to this folder: add #archive to the page address.</p>`}`;
+  <div class="row" style="margin-top:10px">${S.archSel.size?`<button class="sm danger" data-clean="selected">${S.confirm==="clean:selected"?`Confirm: remove ${S.archSel.size} PDF${S.archSel.size>1?"s":""}`:`Remove PDF of ${S.archSel.size} selected`}</button>`:""}<span class="muted small">${list.length} of ${S.exports.length} exports. Direct link to this folder: add #archive to the page address.</span></div>`}
+  ${storagePanel()}`;
 }
 async function archiveAction(act,id){
   const x=S.exports.find(e=>e.id===id);if(!x) return;
@@ -1815,8 +1830,78 @@ async function archiveAction(act,id){
   if(act==="del"){if(S.confirm!=="arch:"+id){S.confirm="arch:"+id;return render()}S.confirm=null;try{await S.db.doc("exports/"+id).delete();if(x.assetId) S.assets?.delete(x.assetId).catch(()=>{});toast("Removed from the archive")}catch(e){toast(dbMsg(e))}}
 }
 
+
+// ================= storage clean-up =================
+async function loadStorage(){if(!S.assets) return;try{S.storage=await S.assets.list();scheduleRender()}catch(e){S.storage=null}}
+const mb=b=>(b/1048576).toFixed(b<1048576*10?1:0)+" MB";
+function referencedIds(){
+  const ids=new Set();const add=x=>x&&ids.add(x);
+  for(const j of S.jobs) for(const a of j.assets||[]) add(a.id);
+  for(const c of S.clients){for(const a of c.logos||[]) add(a.id);for(const f of c.fonts||[]) add(f.id)}
+  for(const x of S.exports) add(x.assetId);
+  add(S.agency?.logoId);add(S.agency?.iconId);
+  return ids;
+}
+function cleanupPlan(){
+  const months=S.cleanAge,cut=Date.now()-months*30.4*864e5;
+  const oldPdfs=S.exports.filter(x=>x.assetId&&x.createdAt<cut);
+  const jobsSize=j=>(j.assets||[]).reduce((t,a)=>t+(a.size||0),0);
+  const oldJobs=S.jobs.filter(j=>j.delivered&&(j.updatedAt||0)<cut);
+  let orphans=[];if(S.storage){const ref=referencedIds();orphans=S.storage.assets.filter(a=>!ref.has(a.id)&&Date.now()-Date.parse(a.createdAt)>36e5)}
+  return {months,oldPdfs,pdfBytes:oldPdfs.reduce((t,x)=>t+(x.size||0),0),oldJobs,jobBytes:oldJobs.reduce((t,j)=>t+jobsSize(j),0),orphans,orphanBytes:orphans.reduce((t,a)=>t+a.sizeBytes,0)};
+}
+function storagePanel(){
+  if(!S.assets) return "";
+  const u=S.storage?.usage;const pl=cleanupPlan();
+  const pct=u&&u.maxBytes?Math.min(100,Math.round(u.bytes/u.maxBytes*100)):null;
+  const btn=(k,n,label)=>`<button class="sm ${S.confirm==="clean:"+k?"danger primary":"danger"}" data-clean="${k}" ${n?"":"disabled"}>${S.confirm==="clean:"+k?"Confirm":label}</button>`;
+  return `<section class="panel stack" style="margin-top:24px"><div class="row"><h2>Storage</h2><span class="grow"></span><button class="ghost sm" data-clean="refresh">Refresh</button></div>
+    ${u?`<div class="meter" role="img" aria-label="${pct??0}% of storage used"><i style="width:${pct??0}%;background:${pct>85?"var(--bad)":pct>65?"var(--warn)":"var(--accent)"}"></i></div>
+    <span class="muted small mono">${mb(u.bytes)} used${u.maxBytes?` of ${mb(u.maxBytes)}`:""} · ${u.files}${u.maxFiles?` of ${u.maxFiles}`:""} files</span>`:`<span class="muted small">Loading storage use…</span>`}
+    <div class="row"><span class="small">Clean up items older than</span><select id="clean-age" style="width:auto">${[1,3,6,12].map(m=>`<option value="${m}" ${m===S.cleanAge?"selected":""}>${m} month${m>1?"s":""}</option>`).join("")}</select></div>
+    <div class="clean">
+      <div><b>Archived PDFs</b><span class="muted small">${pl.oldPdfs.length} PDF${pl.oldPdfs.length===1?"":"s"}, ${mb(pl.pdfBytes)}. The list above keeps the record; only the file goes.</span></div>${btn("pdfs",pl.oldPdfs.length,"Remove PDFs")}
+      <div><b>Delivered jobs</b><span class="muted small">${pl.oldJobs.length} job${pl.oldJobs.length===1?"":"s"} marked delivered, ${mb(pl.jobBytes)} of photos and documents. Deletes the job, its posts and files. Archived PDFs stay.</span></div>${btn("jobs",pl.oldJobs.length,"Delete jobs")}
+      <div><b>Unused files</b><span class="muted small">${S.storage?`${pl.orphans.length} file${pl.orphans.length===1?"":"s"}, ${mb(pl.orphanBytes)} that nothing points to any more (old uploads, replaced logos).`:"Checking…"}</span></div>${btn("orphans",pl.orphans.length,"Remove files")}
+    </div></section>`;
+}
+async function cleanAction(k){
+  if(k==="refresh") return loadStorage();
+  if(S.confirm!=="clean:"+k){S.confirm="clean:"+k;render();setTimeout(()=>{if(S.confirm==="clean:"+k){S.confirm=null;render()}},6000);return}
+  S.confirm=null;const pl=cleanupPlan();let n=0;
+  try{
+    if(k==="pdfs"||k==="selected"){
+      const list=k==="pdfs"?pl.oldPdfs:S.exports.filter(x=>S.archSel.has(x.id)&&x.assetId);
+      for(const x of list){await S.assets.delete(x.assetId).catch(()=>{});await S.db.doc("exports/"+x.id).update({assetId:null,cleaned:true,cleanedAt:Date.now()});n++}
+      S.archSel.clear();toast(`${n} PDF${n===1?"":"s"} removed. The records stay in the archive.`);
+    }
+    if(k==="jobs"){
+      for(const j of pl.oldJobs){const posts=await getPosts(j.id);for(const p of posts) await S.db.doc(`jobs/${j.id}/posts/${p.id}`).delete();await S.db.doc("jobs/"+j.id).delete();for(const a of j.assets||[]) if(a.id) await S.assets.delete(a.id).catch(()=>{});n++}
+      toast(`${n} delivered job${n===1?"":"s"} deleted.`);
+    }
+    if(k==="orphans"){for(const a of pl.orphans){await S.assets.delete(a.id).catch(()=>{});n++}toast(`${n} unused file${n===1?"":"s"} removed.`)}
+  }catch(e){toast(dbMsg(e))}
+  await loadStorage();render();
+}
+
+// ================= quick start =================
+function helpCard(){
+  const steps=[
+    ["Set up the client","2 min","Clients, New client: colours, tone of voice, rules, logo (PNG with transparent background) and brand fonts if you have them. Done once per client."],
+    ["Create the job","1 min","New job: title, number of posts, format, dates. Paste the brief, or skip it and upload the briefing document next."],
+    ["Add the client's files","1 min","Drag in the briefing (PDF, Word, PowerPoint), the photos to use and 2 to 4 style references the client likes."],
+    ["Run the agents","5 to 10 min","Click Run full pipeline and leave it. Strategist, copywriter, art director and brand QA work in turn and the proofs appear below."],
+    ["Review and approve","10 min","Switch between PT-MZ and EN-ZA. Approve, edit the text, or use Request changes to have the copy rewritten or the post redesigned."],
+    ["Send to the client","1 min","Client proposal (PDF) builds the document to send. Download package gives the PNGs, editable SVGs and captions for the designers and the scheduler. Every PDF is kept in Archive."]
+  ];
+  return `<section class="panel stack help" style="margin-bottom:18px"><div class="row"><div class="stack" style="gap:2px"><span class="eyebrow">Quick start</span><h2>From brief to approved posts in about 20 minutes</h2></div><span class="grow"></span><button class="ghost sm" data-help="off">Hide</button></div>
+    <ol class="steps">${steps.map(([t,d,x],i)=>`<li><span class="num">${i+1}</span><div><b>${t}</b> <span class="chip mono">${d}</span><p>${x}</p></div></li>`).join("")}</ol>
+    <p class="muted small" style="margin:0">Tips: use Claude in a desktop browser so the agents can see the images. A clear brief, 5 to 10 real photos and a few references make the biggest difference. Nothing is sent to the client automatically.</p></section>`;
+}
+
 // ================= boot =================
 if(location.hash==="#archive") S.view={name:"archive"};
+if(location.hash==="#help") S.help=true;
 render();
 (async()=>{
   injectFontLinks();
@@ -1832,6 +1917,7 @@ render();
     db.collection("exports").orderBy("createdAt","desc").onSnapshot(s=>{S.exports=s.docs.map(d=>({...d.data(),id:d.id}));scheduleRender()},()=>{});
     db.doc("settings/agency").onSnapshot(s=>{S.agency=s.exists?s.data():null;scheduleRender()},()=>{});
     if(S.view.name==="job"){S.postsFor=null;watchPosts(S.view.id)}
+    if(S.view.name==="archive") loadStorage();
   }
   render();
 })();

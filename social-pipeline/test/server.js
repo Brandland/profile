@@ -27,7 +27,7 @@ http.createServer(async(req,res)=>{
   const u=new URL(req.url,'http://x');
   if(u.pathname==='/'){const html=fs.readFileSync(PAGE,'utf8');res.writeHead(200,{'content-type':'text/html; charset=utf-8'});return res.end(`<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">${RESET}</head><body>${html}</body></html>`)}
   if(u.pathname==='/_state'){if(req.method==='POST'){state=JSON.parse((await body(req)).toString());fs.writeFileSync(path.join(OUT,'state.json'),JSON.stringify(state,null,1));return res.end('ok')}res.writeHead(200,{'content-type':'application/json'});return res.end(JSON.stringify(state))}
-  if(u.pathname==='/_upload'){const b=await body(req);const id=crypto.randomBytes(16).toString('hex');blobs.set(id,{type:u.searchParams.get('type'),b});res.writeHead(200,{'content-type':'application/json'});return res.end(JSON.stringify({id}))}
+  if(u.pathname==='/_upload'){const b=await body(req);const id=crypto.randomBytes(16).toString('hex');blobs.set(id,{type:u.searchParams.get('type'),b,at:new Date(Date.now()-864e5).toISOString()});res.writeHead(200,{'content-type':'application/json'});return res.end(JSON.stringify({id}))}
   if(u.pathname.startsWith('/_blob/')){const x=blobs.get(u.pathname.slice(7));if(!x){res.writeHead(404);return res.end()}res.writeHead(200,{'content-type':x.type});return res.end(x.b)}
   if(u.pathname==='/_download'){const b=await body(req);fs.writeFileSync(path.join(OUT,u.searchParams.get('name')),b);return res.end('ok')}
   if(u.pathname==='/_sampleimg'){const b=await body(req);fs.writeFileSync(path.join(OUT,'sample',`call${u.searchParams.get('call')}-${u.searchParams.get('k')}.bin`),b);return res.end('ok')}
@@ -39,6 +39,8 @@ http.createServer(async(req,res)=>{
     if(tool==='get-generate-image-job') return res.end(JSON.stringify({content:[{type:'text',text:'Status SUCCESS. Open generated image: https://www.canva.com/design/xyz'},{type:'image',data:PNG1,mimeType:'image/jpeg'}],payload:{status:'SUCCESS'}}));
     return res.end('{}')}
   if(u.pathname==='/_mode'){MODE={...MODE,...JSON.parse((await body(req)).toString())};return res.end(JSON.stringify(MODE))}
+  if(u.pathname==='/_list'){const a=[...blobs.entries()].map(([id,x])=>({id,url:'/_blob/'+id,contentType:x.type,sizeBytes:x.b.length,createdAt:x.at}));return res.end(JSON.stringify({assets:a,usage:{files:a.length,bytes:a.reduce((t,x)=>t+x.sizeBytes,0),maxFiles:1000,maxBytes:500*1048576}}))}
+  if(u.pathname==='/_del'){blobs.delete(u.searchParams.get('id'));return res.end('{"deleted":true}')}
   if(u.pathname==='/_log'){return res.end(JSON.stringify(log))}
   res.writeHead(404);res.end();
 }).listen(+process.env.PORT||8765,()=>console.log('listening'));

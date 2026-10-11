@@ -6,6 +6,9 @@ Live app: https://claude.ai/artifact/RB4BZEYSeiRaZxN3MQCtUx (private until share
 
 ## How a job works
 
+The board opens with a six-step quick start guide ("How it works" in the header brings it back).
+
+
 1. **Client profile.** Name, sector, handles, tone of voice, brand colours, always/never rules, visual identity notes, logos and brand fonts. Created once per client.
 2. **Job.** Platforms, number of posts, main format, languages (PT-MZ + EN-ZA by default), period and the brief. Files go into three groups:
    - **Briefing and brand documents** (PDF, Word, PowerPoint, TXT). The text goes into the brief. Pages and pictures inside the documents are extracted so the agents can see them and use them.
@@ -20,7 +23,8 @@ Live app: https://claude.ai/artifact/RB4BZEYSeiRaZxN3MQCtUx (private until share
 4. **Review.** Every post shows as a full-size proof, with a PT-MZ / EN-ZA switch. The team can approve, edit the text, ask for another design, go back to the previous design, or send a change request to the copywriter or the art director.
 5. **Client proposal (PDF).** Once posts are approved, "Client proposal (PDF)" builds the document Playground sends to the client, based on the BNI proposal template: a cover in the client's colour with the Playground logo and the client logo, a publishing calendar, an optional strategy summary, one page per post with the visual and its headline, bodycopy, call to action and hashtags (PT-MZ and EN-ZA side by side, or one language), an approval page for the client to sign, and the "Let's play" closing page. The footer carries the Playground horse, the period and the client logo. The text in the PDF can be selected and copied. The Playground logo, horse and contact line are set once under Clients, Playground signature.
 6. **Archive.** Every client proposal exported is stored automatically with its PDF, client, job, period, language and date. The Archive button in the header lists them, with search, a client filter, Open, Download and a link back to the job. Adding #archive to the page address opens the archive directly.
-7. **Export.** A zip with PNGs for each language, editable SVGs (open in Illustrator or Figma), `captions.csv` with both languages, the strategy and the art direction.
+7. **Storage.** The Archive page shows how much of the artifact's storage is used and frees space in three ways: remove archived PDFs older than 1, 3, 6 or 12 months (the record stays, only the file goes), delete delivered jobs older than that period with their photos and documents, and remove unused files that nothing points to. Selected PDFs can also be removed by hand. Every clean-up asks for confirmation.
+8. **Export.** A zip with PNGs for each language, editable SVGs (open in Illustrator or Figma), `captions.csv` with both languages, the strategy and the art direction.
 
 ## The design engine
 
