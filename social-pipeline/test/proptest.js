@@ -22,6 +22,13 @@ const b64=f=>fs.readFileSync(path.join(__dirname,'assets',f)).toString('base64')
   await page.click('[data-act=proposal-pdf]');
   for(let i=0;i<120;i++){await sleep(500);if(fs.readdirSync(OUT).some(f=>f.endsWith('.pdf'))) break}
   console.log(fs.readdirSync(OUT).filter(f=>f.endsWith('.pdf')));
+  await sleep(800);await page.click('#nav-archive');await sleep(800);
+  console.log('rows',await page.$$eval('table.arch tbody tr',r=>r.length));
+  await page.screenshot({path:path.join(OUT,'p-archive.png')});
+  await page.fill('#arch-q','zzz');await sleep(600);console.log('filtered rows',await page.$$eval('table.arch tbody tr',r=>r.length));
+  await page.fill('#arch-q','');await sleep(600);
+  await page.click('[data-arch=dl]');await sleep(800);
+  await page.click('[data-arch=job]');await sleep(800);console.log('view',await page.evaluate(()=>S.view.name));
   await page.click('#nav-clients');await sleep(800);await page.screenshot({path:path.join(OUT,'p-clients.png'),fullPage:true});
   console.log('ERRORS',errors.join('\n')||'none');await b.close();
 })();

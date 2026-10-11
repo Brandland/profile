@@ -121,6 +121,14 @@ details summary{cursor:pointer;font-weight:600;font-size:13px}
 .swatches{display:flex;gap:4px} .sw{width:18px;height:18px;border-radius:4px;border:1px solid var(--line)}
 .fontrow{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr) auto auto;gap:8px;align-items:end}
 a{color:var(--accent)}
+table.arch{width:100%;border-collapse:collapse;font-size:13px}
+table.arch th{text-align:left;font:500 11px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:12px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
+table.arch td{padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:middle}
+table.arch tr:last-child td{border-bottom:0}
+table.arch .num{text-align:right}
+table.arch .acts{display:flex;gap:6px;justify-content:flex-end;white-space:nowrap}
+a.btn{text-decoration:none;display:inline-block}
+.linkbtn{background:none;border:0;padding:0;color:var(--accent);font:inherit;cursor:pointer;text-align:left}
 .swbtn{width:30px;height:30px;border-radius:50%;border:2px solid var(--line);padding:0}
 .swbtn[aria-pressed="true"]{outline:3px solid var(--accent);outline-offset:2px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
@@ -129,6 +137,7 @@ a{color:var(--accent)}
 <header class="top"><div class="wrap">
   <button class="brand" id="home">Playground Social Studio<small>brief to post</small></button>
   <span class="grow"></span>
+  <button id="nav-archive">Archive</button>
   <button id="nav-clients">Clients</button>
   <button class="primary" id="nav-new">New job</button>
 </div></header>
@@ -187,7 +196,7 @@ const PIXEL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCA
 // ================= state =================
 const S={db:null,assets:null,sample:null,downloads:null,mcp:null,ready:false,noRuntime:false,canva:false,
   clients:[],jobs:[],posts:{},postsFor:null,postsUnsub:null,loaded:{clients:false,jobs:false,posts:null},
-  agency:null,prColor:null,proposalFor:null,view:{name:"board"},runs:{},limits:null,filterClient:"",pendingRender:false,confirm:null,editing:null,lang:"pt"};
+  agency:null,prColor:null,exports:[],archQ:"",archClient:"",proposalFor:null,view:{name:"board"},runs:{},limits:null,filterClient:"",pendingRender:false,confirm:null,editing:null,lang:"pt"};
 
 // ================= helpers =================
 const $=s=>document.querySelector(s);
@@ -594,6 +603,7 @@ document.addEventListener("focusout",()=>setTimeout(()=>{if(S.pendingRender&&!is
 function go(view){S.view=view;S.confirm=null;S.editing=null;watchPosts(view.name==="job"?view.id:null);render();window.scrollTo(0,0)}
 $("#home").onclick=()=>go({name:"board"});
 $("#nav-clients").onclick=()=>go({name:"clients"});
+$("#nav-archive").onclick=()=>go({name:"archive"});
 $("#nav-new").onclick=()=>go({name:"newjob"});
 function render(){
   const app=$("#app");const v=S.view;let html="";
@@ -604,6 +614,7 @@ function render(){
   else if(v.name==="client") html+=viewClient(v.id);
   else if(v.name==="newjob") html+=viewNewJob();
   else if(v.name==="job") html+=viewJob(v.id);
+  else if(v.name==="archive") html+=viewArchive();
   app.innerHTML=html;bind(app);drawPreviews(app);
 }
 
@@ -856,6 +867,9 @@ function bind(app){
   app.querySelectorAll("[data-upload]").forEach(inp=>inp.onchange=()=>{const z=inp.closest("[data-drop]");handleFiles([...inp.files],z.dataset.drop,z.dataset.owner,z.dataset.oid);inp.value=""});
   app.querySelectorAll("[data-rm]").forEach(b=>b.onclick=()=>removeFile(b.dataset.rm));
   app.querySelectorAll("[data-role]").forEach(b=>b.onclick=()=>cycleRole(b.dataset.role));
+  app.querySelectorAll("[data-arch]").forEach(b=>b.onclick=()=>archiveAction(b.dataset.arch,b.dataset.id));
+  const aq=$("#arch-q");if(aq) aq.oninput=()=>{S.archQ=aq.value;clearTimeout(S._aqT);S._aqT=setTimeout(()=>{const pos=aq.selectionStart;S.pendingRender=false;render();const n=$("#arch-q");n.focus();n.setSelectionRange(pos,pos)},250)};
+  const ac=$("#arch-client");if(ac) ac.onchange=()=>{S.archClient=ac.value;render()};
   app.querySelectorAll("[data-prcolor]").forEach(b=>b.onclick=()=>{S.prColor=b.dataset.prcolor;app.querySelectorAll("[data-prcolor]").forEach(x=>x.setAttribute("aria-pressed",String(x===b)))});
   app.querySelectorAll("[data-agency]").forEach(inp=>inp.onchange=()=>{const f=inp.files[0];if(f) uploadAgencyFile(f,inp.dataset.agency);inp.value=""});
   const agc=$("#ag-contact");if(agc) agc.onchange=()=>setAgency({contact:agc.value.trim()}).then(()=>toast("Saved"));
@@ -1743,7 +1757,9 @@ async function exportProposal(j){
   try{
     patchDoc("jobs/"+j.id,{proposal:opts}).catch(()=>{});
     const blob=await buildProposal(j,opts,say);say("");
-    await saveFile(`${slug(opts.title)}-${slug(clientOf(j)?.name)}-${slug(opts.period||j.title)}.pdf`,blob);
+    const fname=`${slug(opts.title)}-${slug(clientOf(j)?.name)}-${slug(opts.period||j.title)}.pdf`;
+    await archiveExport(j,opts,blob,fname,say);
+    await saveFile(fname,blob);
   }catch(e){say("");toast(e?.code==="user"?e.message:e?.code==="extension_not_enabled"?"PDF downloads aren't enabled in this view.":"Couldn't build the PDF. Check that the posts render, then try again.")}
 }
 async function setAgency(patch){await queued("settings/agency",()=>S.db.doc("settings/agency").set({name:"Playground",...(S.agency||{}),...patch,updatedAt:Date.now()})).catch(e=>toast(dbMsg(e)))}
@@ -1765,7 +1781,42 @@ function agencyPanel(){
   </section>`;
 }
 
+
+// ================= archive of exported proposals =================
+async function archiveExport(j,opts,blob,fname,say){
+  if(!S.db) return;
+  const c=clientOf(j);const posts=S.posts[j.id]||[];const n=opts.posts==="approved"?posts.filter(p=>p.status==="approved").length:posts.length;
+  const rec={jobId:j.id,clientId:j.clientId||"",clientName:c?.name||"",jobTitle:j.title||"",title:opts.title,period:opts.period||"",lang:opts.lang,posts:n,fileName:fname,size:blob.size,assetId:null,createdAt:Date.now()};
+  try{if(S.assets&&blob.size<=2e7){say("Saving to the archive…");const r=await S.assets.upload(blob,{type:"application/pdf"});rec.assetId=r.id}}catch(e){}
+  try{await S.db.collection("exports").add(rec);toast(rec.assetId?"Saved to the archive":"Logged in the archive. The file itself was too large to keep.")}catch(e){}
+  say("");
+}
+function viewArchive(){
+  const q=S.archQ.toLowerCase();
+  const list=S.exports.filter(x=>(!S.archClient||x.clientId===S.archClient)&&(!q||[x.clientName,x.jobTitle,x.title,x.period].join(" ").toLowerCase().includes(q)));
+  const clients=[...new Map(S.exports.map(x=>[x.clientId,x.clientName])).entries()].filter(([id])=>id);
+  const langLabel={both:"PT-MZ + EN-ZA",pt:"PT-MZ",en:"EN-ZA"};
+  const fmt=t=>new Date(t).toLocaleDateString(undefined,{day:"numeric",month:"short",year:"numeric"});
+  return `<div class="page-head"><div class="stack" style="gap:4px"><span class="eyebrow">Exported proposals</span><h1>Archive</h1></div><span class="grow"></span>
+    <label class="f" style="min-width:220px">Search<input type="text" id="arch-q" value="${esc(S.archQ)}" placeholder="Client, job, month…"></label>
+    <label class="f" style="min-width:200px">Client<select id="arch-client"><option value="">All clients</option>${clients.map(([id,n])=>`<option value="${esc(id)}" ${id===S.archClient?"selected":""}>${esc(n)}</option>`).join("")}</select></label></div>
+  ${!S.exports.length?`<div class="panel"><p class="muted" style="margin:0;max-width:65ch">Every client proposal you export is kept here, with the PDF, the client, the job and the date. Open a job, approve the posts and click "Client proposal (PDF)" to add the first one.</p></div>`:
+  !list.length?`<p class="muted">No exports match.</p>`:
+  `<div class="panel" style="padding:0;overflow-x:auto"><table class="arch"><thead><tr><th>Exported</th><th>Client</th><th>Job</th><th>Document</th><th class="num">Posts</th><th>Language</th><th></th></tr></thead><tbody>
+  ${list.map(x=>`<tr><td class="mono">${esc(fmt(x.createdAt))}</td><td><b>${esc(x.clientName)}</b></td><td>${jobById(x.jobId)?`<button class="linkbtn" data-arch="job" data-id="${esc(x.id)}">${esc(x.jobTitle)}</button>`:`${esc(x.jobTitle)} <span class="muted small">(deleted)</span>`}</td><td>${esc(x.title)}${x.period?` · ${esc(x.period)}`:""}</td><td class="num mono">${esc(x.posts)}</td><td class="mono small">${esc(langLabel[x.lang]||x.lang||"")}</td>
+  <td class="acts">${x.assetId?`<a class="btn sm" href="/_blob/${esc(x.assetId)}" target="_blank" rel="noopener">Open</a><button class="sm" data-arch="dl" data-id="${esc(x.id)}" ${S.downloads?"":"disabled"}>Download</button>`:`<span class="muted small">File not kept</span>`}<button class="sm ghost danger" data-arch="del" data-id="${esc(x.id)}">${S.confirm==="arch:"+x.id?"Confirm":"Remove"}</button></td></tr>`).join("")}
+  </tbody></table></div>
+  <p class="muted small">${list.length} of ${S.exports.length} exports. Direct link to this folder: add #archive to the page address.</p>`}`;
+}
+async function archiveAction(act,id){
+  const x=S.exports.find(e=>e.id===id);if(!x) return;
+  if(act==="job") return go({name:"job",id:x.jobId});
+  if(act==="dl"){try{const r=await fetch("/_blob/"+x.assetId);if(!r.ok) throw 0;await saveFile(x.fileName||"proposal.pdf",new Blob([await r.blob()],{type:"application/pdf"}))}catch(e){toast("Couldn't load this file.")}return}
+  if(act==="del"){if(S.confirm!=="arch:"+id){S.confirm="arch:"+id;return render()}S.confirm=null;try{await S.db.doc("exports/"+id).delete();if(x.assetId) S.assets?.delete(x.assetId).catch(()=>{});toast("Removed from the archive")}catch(e){toast(dbMsg(e))}}
+}
+
 // ================= boot =================
+if(location.hash==="#archive") S.view={name:"archive"};
 render();
 (async()=>{
   injectFontLinks();
@@ -1778,6 +1829,7 @@ render();
   if(db){
     db.collection("clients").onSnapshot(s=>{S.clients=s.docs.map(d=>({...d.data(),id:d.id})).sort((a,b)=>String(a.name).localeCompare(String(b.name)));S.loaded.clients=true;scheduleRender()},()=>{});
     db.collection("jobs").orderBy("updatedAt","desc").onSnapshot(s=>{S.jobs=s.docs.map(d=>({...d.data(),id:d.id}));S.loaded.jobs=true;scheduleRender()},()=>{});
+    db.collection("exports").orderBy("createdAt","desc").onSnapshot(s=>{S.exports=s.docs.map(d=>({...d.data(),id:d.id}));scheduleRender()},()=>{});
     db.doc("settings/agency").onSnapshot(s=>{S.agency=s.exists?s.data():null;scheduleRender()},()=>{});
     if(S.view.name==="job"){S.postsFor=null;watchPosts(S.view.id)}
   }

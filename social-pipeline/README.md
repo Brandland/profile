@@ -19,7 +19,8 @@ Live app: https://claude.ai/artifact/RB4BZEYSeiRaZxN3MQCtUx (private until share
    - **Brand QA.** Checks both language versions and the rendered designs against the brief, the language rules and risk, scores each post and proposes text fixes.
 4. **Review.** Every post shows as a full-size proof, with a PT-MZ / EN-ZA switch. The team can approve, edit the text, ask for another design, go back to the previous design, or send a change request to the copywriter or the art director.
 5. **Client proposal (PDF).** Once posts are approved, "Client proposal (PDF)" builds the document Playground sends to the client, based on the BNI proposal template: a cover in the client's colour with the Playground logo and the client logo, a publishing calendar, an optional strategy summary, one page per post with the visual and its headline, bodycopy, call to action and hashtags (PT-MZ and EN-ZA side by side, or one language), an approval page for the client to sign, and the "Let's play" closing page. The footer carries the Playground horse, the period and the client logo. The text in the PDF can be selected and copied. The Playground logo, horse and contact line are set once under Clients, Playground signature.
-6. **Export.** A zip with PNGs for each language, editable SVGs (open in Illustrator or Figma), `captions.csv` with both languages, the strategy and the art direction.
+6. **Archive.** Every client proposal exported is stored automatically with its PDF, client, job, period, language and date. The Archive button in the header lists them, with search, a client filter, Open, Download and a link back to the job. Adding #archive to the page address opens the archive directly.
+7. **Export.** A zip with PNGs for each language, editable SVGs (open in Illustrator or Figma), `captions.csv` with both languages, the strategy and the art direction.
 
 ## The design engine
 
