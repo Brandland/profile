@@ -12,6 +12,7 @@ node server.js &            # http://localhost:8765
 node run.js                 # full pipeline, both languages, exports, revisions
 node run2.js                # brand font, Canva link-only and failure, legacy job, no-image view
 node run3.js                # a broken design is sent back to the art director and repaired
+node proptest.js            # client proposal PDF (needs sample-posts.json from an earlier sample render and the logo PNGs in assets/)
 ```
 
 Screenshots, rendered posts, the prompts the agents received and the downloads land in `out/`.
