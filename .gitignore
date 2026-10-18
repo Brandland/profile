@@ -21,3 +21,12 @@ node_modules/
 *.log
 *.sql
 *.sqlite
+
+# Email vs ClickUp cross-check: never commit configuration, credentials or reports
+email-clickup-crosscheck/config.yaml
+email-clickup-crosscheck/output/
+email-clickup-crosscheck/*.html
+email-clickup-crosscheck/client_secret*.json
+email-clickup-crosscheck/.env
+__pycache__/
+.pytest_cache/

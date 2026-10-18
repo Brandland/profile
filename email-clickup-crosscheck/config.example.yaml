@@ -1,0 +1,58 @@
+# Copy to config.yaml (never committed) for local runs, or paste the whole
+# content into the GitHub secret CROSSCHECK_CONFIG for the daily run.
+
+gmail:
+  # The Gmail account the tool reads. It must receive the team emails
+  # (directly, in copy, or through forwarding).
+  mailbox_address: your.mailbox@gmail.com
+  # Optional extra Gmail search filter, e.g. exclude a label:
+  # extra_query: "-label:personal"
+
+team:
+  # Any address on these domains counts as a team member.
+  domains:
+    - playground.co.mz
+  # Optional: names for the report, and team members outside the domain.
+  members:
+    - { email: first.last@playground.co.mz, name: Firstname Lastname }
+  # Management addresses: they can request work, but are not scored.
+  manager_addresses:
+    - director@playground.co.mz
+    - your.mailbox@gmail.com
+  # Shared or automatic addresses that never own work.
+  ignored_addresses:
+    - contacto@playground.co.mz
+  # ignored_sender_patterns defaults to noreply, no-reply, notification, mailer-daemon...
+
+clickup:
+  # Find these with: python -m crosscheck spaces
+  workspace_id: "1234567"
+  space_ids:
+    - "90120000000"
+  # Closed tasks older than this are not considered. Open tasks always are.
+  closed_task_lookback_days: 45
+
+analysis:
+  model: claude-opus-5-5
+  effort: medium
+  max_threads: 150          # cost guard per run
+  max_candidate_tasks: 30   # tasks shown to the model per email thread
+  parallel_requests: 4
+  # Your own rules. Plain language, they are given to the model as written.
+  policy_notes: |
+    - Supplier invoices, payment confirmations and bank statements are handled by finance
+      outside ClickUp. Do not report them as work items.
+    - Recurring monthly retainers (social media, media monitoring) have one task per client
+      per month. A request inside that scope is covered by the monthly task.
+    - Requests for proposals and quotations must always have a task in the "Business
+      Development" list.
+
+report:
+  timezone: Africa/Maputo
+  language: pt              # pt (European Portuguese) or en
+  recipients:
+    - director@playground.co.mz
+  # When true, each person also receives an email with their own missing items.
+  # Start with false during the pilot, review the quality, then switch on.
+  send_individual_nudges: false
+  nudge_cc: []
