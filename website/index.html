@@ -1,0 +1,502 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Novo site Playground</title>
+<meta name="description" content="Proposta de novo site da Playground para a direcção: arquitectura de uma casa e duas portas, mapa do site, medição, SEO, plano a 90 dias, orçamento indicativo e decisões em aberto.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,650;12..96,700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;600&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+<script src="assets/site.js" defer></script>
+<style>
+  .ov-head .bar { flex-wrap: wrap; row-gap: var(--s-2); padding-block: var(--s-2); }
+  .ov-links { display: flex; flex-wrap: wrap; gap: var(--s-2); }
+  .ov-sec { padding-top: var(--s-6); border-top: 1px solid var(--line); display: grid; gap: var(--s-5); scroll-margin-top: 96px; }
+  .ov-sec:first-child { border-top: 0; padding-top: 0; }
+  .see-list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-3); }
+  .see-list a { font-weight: 600; }
+  .see-list span { display: block; font-size: .9rem; color: var(--muted); }
+  .diagram { margin: 0; overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); background: var(--ground); padding: var(--s-4); }
+  .diagram svg { display: block; width: 100%; min-width: 680px; height: auto; }
+  .diagram figcaption { margin-top: var(--s-3); font-size: .88rem; color: var(--muted); }
+  .dg-box { fill: var(--surface); stroke: var(--line); stroke-width: 1.5; }
+  .dg-house { fill: var(--note-bg); stroke: var(--teal); stroke-width: 2; }
+  .dg-door { fill: var(--surface); stroke: var(--signal); stroke-width: 2; }
+  .dg-end { fill: var(--ink); }
+  .dg-t { fill: var(--ink); font-family: var(--f-body); font-size: 15px; font-weight: 600; }
+  .dg-s { fill: var(--muted); font-family: var(--f-body); font-size: 12.5px; }
+  .dg-k { fill: var(--signal); font-family: var(--f-mono); font-size: 11px; font-weight: 600; letter-spacing: .08em; }
+  .dg-kt { fill: var(--teal); font-family: var(--f-mono); font-size: 11px; font-weight: 600; letter-spacing: .08em; }
+  .dg-inv { fill: var(--ground); font-family: var(--f-body); font-size: 15px; font-weight: 600; }
+  .dg-invs { fill: var(--ground); font-family: var(--f-body); font-size: 12.5px; opacity: .8; }
+  .dg-line { stroke: var(--muted); stroke-width: 2; fill: none; }
+  .dg-dash { stroke-dasharray: 5 5; }
+  .dg-head { fill: var(--muted); }
+  .budget-tot { font: 650 clamp(1.5rem, 1.2rem + 1vw, 2rem)/1.1 var(--f-display); letter-spacing: -.02em; }
+  .decisions { margin: 0; padding-left: 1.4em; display: grid; gap: var(--s-3); max-width: var(--measure); }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Saltar para o conteúdo</a>
+<header class="site-header ov-head">
+  <div class="container bar">
+    <a class="brand" href="index.html"><span class="brand-mark">Playground</span><span class="brand-tag">Proposta de novo site</span></a>
+    <nav class="ov-links" aria-label="Protótipo">
+      <a class="btn btn-ghost btn-sm" href="pt/index.html">Ver protótipo PT</a>
+      <a class="btn btn-primary btn-sm" href="en/index.html" hreflang="en">Ver protótipo EN</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="stack">
+        <p class="eyebrow">Documento de trabalho para a direcção · Outubro de 2026</p>
+        <h1>Novo site da Playground: o que propomos e porquê</h1>
+        <p class="lede">Esta página explica o protótipo do novo playground.co.mz. Assenta no relatório de melhorias do site de 16 de Outubro de 2026 e mostra, em páginas navegáveis, como o site deve ficar, ler e funcionar. No fim estão as decisões que precisamos de tomar como direcção.</p>
+        <p class="small muted">Todos os custos são estimativas em dólares americanos (USD). As metas de KPI a seis meses e os prazos de esforço também são estimativas. Os volumes de pesquisa não foram medidos.</p>
+      </div>
+      <aside class="card" aria-labelledby="ver-titulo">
+        <h2 id="ver-titulo" class="eyebrow">O que ver no protótipo</h2>
+        <ul class="see-list">
+          <li><a href="pt/index.html">Homepage em português</a><span>A casa: posicionamento, cinco áreas, casos, porta para o inglês.</span></li>
+          <li><a href="en/events-pr-mozambique.html" hreflang="en">Your event and PR partner in Mozambique</a><span>A porta internacional, com pedido de proposta e resposta em 48 horas.</span></li>
+          <li><a href="en/guide-corporate-events-mozambique.html" hreflang="en">Guia: organising a corporate event in Mozambique</a><span>O conteúdo que o Google e os assistentes de IA podem citar.</span></li>
+          <li><a href="pt/servicos.html">Serviços por problema</a><span>Cinco áreas no lugar da faixa de 16 serviços.</span></li>
+          <li><a href="pt/casos.html">Casos de estudo filtráveis</a><span>Substituem o PDF de portefólio.</span></li>
+          <li><a href="pt/caso-africa50.html">Caso Africa50</a><span>O modelo de caso completo: contexto, desafio, solução, resultado, números.</span></li>
+          <li><a href="pt/contacto.html">Contacto qualificado</a><span>Formulário que faz a triagem antes de chegar à equipa.</span></li>
+          <li><a href="en/index.html" hreflang="en">Homepage em inglês</a><span>Escrita para o leitor estrangeiro, sem tradução literal.</span></li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="article">
+      <nav class="toc" aria-label="Índice desta proposta">
+        <p class="eyebrow">Índice</p>
+        <ol>
+          <li><a href="#resumo">Em resumo</a></li>
+          <li><a href="#arquitectura">A arquitectura</a></li>
+          <li><a href="#mapa">Mapa do site</a></li>
+          <li><a href="#conteudo">Conteúdo e voz</a></li>
+          <li><a href="#design">Design e desempenho</a></li>
+          <li><a href="#tecnologia">Tecnologia</a></li>
+          <li><a href="#medicao">Medição</a></li>
+          <li><a href="#seo">SEO e visibilidade em IA</a></li>
+          <li><a href="#plano">Plano a 30, 60 e 90 dias</a></li>
+          <li><a href="#orcamento">Orçamento indicativo</a></li>
+          <li><a href="#decisoes">Decisões da direcção</a></li>
+          <li><a href="#como">Como foi feito</a></li>
+        </ol>
+      </nav>
+
+      <div class="stack-lg">
+
+        <!-- 1 -->
+        <section class="ov-sec" id="resumo" aria-labelledby="h-resumo">
+          <h2 id="h-resumo">1. Em resumo</h2>
+          <div class="prose">
+            <p>O novo site tem uma função: gerar contactos qualificados, locais e internacionais. Um director de comunicação em Maputo tem de perceber em poucos segundos que somos uma consultora de comunicação corporativa e envolvimento de stakeholders. Um organizador de eventos em Joanesburgo, Lisboa ou Paris tem de encontrar uma página em inglês que lhe diga que podemos ser o seu parceiro no terreno, e uma forma simples de nos pedir uma proposta.</p>
+            <p>Hoje o site faz quase o contrário. É um portefólio visual de stands e eventos, só em português, com duas entradas no menu e nada que explique quem somos, o que fazemos em comunicação corporativa ou porque é que um cliente internacional deve confiar em nós. Ao mesmo tempo, o espaço que queremos ocupar está vazio: para as pesquisas em inglês de quem organiza eventos em Moçambique, o Google devolve hotéis, directórios e anúncios de emprego, e nenhuma agência moçambicana aparece de forma credível. Com inglês de qualidade, conteúdo factual e algumas acções fora do site, podemos ser a referência em poucos meses.</p>
+          </div>
+          <div class="grid g-2">
+            <div class="card">
+              <h3>Os cinco problemas</h3>
+              <ol class="small">
+                <li>Não há versão inglesa nem uma página para o público internacional.</li>
+                <li>Nada sustenta o posicionamento de consultora: sem Sobre, sem serviços por problema, sem casos com resultados; a faixa de 16 serviços diz "agência que faz de tudo".</li>
+                <li>Sinais de site inacabado: página de testes indexada, vídeo de template, meta descriptions com lixo, horários diferentes.</li>
+                <li>Desempenho fraco em mobile: 58 imagens sem compressão moderna, 60 ficheiros de CSS e JavaScript, sem CDN.</li>
+                <li>Não medimos contactos: há GA4, mas sem eventos de conversão nem ligação a CRM.</li>
+              </ol>
+            </div>
+            <div class="card">
+              <h3>As cinco acções</h3>
+              <ol class="small">
+                <li>Em 30 dias, a página em inglês "Your event and PR partner in Mozambique", com Africa50 e pedido de proposta com resposta em 48 horas.</li>
+                <li>Um guia em inglês sobre como organizar um evento corporativo em Moçambique.</li>
+                <li>Nova homepage e páginas Sobre, Serviços por problema e Casos, em PT e EN.</li>
+                <li>Sair do site: Clutch, GoodFirms, Sortlist, Google Business Profile, cinco avaliações e uma rede internacional de agências.</li>
+                <li>Instalar a medição antes de mudar o resto: GTM, eventos de conversão, CRM, Clarity e relatório mensal.</li>
+              </ol>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2 -->
+        <section class="ov-sec" id="arquitectura" aria-labelledby="h-arq">
+          <h2 id="h-arq">2. A arquitectura: uma casa e duas portas</h2>
+          <div class="prose">
+            <p>Não propomos dois sites, nem uma homepage que tenta dizer tudo a todos. Propomos uma casa com duas portas.</p>
+            <p>A casa é a Playground como consultora de comunicação corporativa e envolvimento de stakeholders em Moçambique. É isso que a homepage, a página Sobre e a estrutura de serviços comunicam, em português e em inglês. Eventos e PR aparecem como capacidades de execução ao serviço dessa missão, com peso visual forte, porque são a prova mais fotogénica do nosso trabalho. A ideia de fundo atravessa o site todo: melhorar a qualidade e o valor das trocas entre as organizações e quem as rodeia.</p>
+            <p>A primeira porta é local. Pensamos num director de comunicação da Vodacom ou da TotalEnergies que procura um parceiro de comunicação corporativa. Entra pela homepage, lê os serviços organizados pelo problema que tem e vê casos com contexto.</p>
+            <p>A segunda porta é internacional. Uma página em inglês com URL próprio, /en/events-pr-mozambique/, que responde às perguntas de quem vem de fora, mostra o Africa50 e a nossa produção própria e tem um formulário de pedido de proposta com resposta em 48 horas. Esta página e o guia em inglês são o que deve aparecer nas pesquisas do tipo "event agency Mozambique" e ser citado pelos assistentes de IA.</p>
+            <p>As duas portas não se enfraquecem uma à outra porque falam com públicos que nunca se cruzam na mesma página. E a mensagem é a mesma: 16 anos, cerca de 30 pessoas, produção própria e um conhecimento de Moçambique que nenhuma agência de fora tem. O que dilui a consultora é a lista de 16 serviços em rodapé, não a palavra "eventos".</p>
+          </div>
+          <figure class="diagram">
+            <svg viewBox="0 0 960 624" role="img" aria-labelledby="dg-title dg-desc">
+              <title id="dg-title">Uma casa e duas portas</title>
+              <desc id="dg-desc">A casa, em português e inglês, contém homepage, sobre, serviços por problema, casos, sectores e insights. A porta 1, local, em português, é usada por um director de comunicação da Vodacom ou TotalEnergies e entra pela homepage. A porta 2, internacional, em inglês, é a página events-pr-mozambique e o guia. As duas convergem num contacto qualificado, que entra no CRM com resposta em 48 horas.</desc>
+              <defs>
+                <marker id="dg-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="dg-head" d="M0,0 L10,5 L0,10 z"/></marker>
+              </defs>
+
+              <!-- Doors -->
+              <rect class="dg-door" x="40" y="20" width="380" height="88" rx="6"/>
+              <text class="dg-k" x="60" y="46">PORTA 1 · LOCAL · PT</text>
+              <text class="dg-t" x="60" y="70">Director de comunicação</text>
+              <text class="dg-s" x="60" y="92">Vodacom, TotalEnergies. Entra pela homepage.</text>
+
+              <rect class="dg-door" x="540" y="20" width="380" height="88" rx="6"/>
+              <text class="dg-k" x="560" y="46">PORTA 2 · INTERNACIONAL · EN</text>
+              <text class="dg-t" x="560" y="70">Organizador estrangeiro</text>
+              <text class="dg-s" x="560" y="92">Pesquisa "event agency Mozambique" ou pergunta a uma IA.</text>
+
+              <!-- House -->
+              <polygon class="dg-house" points="40,190 340,140 640,190"/>
+              <rect class="dg-house" x="40" y="190" width="600" height="230"/>
+              <text class="dg-kt" x="340" y="180" text-anchor="middle">A CASA · PT E EN</text>
+              <text class="dg-s" x="340" y="216" text-anchor="middle">Consultora de comunicação corporativa e envolvimento de stakeholders</text>
+
+              <rect class="dg-box" x="60" y="235" width="176" height="70" rx="5"/>
+              <text class="dg-t" x="76" y="264">Homepage</text><text class="dg-s" x="76" y="286">/ e /en/</text>
+              <rect class="dg-box" x="252" y="235" width="176" height="70" rx="5"/>
+              <text class="dg-t" x="268" y="264">Sobre</text><text class="dg-s" x="268" y="286">16 anos, 30 pessoas</text>
+              <rect class="dg-box" x="444" y="235" width="176" height="70" rx="5"/>
+              <text class="dg-t" x="460" y="264">Serviços</text><text class="dg-s" x="460" y="286">5 áreas, por problema</text>
+              <rect class="dg-box" x="60" y="321" width="176" height="70" rx="5"/>
+              <text class="dg-t" x="76" y="350">Casos</text><text class="dg-s" x="76" y="372">8 a 12, filtráveis</text>
+              <rect class="dg-box" x="252" y="321" width="176" height="70" rx="5"/>
+              <text class="dg-t" x="268" y="350">Sectores</text><text class="dg-s" x="268" y="372">energia, telecom, banca, ONG</text>
+              <rect class="dg-box" x="444" y="321" width="176" height="70" rx="5"/>
+              <text class="dg-t" x="460" y="350">Insights</text><text class="dg-s" x="460" y="372">ligados ao Profile</text>
+
+              <!-- Door 2 pages -->
+              <rect class="dg-door" x="680" y="190" width="240" height="230" rx="6"/>
+              <text class="dg-k" x="700" y="216">PÁGINAS DA PORTA 2</text>
+              <rect class="dg-box" x="696" y="235" width="208" height="70" rx="5"/>
+              <text class="dg-t" x="712" y="264">Events &amp; PR</text><text class="dg-s" x="712" y="286">/en/events-pr-mozambique/</text>
+              <rect class="dg-box" x="696" y="321" width="208" height="70" rx="5"/>
+              <text class="dg-t" x="712" y="350">Guia em inglês</text><text class="dg-s" x="712" y="372">eventos em Moçambique</text>
+              <path class="dg-line dg-dash" d="M640,305 L680,305"/>
+
+              <!-- Entry arrows -->
+              <path class="dg-line" d="M148,108 L148,232" marker-end="url(#dg-arrow)"/>
+              <path class="dg-line" d="M800,108 L800,232" marker-end="url(#dg-arrow)"/>
+
+              <!-- Convergence -->
+              <path class="dg-line" d="M340,420 L340,457" marker-end="url(#dg-arrow)"/>
+              <path class="dg-line" d="M800,420 L800,440 L640,440 L640,457" marker-end="url(#dg-arrow)"/>
+              <rect class="dg-box" x="200" y="460" width="560" height="60" rx="6" style="stroke:var(--signal);stroke-width:2"/>
+              <text class="dg-t" x="480" y="486" text-anchor="middle">Contacto qualificado</text>
+              <text class="dg-s" x="480" y="507" text-anchor="middle">formulário · WhatsApp · email · chamada de 30 minutos</text>
+              <path class="dg-line" d="M480,520 L480,545" marker-end="url(#dg-arrow)"/>
+              <rect class="dg-end" x="300" y="548" width="360" height="60" rx="6"/>
+              <text class="dg-inv" x="480" y="574" text-anchor="middle">CRM (HubSpot gratuito)</text>
+              <text class="dg-invs" x="480" y="595" text-anchor="middle">etiqueta de origem · dono definido · resposta em 48 h</text>
+            </svg>
+            <figcaption>Os públicos não se cruzam na mesma página, mas os pedidos terminam no mesmo sítio, com origem identificada. A linha tracejada indica que a porta 2 liga à casa (casos e Sobre em inglês).</figcaption>
+          </figure>
+        </section>
+
+        <!-- 3 -->
+        <section class="ov-sec" id="mapa" aria-labelledby="h-mapa">
+          <h2 id="h-mapa">3. Mapa do site</h2>
+          <div class="prose">
+            <p>O protótipo tem 17 páginas: nove em português e oito em inglês. A prioridade e o prazo vêm da tabela de prioridades do relatório (número da acção entre parênteses). O URL de produção é o que propomos para o site real; no protótipo os ficheiros terminam em .html.</p>
+          </div>
+          <div class="table-wrap">
+            <table class="data" style="min-width:980px">
+              <caption class="visually-hidden">Páginas do protótipo, URL de produção, língua, público, função, conversão e prioridade</caption>
+              <thead>
+                <tr><th scope="col">Página</th><th scope="col">URL de produção</th><th scope="col">Língua</th><th scope="col">Público</th><th scope="col">Função</th><th scope="col">Conversão principal</th><th scope="col">Prioridade e prazo</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><a href="pt/index.html">Homepage</a></td><td class="mono small">/</td><td>PT</td><td>Porta 1: direcção de comunicação local</td><td>Diz quem somos em segundos; abre as cinco áreas e os casos</td><td>Falar connosco, Ver casos</td><td>(4) 30 dias</td></tr>
+                <tr><td><a href="pt/servicos.html">Serviços</a></td><td class="mono small">/servicos/</td><td>PT</td><td>Porta 1</td><td>Cinco áreas organizadas por problema do cliente</td><td>Contacto por área</td><td>(3) 60 dias</td></tr>
+                <tr><td><a href="pt/casos.html">Casos</a></td><td class="mono small">/casos/</td><td>PT</td><td>Porta 1, compradores corporativos</td><td>Casos filtráveis por tipo e sector; substitui o PDF</td><td>Abrir um caso</td><td>(9) 60 dias</td></tr>
+                <tr><td><a href="pt/caso-africa50.html">Caso Africa50</a></td><td class="mono small">/casos/africa50-assembleia-geral-2025/</td><td>PT</td><td>Ambas as portas</td><td>Modelo de caso: contexto, desafio, solução, resultado, números</td><td>Falar connosco</td><td>(9) 60 dias</td></tr>
+                <tr><td><a href="pt/sectores.html">Sectores</a></td><td class="mono small">/sectores/</td><td>PT</td><td>Decisores de energia, telecom, banca, ONG</td><td>Experiência relevante por sector</td><td>Contacto</td><td>(12) 90 dias</td></tr>
+                <tr><td><a href="pt/sobre.html">Sobre</a></td><td class="mono small">/sobre/</td><td>PT</td><td>Ambos; quem valida o fornecedor</td><td>16 anos, 30 pessoas, produção própria, equipa de direcção</td><td>Contacto</td><td>(3) 60 dias</td></tr>
+                <tr><td><a href="pt/insights.html">Insights</a></td><td class="mono small">/insights/</td><td>PT</td><td>Porta 1; frente institucional</td><td>Artigos ligados ao Profile; motivo para voltar</td><td>Newsletter</td><td>(13) 90 dias e contínuo</td></tr>
+                <tr><td><a href="pt/contacto.html">Contacto</a></td><td class="mono small">/contacto/</td><td>PT</td><td>Porta 1</td><td>Formulário qualificado com prazo de resposta</td><td>Envio do formulário</td><td>(3) 60 dias; ligação ao CRM (5) em 15 dias</td></tr>
+                <tr><td><a href="pt/privacidade.html">Privacidade e cookies</a></td><td class="mono small">/privacidade/</td><td>PT</td><td>Todos; compradores internacionais</td><td>Política e gestão de consentimento</td><td>Nenhuma (conformidade)</td><td>(11) 30 dias</td></tr>
+                <tr><td><a href="en/index.html" hreflang="en">Homepage EN</a></td><td class="mono small">/en/</td><td>EN</td><td>Porta 2 e clientes internacionais da casa</td><td>A casa em inglês</td><td>Talk to us, See our work</td><td>(4) 30 dias</td></tr>
+                <tr><td><a href="en/events-pr-mozambique.html" hreflang="en">Events &amp; PR in Mozambique</a></td><td class="mono small">/en/events-pr-mozambique/</td><td>EN</td><td>Porta 2: organizadores estrangeiros</td><td>A porta internacional: capacidades, casos, forma de trabalhar</td><td>Pedido de proposta, chamada de 30 minutos</td><td>(1) 30 dias</td></tr>
+                <tr><td><a href="en/guide-corporate-events-mozambique.html" hreflang="en">Guia de eventos</a></td><td class="mono small">/en/guide/organising-a-corporate-event-in-mozambique/</td><td>EN</td><td>Porta 2, ainda na fase de pesquisa</td><td>Conteúdo para o Google e os assistentes de IA citarem</td><td>Pedido de proposta</td><td>(2) 60 dias</td></tr>
+                <tr><td><a href="en/case-africa50.html" hreflang="en">Case Africa50</a></td><td class="mono small">/en/case-studies/africa50-general-shareholders-meeting-2025/</td><td>EN</td><td>Porta 2</td><td>A prova de escala: 500 convidados, dois locais</td><td>Pedido de proposta</td><td>(9) 60 dias; usado na página (1) desde os 30 dias</td></tr>
+                <tr><td><a href="en/services.html" hreflang="en">Services</a></td><td class="mono small">/en/services/</td><td>EN</td><td>Clientes internacionais da casa</td><td>As cinco áreas em inglês</td><td>Contacto</td><td>(3) 60 dias</td></tr>
+                <tr><td><a href="en/case-studies.html" hreflang="en">Case studies</a></td><td class="mono small">/en/case-studies/</td><td>EN</td><td>Porta 2</td><td>Cinco casos em inglês na primeira fase</td><td>Abrir um caso</td><td>(9) 60 dias</td></tr>
+                <tr><td><a href="en/about.html" hreflang="en">About</a></td><td class="mono small">/en/about/</td><td>EN</td><td>Porta 2; due diligence de fornecedor</td><td>Factos citáveis sobre a empresa</td><td>Contacto</td><td>(3) 60 dias</td></tr>
+                <tr><td><a href="en/contact.html" hreflang="en">Contact</a></td><td class="mono small">/en/contact/</td><td>EN</td><td>Porta 2</td><td>Contacto geral em inglês; remete para o pedido de proposta</td><td>Envio do formulário</td><td>(3) 60 dias</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="prose">
+            <p>Na primeira fase, Sectores, Insights e Privacidade ficam só em português, tal como as fichas de stands actuais (ENI FACIM 2024, ENI MMEC 2025, mcnet Moztech 2025), que não reproduzimos no protótipo. Em inglês começamos pelo que o relatório considera realista: homepage, página internacional, guia, cinco casos e Sobre. Serviços e Contacto em inglês vêm com a nova arquitectura. Os pares de língua levam hreflang; as páginas sem equivalente apontam o selector de língua para a homepage da outra língua.</p>
+          </div>
+        </section>
+
+        <!-- 4 -->
+        <section class="ov-sec" id="conteudo" aria-labelledby="h-conteudo">
+          <h2 id="h-conteudo">4. Princípios de conteúdo e voz</h2>
+          <div class="prose">
+            <p>Os serviços passam a estar organizados pelo problema do cliente, em cinco áreas. A faixa actual de 16 itens, com Merchandising ao lado de Comunicação Estratégica, desaparece. As capacidades mais pequenas continuam a existir, mas dentro de uma área e nunca ao mesmo nível.</p>
+          </div>
+          <div class="table-wrap">
+            <table class="data">
+              <thead><tr><th scope="col">Área</th><th scope="col">O que fica lá dentro</th></tr></thead>
+              <tbody>
+                <tr><td>Reputação e stakeholders</td><td>Mapeamento e envolvimento de stakeholders, gestão de reputação, assessoria à direcção</td></tr>
+                <tr><td>Comunicação corporativa e PR</td><td>Assessoria de imprensa, relações com media, conferências de imprensa, comunicação institucional</td></tr>
+                <tr><td>Eventos e experiências</td><td>Conferências, lançamentos, visitas de delegações, stands (FACIM, MMEC), activações, merchandising, produção própria, pré-visualização 3D</td></tr>
+                <tr><td>Conteúdo e digital</td><td>Produção audiovisual, design, branding, conteúdo para redes, sites, compra de media</td></tr>
+                <tr><td>Inteligência e monitorização</td><td>Monitorização de media, clipping, relatórios e análise</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="prose">
+            <p>Cada caso segue a mesma estrutura: contexto, desafio, solução, resultado e números. O resultado é um resultado, não a descrição do stand. A página do Africa50 é o modelo; os restantes 8 a 12 casos precisam de dados dos gestores de conta e de autorização de cada cliente.</p>
+            <p>O inglês é escrito de raiz por um redactor nativo com experiência em B2B, a partir de um briefing. Não é traduzido, nem à mão nem por máquina. O leitor é um organizador estrangeiro ou um director de comunicação que não conhece Moçambique, e o texto tem de responder às perguntas dele.</p>
+            <p>Escrevemos frases factuais que um assistente de IA consegue citar tal como estão. Por exemplo: "Playground is a 30-person communication and events agency based in Maputo, Mozambique." Os assistentes citam afirmações verificáveis, não slogans. Por isso evitamos frases vazias e repetimos os factos essenciais (anos, pessoas, escala, clientes, contacto) nas páginas certas.</p>
+            <p>No protótipo, tudo o que aparece com fundo amarelo, como <span class="tbc">+258 xx xxx xxxx</span>, é informação que a Playground tem de fornecer ou confirmar: contactos, morada, horário, testemunhos, resultados, nomes da equipa. Não inventámos nenhum destes dados. As caixas "Nota da proposta" explicam porque é que cada bloco existe; o botão no canto inferior esquerdo esconde-as, e esconde também os destaques amarelos, para ver a página como ficaria publicada.</p>
+          </div>
+          <aside class="note">Esta é uma nota da proposta. Nas páginas do protótipo aparecem 2 a 5 por página, curtas, junto ao bloco a que se referem.</aside>
+        </section>
+
+        <!-- 5 -->
+        <section class="ov-sec" id="design" aria-labelledby="h-design">
+          <h2 id="h-design">5. Design e desempenho</h2>
+          <div class="prose">
+            <p>Em Moçambique os dados móveis são caros, e cada megabyte que poupamos é uma visita que não perdemos. Os factos verificados na homepage actual: 194 KB de HTML, 25 folhas de estilo, 35 scripts e 58 imagens em PNG ou JPG, nenhuma em WebP ou AVIF e nenhuma com lazy loading. As maiores têm entre 440 e 660 KB cada. Estimamos que a primeira visita descarregue entre 8 e 12 MB. Os Core Web Vitals não foram medidos (a quota da API do PageSpeed estava esgotada); temos de correr o teste em pagespeed.web.dev antes de começar.</p>
+            <p>O protótipo usa uma única folha de estilo e um único script pequeno, sem bibliotecas. No site real pedimos o mesmo espírito: imagens em WebP ou AVIF com lazy loading, poucos scripts, cache activa e Cloudflare como CDN, com presença em Joanesburgo, Lisboa e Dubai. A meta é um LCP abaixo de 2,5 segundos em mobile na homepage e na página internacional. O vídeo fica no YouTube ou no Vimeo e só carrega quando alguém carrega no play, com uma imagem de capa leve.</p>
+            <p>A acessibilidade segue a WCAG 2.2 nível AA: um único H1 por página (hoje a homepage não tem nenhum), hierarquia de cabeçalhos correcta, etiquetas em todos os campos, foco visível, contraste suficiente, texto alternativo descritivo e modo escuro. Os cabeçalhos de segurança passam a incluir HSTS, X-Frame-Options e Content-Security-Policy. O aviso de cookies só activa a medição com autorização do visitante (Consent Mode v2 no site real), e a política de privacidade passa a existir.</p>
+          </div>
+        </section>
+
+        <!-- 6 -->
+        <section class="ov-sec" id="tecnologia" aria-labelledby="h-tec">
+          <h2 id="h-tec">6. Tecnologia</h2>
+          <div class="prose">
+            <p>A recomendação é manter o WordPress e o alojamento, abandonar o Elementor e reconstruir as páginas principais num tema leve ou com blocos nativos. O dinheiro vai para conteúdo, inglês e medição, não para tecnologia nova. A versão inglesa usa WPML ou Polylang com hreflang. Os formulários passam a Gravity Forms ou Fluent Forms, ligados ao HubSpot gratuito (ou ao CRM que usarmos), com encaminhamento automático dos pedidos internacionais para uma pessoa definida. A medição faz-se com Google Tag Manager, GA4, Microsoft Clarity e Search Console. Na página internacional entram o botão fixo de WhatsApp Business em mobile e a marcação de chamadas por Calendly ou Google Calendar. O vídeo fica alojado no YouTube ou no Vimeo.</p>
+            <p>Para as três decisões que mais pesam, o relatório distingue o ideal, o realista e o próximo passo.</p>
+          </div>
+          <div class="table-wrap">
+            <table class="data" style="min-width:760px">
+              <thead><tr><th scope="col">Tema</th><th scope="col">Ideal</th><th scope="col">Realista agora</th><th scope="col">Próximo passo</th></tr></thead>
+              <tbody>
+                <tr><td>Reconstrução</td><td>Site novo em WordPress leve ou gerador estático com CMS headless</td><td>Manter WordPress e alojamento, reconstruir as páginas principais num tema leve, migrar o portefólio, desligar o Elementor na homepage e nos serviços</td><td>Pedir dois orçamentos com base na estrutura de páginas deste protótipo</td></tr>
+                <tr><td>Versão inglesa</td><td>Site inteiro em inglês ao nível do português</td><td>Homepage, página internacional, guia, cinco casos e Sobre; fichas de stands ficam em português</td><td>Contratar um redactor nativo com experiência B2B para escrever estas páginas a partir de um briefing</td></tr>
+                <tr><td>Medição</td><td>Painel que cruza visitas por país, pedidos e resultado comercial no CRM</td><td>GTM com cinco eventos de conversão, GA4 e relatório mensal de uma página</td><td>Configurar GTM e eventos antes de qualquer alteração ao site, para ter base de comparação</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- 7 -->
+        <section class="ov-sec" id="medicao" aria-labelledby="h-medicao">
+          <h2 id="h-medicao">7. Medição</h2>
+          <div class="prose">
+            <p>O protótipo já envia os eventos que o Google Tag Manager vai receber no site real. Com as notas da proposta visíveis, cada evento aparece numa pequena mensagem no fundo do ecrã. Todos levam também a língua da página (page_language), o que nos permite separar as duas portas.</p>
+            <p><button class="btn btn-ghost btn-sm" type="button" data-track="cta_click" data-track-label="demo_proposta">Experimentar: enviar um evento de teste</button></p>
+          </div>
+          <div class="table-wrap">
+            <table class="data" style="min-width:700px">
+              <thead><tr><th scope="col">Evento</th><th scope="col">Quando dispara</th><th scope="col">O que nos diz</th></tr></thead>
+              <tbody>
+                <tr><td class="mono small">generate_lead</td><td>Envio válido de um formulário, com os parâmetros form, type, country, attendees e budget quando existem</td><td>Contactos gerados, por formulário, tipo de pedido, país, dimensão e orçamento. É a conversão principal</td></tr>
+                <tr><td class="mono small">rfp_start</td><td>Clique para começar um pedido de proposta</td><td>Interesse internacional, mesmo quando o formulário não é enviado</td></tr>
+                <tr><td class="mono small">whatsapp_click</td><td>Clique no botão de WhatsApp</td><td>Contactos pelo canal preferido em Moçambique</td></tr>
+                <tr><td class="mono small">email_click</td><td>Clique num endereço de email</td><td>Contactos que saem do site por email</td></tr>
+                <tr><td class="mono small">call_booking_click</td><td>Clique para marcar a chamada de 30 minutos</td><td>Pedidos de conversa directa, sobretudo na porta 2</td></tr>
+                <tr><td class="mono small">cta_click</td><td>Clique nos botões principais (Falar connosco, Request a proposal)</td><td>Que páginas e botões empurram para o contacto</td></tr>
+                <tr><td class="mono small">case_view</td><td>Abertura de um caso a partir de uma listagem</td><td>Que casos convencem; o que mostrar primeiro</td></tr>
+                <tr><td class="mono small">filter_cases</td><td>Uso dos filtros de casos</td><td>Que tipos de trabalho e sectores os visitantes procuram</td></tr>
+                <tr><td class="mono small">newsletter_signup</td><td>Inscrição na newsletter dos insights</td><td>Crescimento da audiência institucional</td></tr>
+                <tr><td class="mono small">consent_update</td><td>Aceitação ou recusa de cookies</td><td>Taxa de consentimento, para ler os números com cuidado</td></tr>
+                <tr><td class="mono small">social_click</td><td>Clique em LinkedIn, Instagram ou YouTube</td><td>Que redes os visitantes querem seguir</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="prose">
+            <p>Os indicadores abaixo entram num relatório mensal de uma página, com cerca de 30 minutos de trabalho. Os valores de partida registam-se nos primeiros 30 dias, antes das alterações. As metas são estimativas.</p>
+          </div>
+          <div class="table-wrap">
+            <table class="data" style="min-width:760px">
+              <thead><tr><th scope="col">KPI</th><th scope="col">O que mede</th><th scope="col">Fonte</th><th scope="col">Meta indicativa a 6 meses (estimativa)</th></tr></thead>
+              <tbody>
+                <tr><td>Visitas orgânicas qualificadas</td><td>Sessões orgânicas em serviços, casos, guia ou página internacional</td><td>GA4, páginas por canal</td><td>Duplicar face à base</td></tr>
+                <tr><td>Visitas por país</td><td>Sessões de fora de Moçambique, sobretudo África do Sul, Portugal, Reino Unido, França, Itália, EUA, Emirados</td><td>GA4, dimensão país</td><td>30% das sessões de fora de Moçambique</td></tr>
+                <tr><td>Pedidos de proposta internacionais</td><td>Formulários na página internacional com país fora de Moçambique</td><td>GTM + CRM</td><td>2 a 4 por mês</td></tr>
+                <tr><td>Contactos gerados no total</td><td>Formulários, WhatsApp, email, chamadas marcadas</td><td>GTM + CRM</td><td>10 a 15 por mês</td></tr>
+                <tr><td>Taxa de conversão</td><td>Contactos a dividir por sessões, por página</td><td>GA4 + GTM</td><td>1% a 2% nos serviços; 3% a 5% na página internacional</td></tr>
+                <tr><td>Posições nas pesquisas EN</td><td>event management company Mozambique, event agency Maputo, PR agency Mozambique, conference organiser Mozambique</td><td>Search Console e verificação manual mensal em modo anónimo</td><td>Primeira página em 3 das 4</td></tr>
+                <tr><td>Posições nas pesquisas PT</td><td>agência de eventos Maputo, agência de comunicação Maputo, assessoria de imprensa Moçambique, comunicação corporativa Moçambique</td><td>Search Console e verificação manual</td><td>Top 3 em 3 das 4</td></tr>
+                <tr><td>Menções em respostas de IA</td><td>Perguntar todos os meses a ChatGPT, Perplexity, Gemini e Claude "best event agency in Mozambique" e "PR agency Mozambique"</td><td>Verificação manual com registo em folha de cálculo</td><td>Citada em 3 dos 4 assistentes</td></tr>
+                <tr><td>Tempo de carregamento</td><td>LCP em mobile na homepage e na página internacional</td><td>PageSpeed Insights mensal; Core Web Vitals no Search Console</td><td>LCP abaixo de 2,5 s em mobile</td></tr>
+                <tr><td>Avaliações e perfis</td><td>Avaliações no Google e nos directórios</td><td>Google Business Profile, Clutch, GoodFirms</td><td>10 avaliações no total</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- 8 -->
+        <section class="ov-sec" id="seo" aria-labelledby="h-seo">
+          <h2 id="h-seo">8. SEO e visibilidade em IA</h2>
+          <div class="prose">
+            <p>Hoje o título SEO é igual em todas as páginas, as meta descriptions são geradas com lixo ("12+48=" na página de contacto) e o nome da organização nos dados estruturados é o título SEO completo. As propostas de título e descrição para as três páginas que mais contam estão aplicadas no protótipo.</p>
+          </div>
+          <div class="table-wrap">
+            <table class="data" style="min-width:760px">
+              <thead><tr><th scope="col">Página</th><th scope="col">Título SEO</th><th scope="col">Meta description</th></tr></thead>
+              <tbody>
+                <tr><td>Homepage PT</td><td>Playground | Comunicação Corporativa, PR e Eventos em Moçambique</td><td>Consultora de comunicação em Maputo com 16 anos de mercado. Comunicação corporativa, stakeholders, relações públicas, eventos e monitorização de media para empresas e organizações em Moçambique.</td></tr>
+                <tr><td>Homepage EN</td><td lang="en">Playground | Corporate Communication, PR and Events Agency in Mozambique</td><td lang="en">Maputo-based communication consultancy with 16 years in the market. Corporate communication, stakeholder engagement, PR, events and media monitoring for companies and organisations operating in Mozambique.</td></tr>
+                <tr><td>Página internacional</td><td lang="en">Event Management and PR Agency in Mozambique | Playground, Maputo</td><td lang="en">Local partner for conferences, launches, delegation visits and PR in Mozambique. Own production team, 16 years in Maputo, events up to 500 guests. Request a proposal, reply within 48 hours.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <h3>Palavras-chave por página de destino</h3>
+          <div class="table-wrap">
+            <table class="data" style="min-width:700px">
+              <thead><tr><th scope="col">Página</th><th scope="col">Pesquisas prioritárias</th></tr></thead>
+              <tbody>
+                <tr><td>Página internacional</td><td lang="en">event management company Mozambique; event agency Maputo; corporate event planner Mozambique; conference organiser Mozambique; local event partner Mozambique</td></tr>
+                <tr><td>Guia</td><td lang="en">how to organise an event in Mozambique; conference venues Maputo; event permits Mozambique; corporate events Maputo cost; best time of year for events in Mozambique</td></tr>
+                <tr><td>Casos e serviços EN</td><td lang="en">PR agency Mozambique; media relations Mozambique; press conference Maputo; product launch Mozambique; exhibition stand FACIM; exhibition stand MMEC Maputo; delegation visit support Mozambique; live streaming Maputo</td></tr>
+                <tr><td>Frente institucional EN</td><td lang="en">corporate communication agency Mozambique; stakeholder engagement Mozambique; reputation management Mozambique; media monitoring Mozambique</td></tr>
+                <tr><td>Homepage e serviços PT</td><td>agência de comunicação Maputo; comunicação corporativa Moçambique; consultora de comunicação Moçambique; gestão de stakeholders Moçambique; relações públicas Maputo</td></tr>
+                <tr><td>Eventos PT</td><td>agência de eventos Maputo; organização de eventos corporativos Moçambique; conferências Maputo; stands FACIM; activação de marca Moçambique</td></tr>
+                <tr><td>Media e conteúdo PT</td><td>assessoria de imprensa Moçambique; monitorização de media Moçambique; clipping Moçambique; produção audiovisual Maputo; vídeo institucional Moçambique</td></tr>
+                <tr><td>Sectores PT</td><td>comunicação oil &amp; gas Moçambique; comunicação sector bancário Moçambique; comunicação ONG Moçambique</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="prose">
+            <p>Os volumes de pesquisa não foram medidos. Estimamos dezenas de pesquisas por mês, não centenas, mas com intenção comercial muito alta. Para confirmar, usamos o Search Console depois de 60 dias de conteúdo novo e o Planeador de Palavras-chave do Google Ads, com localização em Moçambique, África do Sul, Portugal e Reino Unido.</p>
+            <h3>Dados estruturados</h3>
+            <p>Organization com o nome "Playground" e ProfessionalService na homepage e no Sobre; Service nas páginas de serviços; Article no guia e nos insights; BreadcrumbList nas páginas interiores; FAQPage onde houver perguntas frequentes; Event nos casos de eventos com data e local, quando os dados estiverem confirmados. Não pomos em schema moradas ou telefones que ainda não confirmámos. Os pares PT e EN levam hreflang, com x-default na homepage portuguesa.</p>
+            <h3>Fora do site</h3>
+            <p>Os assistentes de IA e o Google confiam em directórios e redes. Propomos perfis completos no Clutch, GoodFirms e Sortlist, e entrada no directório de marketing e PR do expat.com, onde hoje não estamos. O Google Business Profile tem de ser reclamado e completado com as categorias "Agência de eventos" e "Agência de relações públicas", fotos e avaliações. Pedimos cinco avaliações a clientes. E candidatamo-nos a uma rede internacional de agências independentes (PRGN, IPREX, Worldcom PR Group ou PROI Worldwide) e a uma rede de eventos (ILEA ou Global DMC Partners), que é o canal que a OneMedia já usa através da mc Group. Ainda não sabemos se alguma destas redes já tem parceiro em Moçambique; esse levantamento faz parte do plano. O Profile pode ser uma fonte de menções em imprensa de negócios.</p>
+          </div>
+        </section>
+
+        <!-- 9 -->
+        <section class="ov-sec" id="plano" aria-labelledby="h-plano">
+          <h2 id="h-plano">9. Plano a 30, 60 e 90 dias</h2>
+          <ol class="steps">
+            <li>
+              <h3>Dias 1 a 30: medir, limpar e abrir a porta internacional</h3>
+              <p>Configurar GTM, eventos de conversão, GA4, Clarity e CRM antes de mudar qualquer página. Limpar a página de teste, o vídeo de template, as meta descriptions, o H1 e os horários. Publicar a página internacional em inglês e a nova homepage em PT e EN, mesmo com o resto do site como está. Criar os perfis nos directórios e completar o Google Business Profile. Instalar Cloudflare, converter imagens para WebP, activar cache. Pedir dois orçamentos de reconstrução.</p>
+            </li>
+            <li>
+              <h3>Dias 31 a 60: conteúdo e estrutura</h3>
+              <p>Publicar o guia em inglês. Publicar Sobre e Serviços por problema, em PT e EN. Transformar 8 a 12 projectos em casos de estudo com resultados, com autorização dos clientes. Publicar a política de privacidade e o consentimento de cookies. Pedir avaliações a cinco clientes. Identificar e contactar duas redes internacionais de agências.</p>
+            </li>
+            <li>
+              <h3>Dias 61 a 90: consolidar</h3>
+              <p>Concluir a reconstrução técnica se o orçamento o permitir, ou pelo menos retirar o Elementor das páginas principais. Publicar as páginas por sector. Lançar os insights com o primeiro artigo e a newsletter. Submeter a candidatura à rede de agências. Fazer o primeiro relatório mensal com a base dos primeiros 30 dias e decidir o que ajustar.</p>
+            </li>
+          </ol>
+          <div class="callout">
+            <p><strong>O que não fazer nos primeiros 90 dias:</strong> assistente de IA no site, área reservada para clientes e mudança de CMS. Nenhum destes resolve o problema de fundo, que é não haver conteúdo nem inglês.</p>
+          </div>
+        </section>
+
+        <!-- 10 -->
+        <section class="ov-sec" id="orcamento" aria-labelledby="h-orc">
+          <h2 id="h-orc">10. Orçamento indicativo</h2>
+          <div class="grid g-2">
+            <div class="card">
+              <p class="eyebrow">90 dias, sem reconstrução completa</p>
+              <p class="budget-tot">5.000 a 10.000 USD</p>
+              <p class="small muted">A maior parte em redacção em inglês e casos de estudo.</p>
+            </div>
+            <div class="card">
+              <p class="eyebrow">90 dias, com reconstrução</p>
+              <p class="budget-tot">9.000 a 18.000 USD</p>
+              <p class="small muted">Inclui a reconstrução técnica sem Elementor, de 4.000 a 8.000 USD.</p>
+            </div>
+          </div>
+          <div class="prose">
+            <p>São estimativas, com fornecedores em Moçambique, Portugal ou África do Sul. Os valores reais dependem de quem escolhermos. As linhas principais da tabela de prioridades:</p>
+          </div>
+          <div class="table-wrap">
+            <table class="data" style="min-width:640px">
+              <thead><tr><th scope="col">#</th><th scope="col">Acção</th><th scope="col">Custo estimado (USD)</th><th scope="col">Prazo</th></tr></thead>
+              <tbody>
+                <tr><td class="num">1</td><td>Página internacional em inglês</td><td class="num">1.500 a 3.000</td><td>30 dias</td></tr>
+                <tr><td class="num">2</td><td>Guia em inglês</td><td class="num">1.000 a 2.500</td><td>60 dias</td></tr>
+                <tr><td class="num">3</td><td>Nova arquitectura de páginas</td><td>Incluída na reconstrução</td><td>60 dias</td></tr>
+                <tr><td class="num">4</td><td>Reescrever a homepage em PT e EN</td><td class="num">300 a 800</td><td>30 dias</td></tr>
+                <tr><td class="num">5</td><td>GTM, eventos, GA4, Clarity, CRM</td><td class="num">0</td><td>15 dias</td></tr>
+                <tr><td class="num">6</td><td>Limpeza imediata</td><td class="num">0 a 200</td><td>15 dias</td></tr>
+                <tr><td class="num">7</td><td>Directórios, Google Business Profile, avaliações</td><td>0 (Sortlist tem plano pago opcional)</td><td>30 dias</td></tr>
+                <tr><td class="num">9</td><td>8 a 12 casos de estudo</td><td class="num">800 a 2.000</td><td>60 dias</td></tr>
+                <tr><td class="num">10</td><td>Desempenho: WebP, cache, Cloudflare</td><td class="num">0 a 500</td><td>30 dias</td></tr>
+                <tr><td class="num">11</td><td>Privacidade, cookies, cabeçalhos de segurança</td><td class="num">0 a 300</td><td>30 dias</td></tr>
+                <tr><td class="num">15</td><td>Reconstrução técnica sem Elementor</td><td class="num">4.000 a 8.000</td><td>90 dias</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="prose">
+            <p class="small muted">Custos recorrentes à parte: plugin de línguas 150 a 300 USD por ano, formulários 60 a 200 USD por ano, CDN 0 a 25 USD por mês, WhatsApp Business 0 a 15 USD por mês, ferramenta de insights e newsletter 0 a 50 USD por mês. A quota de uma rede internacional de agências (1.000 a 5.000 USD por ano, se formos aceites) é uma decisão separada.</p>
+          </div>
+        </section>
+
+        <!-- 11 -->
+        <section class="ov-sec" id="decisoes" aria-labelledby="h-dec">
+          <h2 id="h-dec">11. Decisões que precisamos da direcção</h2>
+          <ol class="decisions">
+            <li>Aprovar a arquitectura de uma casa e duas portas e o mapa do site deste protótipo.</li>
+            <li>Nomear a pessoa interna dona do site, que coordena o fornecedor e o conteúdo.</li>
+            <li>Definir quem recebe e responde aos pedidos internacionais em 48 horas, com um modelo de resposta pronto.</li>
+            <li>Contratar um redactor nativo de inglês com experiência em B2B.</li>
+            <li>Pedir aos gestores de conta dados e autorizações dos clientes para 8 a 12 casos.</li>
+            <li>Pedir dois orçamentos de reconstrução com base neste protótipo.</li>
+            <li>Confirmar os dados em falta: telefone, email, morada e um horário único.</li>
+            <li>Validar a política de privacidade com um advogado, tendo em conta a proposta de lei de protecção de dados que ainda não está em vigor.</li>
+            <li>Escolher a rede internacional de agências a que nos candidatamos e aprovar a quota, se formos aceites.</li>
+          </ol>
+        </section>
+
+        <!-- 12 -->
+        <section class="ov-sec" id="como" aria-labelledby="h-como">
+          <h2 id="h-como">12. Como este protótipo foi feito</h2>
+          <div class="prose">
+            <p>O protótipo foi construído por uma equipa coordenada de agentes de IA, a trabalhar a partir de um único briefing e de um único sistema de design partilhado: um agente por grupo de páginas e outro para esta página de apresentação. Por isso mostra estrutura, texto e comportamento (navegação, filtros, formulários, eventos de medição, consentimento de cookies). As fotografias reais, o texto final em inglês escrito por um redactor nativo e os resultados verificados dos casos ainda estão por fazer.</p>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="stack">
+        <span class="brand-mark">Playground</span>
+        <p>Proposta de novo site. Documento de trabalho interno para a direcção, Outubro de 2026.</p>
+      </div>
+      <div><h2>Protótipo</h2><ul>
+        <li><a href="pt/index.html">Versão portuguesa</a></li>
+        <li><a href="en/index.html" hreflang="en">Versão inglesa</a></li>
+        <li><a href="en/events-pr-mozambique.html" hreflang="en">Porta internacional</a></li>
+      </ul></div>
+      <div><h2>Base</h2><ul>
+        <li>Relatório de melhorias do site, 16 de Outubro de 2026</li>
+        <li>Custos e metas: estimativas</li>
+      </ul></div>
+    </div>
+    <div class="footer-base"><span>© 2026 Playground, Lda.</span><span>Não indexar. Uso interno.</span></div>
+  </div>
+</footer>
+</body>
+</html>
