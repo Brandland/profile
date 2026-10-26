@@ -1,0 +1,376 @@
+{
+  "lang": "en",
+  "locale": "en_GB",
+  "label": "EN",
+  "label_long": "English",
+  "ui": {
+    "skip": "Skip to content",
+    "home_aria": "Playground home",
+    "menu_open": "Open menu",
+    "cta": "Start a conversation",
+    "nav": {
+      "index": "Home",
+      "expertise": "Expertise",
+      "sectors": "Sectors",
+      "work": "Work",
+      "about": "About",
+      "insights": "Insights",
+      "contact": "Contact"
+    },
+    "footer_tagline": "Ideas, people, culture and technology brought together to move organisations forward.",
+    "footer_navigate": "Navigate",
+    "footer_connect": "Connect",
+    "footer_based": "Based in",
+    "footer_based_lines": ["Maputo, Mozambique", "Southern Africa"],
+    "footer_rights": "© 2026 Playground. All rights reserved.",
+    "footer_privacy": "Privacy policy",
+    "footer_motto": "Ideas move people.",
+    "follow_linkedin": "Follow us on LinkedIn",
+    "share_linkedin": "Share on LinkedIn",
+    "copy_link": "Copy link",
+    "copied": "Link copied",
+    "read_case": "Read the case",
+    "view_all_work": "View all work",
+    "next_case": "Next case",
+    "back_to_work": "All work",
+    "filter_all": "All",
+    "read_more": "Read",
+    "min_read": "min read",
+    "draft_note": "Illustrative case. Replace with client-approved content before launch.",
+    "lang_switch_label": "Language"
+  },
+  "pages": {
+    "index": {
+      "title": "Playground | Communication, stakeholder engagement and brands in Mozambique",
+      "description": "Playground helps organisations in Mozambique and Southern Africa understand their stakeholders, shape their reputation and communicate with impact."
+    },
+    "expertise": {
+      "title": "Expertise | Playground",
+      "description": "Strategic communication, stakeholder engagement, reputation, brand, content, events and digital capabilities from one integrated team."
+    },
+    "sectors": {
+      "title": "Sectors | Playground",
+      "description": "Communication and stakeholder expertise for energy, finance, telecoms, development, infrastructure and consumer sectors."
+    },
+    "work": {
+      "title": "Work | Playground",
+      "description": "Selected case studies from Playground's work in Mozambique across energy, telecoms, finance and development."
+    },
+    "about": {
+      "title": "About | Playground",
+      "description": "Sixteen years building communication, brands and stakeholder relationships in Mozambique."
+    },
+    "insights": {
+      "title": "Insights | Playground",
+      "description": "Playground perspectives on communication, stakeholders, reputation, brands and markets in Mozambique and Southern Africa."
+    },
+    "contact": {
+      "title": "Contact | Playground",
+      "description": "Talk to Playground about strategy, stakeholder engagement, campaigns, events and communication in Mozambique."
+    },
+    "privacy": {
+      "title": "Privacy policy | Playground",
+      "description": "How Playground collects and uses personal data on this website."
+    }
+  },
+  "home": {
+    "kicker": "Communication · Stakeholders · Brands",
+    "title_html": "We help organisations <span class=\"accent\">move people.</span>",
+    "lead": "Playground is a Maputo based strategic communication group. We help organisations understand their stakeholders, shape their reputation and turn ideas into campaigns, events and conversations that create value.",
+    "cta_primary": "Start a conversation",
+    "cta_secondary": "See our work",
+    "proof": [
+      {"value": "16", "suffix": " years", "label": "operating in Mozambique"},
+      {"value": "100", "suffix": "+", "label": "projects every year"},
+      {"value": "30", "suffix": "+", "label": "specialists in one team"},
+      {"value": "8", "suffix": "", "label": "sectors served"}
+    ],
+    "marquee": ["Stakeholder intelligence", "Corporate communication", "Public relations", "Brand strategy", "Events and activations", "Audiovisual production", "Digital and social", "Media monitoring"],
+    "services_eyebrow": "What we do",
+    "services_title": "One team, from insight to execution.",
+    "services_lead": "Most communication problems are not only about the message. They are about who needs to understand it, who influences them and what they expect in return.",
+    "work_eyebrow": "Selected work",
+    "work_title": "Proof, not promises.",
+    "work_lead": "A selection of programmes where strategy, stakeholders and execution had to work together.",
+    "metrics_eyebrow": "Playground in numbers",
+    "metrics_title": "Built in Mozambique. Trusted by organisations that operate here.",
+    "metrics": [
+      {"value": "16", "suffix": "", "label": "years in the market"},
+      {"value": "100", "suffix": "+", "label": "projects a year"},
+      {"value": "35", "suffix": "", "label": "people, one integrated team"},
+      {"value": "8", "suffix": "", "label": "sectors with active clients"}
+    ],
+    "sectors_eyebrow": "Sectors",
+    "sectors_title": "Different markets. Different signals.",
+    "insights_eyebrow": "Insights",
+    "insights_title": "Thinking we share.",
+    "linkedin_eyebrow": "On LinkedIn",
+    "linkedin_title": "Follow the conversation.",
+    "linkedin_lead": "We publish perspectives, project news and team updates on LinkedIn. Follow Playground to stay close to what we are seeing in the market.",
+    "cta_eyebrow": "Next step",
+    "cta_title": "Have a stakeholder, reputation or communication challenge?",
+    "cta_lead": "Tell us what you are trying to achieve. We will come back with a clear view of how we would approach it.",
+    "cta_button": "Start a conversation"
+  },
+  "services": [
+    {"slug": "strategy", "title": "Strategic communication", "text": "Positioning, narrative, messaging and communication plans grounded in your business objectives.", "detail": "We start with the decision the organisation needs to make or defend, then build the narrative, audiences, channels and sequencing around it. Strategy documents are short and usable by the people who have to execute them."},
+    {"slug": "stakeholders", "title": "Stakeholder intelligence and engagement", "text": "Mapping, listening and engagement programmes for the people and institutions that shape your licence to operate.", "detail": "Stakeholder mapping, influence analysis, perception research, community and institutional engagement plans, and the reporting that keeps leadership informed. The aim is to improve the quality and value of every exchange."},
+    {"slug": "reputation", "title": "Public relations and reputation", "text": "Media relations, issues and crisis preparedness, executive positioning and media monitoring.", "detail": "Daily media monitoring and analysis, press office, spokesperson preparation, issue tracking and crisis protocols. We know the Mozambican media landscape and how stories travel within it."},
+    {"slug": "brand", "title": "Brand and creative", "text": "Brand strategy, identity, campaigns and design that carry meaning across cultures and channels.", "detail": "Brand platforms, visual identity, campaign concepts and design systems. We work in Portuguese and English and adapt work for the audiences who actually need to engage with it."},
+    {"slug": "events", "title": "Events, activations and conferences", "text": "Conferences, launches, exhibitions, stands and activations planned and delivered end to end.", "detail": "From a closed executive roundtable to a national conference, we handle concept, logistics, production, protocol, suppliers and on site management, with a single accountable project lead."},
+    {"slug": "content", "title": "Audiovisual and content", "text": "Documentaries, corporate films, photography and editorial content produced by our in house team.", "detail": "Our production team covers scripting, filming, editing and motion graphics, including field production in provinces where logistics are complex."},
+    {"slug": "digital", "title": "Digital, social and media", "text": "Social media management, digital campaigns, media planning and buying, and performance reporting.", "detail": "Channel strategy, community management, paid media, influencer work and monthly reporting that connects activity to outcomes rather than vanity metrics."},
+    {"slug": "advisory", "title": "Data, AI and advisory", "text": "Research, dashboards and AI enabled intelligence that help leaders decide earlier and with more confidence.", "detail": "We combine media data, stakeholder input and market signals into dashboards and briefings, and help communication teams adopt AI tools with clear quality control."}
+  ],
+  "sectors": [
+    {"slug": "energy", "name": "Energy & Natural Resources", "text": "Large projects, long timelines and many stakeholders, from government to host communities."},
+    {"slug": "finance", "name": "Financial Services", "text": "Trust, regulation and inclusion shape how banks and insurers need to communicate."},
+    {"slug": "telecom", "name": "Telecom & Technology", "text": "National reach, fast product cycles and brands that are part of daily life."},
+    {"slug": "development", "name": "Development & Social Impact", "text": "Behaviour change, accountability to donors and communication that reaches people where they are."},
+    {"slug": "infrastructure", "name": "Infrastructure & Logistics", "text": "Projects that affect territories, corridors and public expectations."},
+    {"slug": "consumer", "name": "Consumer & Lifestyle", "text": "Brands competing for attention in a young, mobile and fast changing market."},
+    {"slug": "professional", "name": "Professional Services", "text": "Positioning expertise and building credibility with decision makers."},
+    {"slug": "institutions", "name": "Institutions & Membership Organisations", "text": "Associations, chambers and public bodies that need to represent and engage many voices."}
+  ],
+  "expertise_page": {
+    "eyebrow": "Expertise",
+    "title": "Integrated capabilities for organisations that need to be understood.",
+    "lead": "Strategy, stakeholder engagement, reputation, creative and production in one team, so the thinking and the execution do not get separated.",
+    "meta": [
+      {"strong": "8", "text": "practice areas"},
+      {"strong": "PT / EN", "text": "bilingual delivery"},
+      {"strong": "In house", "text": "creative and production"}
+    ],
+    "method_eyebrow": "How we work",
+    "method_title": "Understand. Shape. Deliver. Learn.",
+    "method": [
+      {"title": "Understand", "text": "Stakeholders, context, perceptions and the business decision behind the brief."},
+      {"title": "Shape", "text": "Narrative, priorities, channels and a plan the client team can own."},
+      {"title": "Deliver", "text": "Campaigns, events, content and engagement, managed by one accountable lead."},
+      {"title": "Learn", "text": "Monitoring and reporting that show what changed and what to adjust."}
+    ]
+  },
+  "sectors_page": {
+    "eyebrow": "Sectors",
+    "title": "Communication is more effective when it understands the business around it.",
+    "lead": "We work across sectors where stakeholder expectations, regulation, reputation, social impact and visibility can materially affect the organisation.",
+    "intel_eyebrow": "Sector intelligence",
+    "intel_title": "Different markets. Different signals.",
+    "intel_lead": "The same message does not travel the same way in banking, energy, telecommunications or development.",
+    "intel_copy": "Each sector has its own decision cycles, stakeholder networks, language, reputational sensitivities and operating pressures. Our role is to understand those dynamics early enough to shape communication around them, not after the fact.",
+    "quote": "Context is not background information. It is part of the strategy.",
+    "quote_by": "Playground approach",
+    "see_cases": "See related work"
+  },
+  "work_page": {
+    "eyebrow": "Work",
+    "title": "Work that had to perform in the real world.",
+    "lead": "Case studies from programmes where audiences were diverse, stakes were high and delivery had to be precise.",
+    "filters": [
+      {"key": "strategy", "label": "Strategy & reputation"},
+      {"key": "engagement", "label": "Stakeholder engagement"},
+      {"key": "campaigns", "label": "Campaigns"},
+      {"key": "events", "label": "Events"}
+    ]
+  },
+  "about_page": {
+    "eyebrow": "About",
+    "title": "Sixteen years of understanding how Mozambique communicates.",
+    "lead": "Playground was founded in Maputo in 2010. Today we are a multidisciplinary team of more than thirty people working with national and international organisations across the country.",
+    "story_eyebrow": "Our story",
+    "story_title": "From agency to stakeholder partner.",
+    "story": [
+      "We started as a creative and events company. Over time our clients asked us for more: to help them understand their audiences, manage their reputation and engage communities, government and partners.",
+      "That is the direction we continue to build. Playground connects stakeholder intelligence, strategic communication and high quality execution, because in Mozambique relationships, trust and context often decide outcomes as much as the message itself."
+    ],
+    "values_eyebrow": "What guides us",
+    "values_title": "How we work with clients.",
+    "values": [
+      {"title": "Context first", "text": "We take time to understand the environment before we propose the message."},
+      {"title": "Ownership", "text": "Every project has one accountable lead and a clear line of responsibility."},
+      {"title": "Craft", "text": "Strategy only matters if the execution is good enough to carry it."},
+      {"title": "Candour", "text": "We tell clients what we see, including when it is not what they expected."},
+      {"title": "Local depth", "text": "Mozambican knowledge and networks, with international standards."},
+      {"title": "Learning", "text": "We measure, review and bring what we learn into the next project."}
+    ],
+    "leadership_eyebrow": "Leadership",
+    "leadership_title": "The people accountable for your work.",
+    "leaders": [
+      {"name": "Miguel Proença", "role": "Founder & Director General", "bio": "Founded Playground in 2010. Leads strategy, key client relationships and the group's development across Mozambique and Southern Africa."},
+      {"name": "Name to confirm", "role": "Client Services Director", "bio": "Short biography to be added."},
+      {"name": "Name to confirm", "role": "Creative & Production Director", "bio": "Short biography to be added."}
+    ]
+  },
+  "insights_page": {
+    "eyebrow": "Insights",
+    "title": "Ideas for people making communication decisions.",
+    "lead": "Short perspectives on reputation, stakeholder dynamics, media, brands, technology and communication in Mozambique and Southern Africa.",
+    "newsletter_eyebrow": "Stay informed",
+    "newsletter_title": "Get new perspectives on LinkedIn.",
+    "newsletter_lead": "We publish our insights on LinkedIn first. Follow Playground to receive them in your feed."
+  },
+  "insights": [
+    {"slug": "stakeholder-intelligence-strategy", "tag": "Strategy", "title": "Why stakeholder intelligence should sit closer to strategy.", "excerpt": "Communication teams often see signals early. The question is whether those signals are interpreted before the decision is made.", "minutes": 8, "feature": true,
+     "body": [
+       "In most organisations, the communication team is one of the first places where signals arrive. A journalist asks an unexpected question. A community leader raises the same concern for the third time. A regulator changes tone in a meeting. A partner stops replying as quickly as before.",
+       "Individually these look like operational details. Together they often describe a shift in how the organisation is perceived, and in what stakeholders expect from it.",
+       "The problem is that these signals are usually handled as communication tasks: answer the journalist, prepare a statement, schedule a meeting. They rarely reach the table where strategic decisions are made, at least not in a structured way and not early enough.",
+       "Stakeholder intelligence is the discipline of collecting those signals, interpreting them and presenting them to leadership in a form that supports decisions. It is not a report of media coverage. It is an answer to a simple question: what is changing in our environment, and what does it mean for what we are about to do?",
+       "Three practical steps make a difference. First, agree which stakeholders and issues really matter for the next twelve months. Second, create a regular rhythm where signals from media, field teams and relationships are brought together and discussed. Third, connect that discussion to specific decisions, not to general awareness.",
+       "In complex operating environments such as Mozambique, where formal structures do not always show how influence works, this matters even more. The organisations that read their environment well are usually the ones that avoid surprises."
+     ]},
+    {"slug": "high-context-communication", "tag": "Markets", "title": "Communication in high context environments.", "excerpt": "Why local relationships, timing and informal influence matter as much as the formal channel plan.", "minutes": 6},
+    {"slug": "ai-production-judgement", "tag": "Creative", "title": "AI changes production. It does not replace judgement.", "excerpt": "How to use faster creative systems without flattening brand distinctiveness.", "minutes": 5}
+  ],
+  "cases": [
+    {
+      "slug": "energy-stakeholder-programme",
+      "category": "engagement",
+      "sector": "energy",
+      "tag": "Energy · Stakeholder engagement",
+      "title": "A stakeholder programme for a major energy project.",
+      "summary": "Mapping, engagement and reporting for a project with national visibility and local impact.",
+      "client": "International energy operator",
+      "year": "2024–2025",
+      "location": "Maputo and Cabo Delgado",
+      "services": ["Stakeholder mapping", "Engagement planning", "Media monitoring", "Reporting"],
+      "media": "space",
+      "challenge": "The project had many audiences with very different expectations: central government, provincial authorities, host communities, suppliers, media and international partners. Information was fragmented across teams and leadership lacked a single view of where relationships stood.",
+      "approach": "We started with a structured stakeholder map built from interviews with the client's field and corporate teams, media analysis and our own network knowledge. Each stakeholder group received a clear objective, an owner and a rhythm of engagement. We then set up a monthly intelligence brief connecting what we were hearing to the decisions leadership was preparing.",
+      "delivered": ["Stakeholder map and influence analysis", "Twelve month engagement plan with owners", "Monthly intelligence briefs for leadership", "Daily media monitoring in Portuguese and English", "Community information materials"],
+      "results": [
+        {"value": "1", "label": "shared view of stakeholders across teams"},
+        {"value": "12", "label": "monthly briefs to leadership"},
+        {"value": "PT / EN", "label": "bilingual monitoring"}
+      ],
+      "quote": "For the first time we could see, in one place, where every important relationship stood.",
+      "quote_by": "Client communication lead (to confirm)",
+      "draft": true
+    },
+    {
+      "slug": "telecom-national-campaign",
+      "category": "campaigns",
+      "sector": "telecom",
+      "tag": "Telecom · Campaign",
+      "title": "A national campaign that spoke to every province.",
+      "summary": "Concept, production and rollout of a multichannel campaign for a mobile operator.",
+      "client": "Mobile operator",
+      "year": "2025",
+      "location": "National",
+      "services": ["Campaign concept", "Audiovisual production", "Media planning", "Social media"],
+      "media": "dark",
+      "challenge": "The brand needed a campaign that would feel relevant in Maputo and in rural districts, across age groups and languages, while supporting a specific commercial objective.",
+      "approach": "We tested the core idea with small groups in three provinces before production. The final concept used real people and places, with versions adapted for radio, outdoor, digital and activations. Media was planned to balance national reach with local presence.",
+      "delivered": ["Campaign platform and key visuals", "TV, radio and digital films", "Outdoor and point of sale materials", "Social media content plan", "Field activations"],
+      "results": [
+        {"value": "3", "label": "provinces involved in concept testing"},
+        {"value": "4", "label": "channels from one idea"},
+        {"value": "TBC", "label": "reach and commercial results"}
+      ],
+      "quote": "",
+      "quote_by": "",
+      "draft": true
+    },
+    {
+      "slug": "bank-reputation-media",
+      "category": "strategy",
+      "sector": "finance",
+      "tag": "Financial services · Reputation",
+      "title": "Rebuilding media confidence for a financial institution.",
+      "summary": "Press office, spokesperson preparation and issues management over twelve months.",
+      "client": "Commercial bank",
+      "year": "2023–2024",
+      "location": "Maputo",
+      "services": ["Media relations", "Issues management", "Spokesperson training", "Media monitoring"],
+      "media": "light",
+      "challenge": "After a period of negative coverage, the institution had become cautious with the media. Journalists found it difficult to get answers and stories were often published without the bank's view.",
+      "approach": "We proposed a more open but well prepared approach. We agreed a small group of spokespeople, trained them, created a calendar of positive stories and set clear response times for media questions. Monitoring helped us see quickly which issues were growing.",
+      "delivered": ["Media relations strategy", "Spokesperson training sessions", "Issue and response protocol", "Press releases and interviews", "Monthly reputation reports"],
+      "results": [
+        {"value": "24h", "label": "target response time to media"},
+        {"value": "3", "label": "trained spokespeople"},
+        {"value": "TBC", "label": "change in coverage tone"}
+      ],
+      "quote": "",
+      "quote_by": "",
+      "draft": true
+    },
+    {
+      "slug": "development-conference",
+      "category": "events",
+      "sector": "development",
+      "tag": "Development · Event",
+      "title": "An international conference delivered end to end.",
+      "summary": "Concept, logistics, protocol and content for a high level gathering in Maputo.",
+      "client": "International organisation",
+      "year": "2025",
+      "location": "Maputo",
+      "services": ["Event concept", "Logistics and protocol", "Stand and stage design", "Audiovisual coverage"],
+      "media": "orbit",
+      "challenge": "A two day conference with government, donors, civil society and international delegations, organised in a short timeframe and with strict protocol requirements.",
+      "approach": "One project lead coordinated venue, suppliers, protocol, accreditation, interpretation, design and content. We built a detailed run of show, rehearsed critical moments with the client and kept a daily coverage team on site.",
+      "delivered": ["Event identity and stage design", "Accreditation and protocol management", "Simultaneous interpretation", "Photo and video coverage", "Post event film and report"],
+      "results": [
+        {"value": "2", "label": "days, one accountable lead"},
+        {"value": "PT / EN", "label": "full interpretation"},
+        {"value": "TBC", "label": "participants and delegations"}
+      ],
+      "quote": "",
+      "quote_by": "",
+      "draft": true
+    }
+  ],
+  "contact_page": {
+    "eyebrow": "Contact",
+    "title": "Let's talk about what you need to move.",
+    "lead": "Tell us about your organisation and the challenge in front of you. A senior member of the team will reply within two working days.",
+    "card_title": "Playground",
+    "card_text": "Strategic communication, stakeholder engagement and brands. Based in Maputo, working across Mozambique and Southern Africa.",
+    "lines": [
+      {"label": "Email", "value": "info@playground.co.mz", "href": "mailto:info@playground.co.mz"},
+      {"label": "Phone", "value": "+258 00 000 0000", "href": "tel:+258000000000"},
+      {"label": "Office", "value": "Maputo, Mozambique", "href": ""},
+      {"label": "LinkedIn", "value": "Playground", "href": "LINKEDIN"}
+    ],
+    "form": {
+      "name": "Name",
+      "company": "Organisation",
+      "email": "Email",
+      "phone": "Phone",
+      "interest": "Area of interest",
+      "interest_options": ["Strategy and reputation", "Stakeholder engagement", "Campaigns and brand", "Events and activations", "Content and production", "Digital and media", "Other"],
+      "message": "How can we help?",
+      "consent": "I agree that Playground may use these details to reply to my enquiry.",
+      "submit": "Send message",
+      "sending": "Sending...",
+      "thanks": "Thank you. We will be in touch.",
+      "note": "We only use your details to reply to this enquiry. See our privacy policy."
+    }
+  },
+  "privacy_page": {
+    "eyebrow": "Legal",
+    "title": "Privacy policy",
+    "body": [
+      "This is a placeholder policy to be reviewed by Playground's legal adviser before launch.",
+      "Playground collects the personal data you send through the contact form (name, organisation, email, phone and message) only to reply to your enquiry. We do not sell or share this data with third parties for marketing.",
+      "If analytics or LinkedIn tracking is enabled, it only runs after you accept it in the cookie banner. You can change your choice at any time by clearing your browser data.",
+      "To ask about, correct or delete your data, write to info@playground.co.mz."
+    ]
+  },
+  "cookie": {
+    "text": "We use optional cookies to understand how the site is used and to measure LinkedIn campaigns.",
+    "accept": "Accept",
+    "decline": "Decline"
+  },
+  "case_labels": {
+    "client": "Client",
+    "sector": "Sector",
+    "year": "Year",
+    "location": "Location",
+    "services": "Services",
+    "challenge": "The challenge",
+    "approach": "Our approach",
+    "delivered": "What we delivered",
+    "results": "Results"
+  }
+}

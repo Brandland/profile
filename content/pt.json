@@ -1,0 +1,376 @@
+{
+  "lang": "pt",
+  "locale": "pt_PT",
+  "label": "PT",
+  "label_long": "Português",
+  "ui": {
+    "skip": "Saltar para o conteúdo",
+    "home_aria": "Página inicial da Playground",
+    "menu_open": "Abrir menu",
+    "cta": "Fale connosco",
+    "nav": {
+      "index": "Início",
+      "expertise": "Competências",
+      "sectors": "Sectores",
+      "work": "Trabalho",
+      "about": "Sobre nós",
+      "insights": "Perspectivas",
+      "contact": "Contacto"
+    },
+    "footer_tagline": "Ideias, pessoas, cultura e tecnologia ao serviço das organizações.",
+    "footer_navigate": "Navegar",
+    "footer_connect": "Ligar",
+    "footer_based": "Onde estamos",
+    "footer_based_lines": ["Maputo, Moçambique", "África Austral"],
+    "footer_rights": "© 2026 Playground. Todos os direitos reservados.",
+    "footer_privacy": "Política de privacidade",
+    "footer_motto": "Ideas move people.",
+    "follow_linkedin": "Siga-nos no LinkedIn",
+    "share_linkedin": "Partilhar no LinkedIn",
+    "copy_link": "Copiar link",
+    "copied": "Link copiado",
+    "read_case": "Ver o caso",
+    "view_all_work": "Ver todo o trabalho",
+    "next_case": "Caso seguinte",
+    "back_to_work": "Todo o trabalho",
+    "filter_all": "Todos",
+    "read_more": "Ler",
+    "min_read": "min de leitura",
+    "draft_note": "Caso ilustrativo. Substituir por conteúdo aprovado pelo cliente antes do lançamento.",
+    "lang_switch_label": "Idioma"
+  },
+  "pages": {
+    "index": {
+      "title": "Playground | Comunicação, envolvimento de stakeholders e marcas em Moçambique",
+      "description": "A Playground ajuda organizações em Moçambique e na África Austral a compreender os seus stakeholders, gerir a sua reputação e comunicar com impacto."
+    },
+    "expertise": {
+      "title": "Competências | Playground",
+      "description": "Comunicação estratégica, envolvimento de stakeholders, reputação, marca, conteúdos, eventos e digital numa só equipa."
+    },
+    "sectors": {
+      "title": "Sectores | Playground",
+      "description": "Experiência em comunicação e stakeholders nos sectores da energia, banca, telecomunicações, desenvolvimento, infra-estruturas e consumo."
+    },
+    "work": {
+      "title": "Trabalho | Playground",
+      "description": "Casos seleccionados do trabalho da Playground em Moçambique, nos sectores da energia, telecomunicações, banca e desenvolvimento."
+    },
+    "about": {
+      "title": "Sobre nós | Playground",
+      "description": "Dezasseis anos a construir comunicação, marcas e relações com stakeholders em Moçambique."
+    },
+    "insights": {
+      "title": "Perspectivas | Playground",
+      "description": "Perspectivas da Playground sobre comunicação, stakeholders, reputação, marcas e mercados em Moçambique e na África Austral."
+    },
+    "contact": {
+      "title": "Contacto | Playground",
+      "description": "Fale com a Playground sobre estratégia, envolvimento de stakeholders, campanhas, eventos e comunicação em Moçambique."
+    },
+    "privacy": {
+      "title": "Política de privacidade | Playground",
+      "description": "Como a Playground recolhe e utiliza dados pessoais neste website."
+    }
+  },
+  "home": {
+    "kicker": "Comunicação · Stakeholders · Marcas",
+    "title_html": "Ajudamos as organizações a <span class=\"accent\">mover pessoas.</span>",
+    "lead": "A Playground é um grupo de comunicação estratégica sediado em Maputo. Ajudamos as organizações a compreender os seus stakeholders, a gerir a sua reputação e a transformar ideias em campanhas, eventos e conversas que criam valor.",
+    "cta_primary": "Fale connosco",
+    "cta_secondary": "Ver o nosso trabalho",
+    "proof": [
+      {"value": "16", "suffix": " anos", "label": "a operar em Moçambique"},
+      {"value": "100", "suffix": "+", "label": "projectos por ano"},
+      {"value": "30", "suffix": "+", "label": "especialistas numa só equipa"},
+      {"value": "8", "suffix": "", "label": "sectores de actividade"}
+    ],
+    "marquee": ["Inteligência de stakeholders", "Comunicação corporativa", "Relações públicas", "Estratégia de marca", "Eventos e activações", "Produção audiovisual", "Digital e redes sociais", "Monitorização de media"],
+    "services_eyebrow": "O que fazemos",
+    "services_title": "Uma equipa, da análise à execução.",
+    "services_lead": "A maioria dos problemas de comunicação não é só sobre a mensagem. É sobre quem precisa de a compreender, quem os influencia e o que esperam em troca.",
+    "work_eyebrow": "Trabalho seleccionado",
+    "work_title": "Provas, não promessas.",
+    "work_lead": "Uma selecção de programas em que a estratégia, os stakeholders e a execução tiveram de funcionar em conjunto.",
+    "metrics_eyebrow": "A Playground em números",
+    "metrics_title": "Construída em Moçambique. Escolhida por quem opera aqui.",
+    "metrics": [
+      {"value": "16", "suffix": "", "label": "anos no mercado"},
+      {"value": "100", "suffix": "+", "label": "projectos por ano"},
+      {"value": "35", "suffix": "", "label": "pessoas, uma equipa integrada"},
+      {"value": "8", "suffix": "", "label": "sectores com clientes activos"}
+    ],
+    "sectors_eyebrow": "Sectores",
+    "sectors_title": "Mercados diferentes. Sinais diferentes.",
+    "insights_eyebrow": "Perspectivas",
+    "insights_title": "O que pensamos.",
+    "linkedin_eyebrow": "No LinkedIn",
+    "linkedin_title": "Acompanhe a conversa.",
+    "linkedin_lead": "Publicamos perspectivas, notícias de projectos e novidades da equipa no LinkedIn. Siga a Playground para acompanhar o que vemos no mercado.",
+    "cta_eyebrow": "Próximo passo",
+    "cta_title": "Tem um desafio de stakeholders, reputação ou comunicação?",
+    "cta_lead": "Diga-nos o que pretende alcançar. Voltamos com uma visão clara de como abordaríamos o problema.",
+    "cta_button": "Fale connosco"
+  },
+  "services": [
+    {"slug": "strategy", "title": "Comunicação estratégica", "text": "Posicionamento, narrativa, mensagens e planos de comunicação ligados aos objectivos do negócio.", "detail": "Começamos pela decisão que a organização precisa de tomar ou defender e construímos à volta dela a narrativa, os públicos, os canais e a sequência. Os documentos de estratégia são curtos e úteis para quem os tem de executar."},
+    {"slug": "stakeholders", "title": "Inteligência e envolvimento de stakeholders", "text": "Mapeamento, escuta e programas de envolvimento com as pessoas e instituições que influenciam a sua licença para operar.", "detail": "Mapeamento de stakeholders, análise de influência, estudos de percepção, planos de envolvimento comunitário e institucional e relatórios que mantêm a direcção informada. O objectivo é melhorar a qualidade e o valor de cada interacção."},
+    {"slug": "reputation", "title": "Relações públicas e reputação", "text": "Relações com a imprensa, preparação para crises, posicionamento de executivos e monitorização de media.", "detail": "Monitorização e análise diária de media, assessoria de imprensa, preparação de porta-vozes, acompanhamento de temas sensíveis e protocolos de crise. Conhecemos o panorama mediático moçambicano e a forma como as notícias circulam."},
+    {"slug": "brand", "title": "Marca e criatividade", "text": "Estratégia de marca, identidade, campanhas e design que mantêm o significado entre culturas e canais.", "detail": "Plataformas de marca, identidade visual, conceitos de campanha e sistemas de design. Trabalhamos em português e em inglês e adaptamos o trabalho aos públicos que realmente precisam de o compreender."},
+    {"slug": "events", "title": "Eventos, activações e conferências", "text": "Conferências, lançamentos, exposições, stands e activações, do planeamento à execução.", "detail": "De uma mesa-redonda executiva a uma conferência nacional, tratamos do conceito, logística, produção, protocolo, fornecedores e gestão no local, com um único responsável de projecto."},
+    {"slug": "content", "title": "Audiovisual e conteúdos", "text": "Documentários, filmes institucionais, fotografia e conteúdos editoriais produzidos pela nossa equipa interna.", "detail": "A nossa equipa de produção cobre guião, filmagem, edição e motion graphics, incluindo produção no terreno em províncias onde a logística é complexa."},
+    {"slug": "digital", "title": "Digital, redes sociais e media", "text": "Gestão de redes sociais, campanhas digitais, planeamento e compra de media e relatórios de desempenho.", "detail": "Estratégia de canais, gestão de comunidades, media paga, trabalho com influenciadores e relatórios mensais que ligam a actividade aos resultados e não a métricas de vaidade."},
+    {"slug": "advisory", "title": "Dados, IA e consultoria", "text": "Estudos, dashboards e inteligência apoiada por IA para ajudar a liderança a decidir mais cedo e com mais confiança.", "detail": "Combinamos dados de media, contributos de stakeholders e sinais de mercado em dashboards e briefings, e ajudamos as equipas de comunicação a adoptar ferramentas de IA com controlo de qualidade claro."}
+  ],
+  "sectors": [
+    {"slug": "energy", "name": "Energia e Recursos Naturais", "text": "Grandes projectos, prazos longos e muitos stakeholders, do Governo às comunidades anfitriãs."},
+    {"slug": "finance", "name": "Serviços Financeiros", "text": "Confiança, regulação e inclusão determinam a forma como bancos e seguradoras precisam de comunicar."},
+    {"slug": "telecom", "name": "Telecomunicações e Tecnologia", "text": "Alcance nacional, ciclos de produto rápidos e marcas que fazem parte do dia-a-dia."},
+    {"slug": "development", "name": "Desenvolvimento e Impacto Social", "text": "Mudança de comportamento, prestação de contas a doadores e comunicação que chega às pessoas onde elas estão."},
+    {"slug": "infrastructure", "name": "Infra-estruturas e Logística", "text": "Projectos que afectam territórios, corredores e expectativas públicas."},
+    {"slug": "consumer", "name": "Consumo e Estilo de Vida", "text": "Marcas que competem pela atenção num mercado jovem, móvel e em rápida mudança."},
+    {"slug": "professional", "name": "Serviços Profissionais", "text": "Posicionar conhecimento especializado e construir credibilidade junto de decisores."},
+    {"slug": "institutions", "name": "Instituições e Associações", "text": "Associações, câmaras de comércio e organismos públicos que precisam de representar e envolver muitas vozes."}
+  ],
+  "expertise_page": {
+    "eyebrow": "Competências",
+    "title": "Competências integradas para organizações que precisam de ser compreendidas.",
+    "lead": "Estratégia, envolvimento de stakeholders, reputação, criatividade e produção numa só equipa, para que o pensamento e a execução não se separem.",
+    "meta": [
+      {"strong": "8", "text": "áreas de prática"},
+      {"strong": "PT / EN", "text": "trabalho bilingue"},
+      {"strong": "Interna", "text": "criatividade e produção"}
+    ],
+    "method_eyebrow": "Como trabalhamos",
+    "method_title": "Compreender. Desenhar. Executar. Aprender.",
+    "method": [
+      {"title": "Compreender", "text": "Stakeholders, contexto, percepções e a decisão de negócio por trás do briefing."},
+      {"title": "Desenhar", "text": "Narrativa, prioridades, canais e um plano que a equipa do cliente consegue assumir."},
+      {"title": "Executar", "text": "Campanhas, eventos, conteúdos e envolvimento, geridos por um responsável único."},
+      {"title": "Aprender", "text": "Monitorização e relatórios que mostram o que mudou e o que ajustar."}
+    ]
+  },
+  "sectors_page": {
+    "eyebrow": "Sectores",
+    "title": "A comunicação é mais eficaz quando compreende o negócio à sua volta.",
+    "lead": "Trabalhamos em sectores onde as expectativas dos stakeholders, a regulação, a reputação, o impacto social e a visibilidade podem afectar de forma significativa a organização.",
+    "intel_eyebrow": "Conhecimento sectorial",
+    "intel_title": "Mercados diferentes. Sinais diferentes.",
+    "intel_lead": "A mesma mensagem não circula da mesma forma na banca, na energia, nas telecomunicações ou no desenvolvimento.",
+    "intel_copy": "Cada sector tem os seus ciclos de decisão, redes de stakeholders, linguagem, sensibilidades reputacionais e pressões operacionais. O nosso papel é compreender essas dinâmicas a tempo de desenhar a comunicação à volta delas, e não depois.",
+    "quote": "O contexto não é informação de fundo. Faz parte da estratégia.",
+    "quote_by": "Abordagem Playground",
+    "see_cases": "Ver trabalho relacionado"
+  },
+  "work_page": {
+    "eyebrow": "Trabalho",
+    "title": "Trabalho que teve de funcionar no mundo real.",
+    "lead": "Casos de programas em que os públicos eram diversos, o risco era elevado e a execução tinha de ser exacta.",
+    "filters": [
+      {"key": "strategy", "label": "Estratégia e reputação"},
+      {"key": "engagement", "label": "Envolvimento de stakeholders"},
+      {"key": "campaigns", "label": "Campanhas"},
+      {"key": "events", "label": "Eventos"}
+    ]
+  },
+  "about_page": {
+    "eyebrow": "Sobre nós",
+    "title": "Dezasseis anos a compreender como Moçambique comunica.",
+    "lead": "A Playground foi fundada em Maputo em 2010. Hoje somos uma equipa multidisciplinar de mais de trinta pessoas que trabalha com organizações nacionais e internacionais em todo o país.",
+    "story_eyebrow": "A nossa história",
+    "story_title": "De agência a parceiro de stakeholders.",
+    "story": [
+      "Começámos como uma empresa de criatividade e eventos. Com o tempo, os nossos clientes pediram-nos mais: ajudá-los a compreender os seus públicos, gerir a sua reputação e envolver comunidades, Governo e parceiros.",
+      "É essa a direcção que continuamos a construir. A Playground liga inteligência de stakeholders, comunicação estratégica e execução de qualidade, porque em Moçambique as relações, a confiança e o contexto decidem muitas vezes os resultados tanto quanto a própria mensagem."
+    ],
+    "values_eyebrow": "O que nos orienta",
+    "values_title": "Como trabalhamos com os clientes.",
+    "values": [
+      {"title": "Primeiro o contexto", "text": "Dedicamos tempo a compreender o ambiente antes de propor a mensagem."},
+      {"title": "Responsabilidade", "text": "Cada projecto tem um responsável e uma linha clara de responsabilidade."},
+      {"title": "Qualidade", "text": "A estratégia só conta se a execução for boa o suficiente para a sustentar."},
+      {"title": "Franqueza", "text": "Dizemos aos clientes o que vemos, mesmo quando não é o que esperavam."},
+      {"title": "Conhecimento local", "text": "Conhecimento e redes moçambicanas, com padrões internacionais."},
+      {"title": "Aprendizagem", "text": "Medimos, revemos e levamos o que aprendemos para o projecto seguinte."}
+    ],
+    "leadership_eyebrow": "Liderança",
+    "leadership_title": "As pessoas responsáveis pelo seu trabalho.",
+    "leaders": [
+      {"name": "Miguel Proença", "role": "Fundador e Director-Geral", "bio": "Fundou a Playground em 2010. Lidera a estratégia, as principais relações com clientes e o desenvolvimento do grupo em Moçambique e na África Austral."},
+      {"name": "Nome a confirmar", "role": "Director de Serviços a Clientes", "bio": "Biografia curta a acrescentar."},
+      {"name": "Nome a confirmar", "role": "Director Criativo e de Produção", "bio": "Biografia curta a acrescentar."}
+    ]
+  },
+  "insights_page": {
+    "eyebrow": "Perspectivas",
+    "title": "Ideias para quem toma decisões de comunicação.",
+    "lead": "Perspectivas curtas sobre reputação, dinâmicas de stakeholders, media, marcas, tecnologia e comunicação em Moçambique e na África Austral.",
+    "newsletter_eyebrow": "Mantenha-se informado",
+    "newsletter_title": "Receba novas perspectivas no LinkedIn.",
+    "newsletter_lead": "Publicamos as nossas perspectivas primeiro no LinkedIn. Siga a Playground para as receber no seu feed."
+  },
+  "insights": [
+    {"slug": "stakeholder-intelligence-strategy", "tag": "Estratégia", "title": "Porque é que a inteligência de stakeholders deve estar mais perto da estratégia.", "excerpt": "As equipas de comunicação vêem muitas vezes os sinais primeiro. A questão é se esses sinais são interpretados antes de a decisão ser tomada.", "minutes": 8, "feature": true,
+     "body": [
+       "Na maioria das organizações, a equipa de comunicação é um dos primeiros sítios onde chegam os sinais. Um jornalista faz uma pergunta inesperada. Um líder comunitário levanta a mesma preocupação pela terceira vez. Um regulador muda de tom numa reunião. Um parceiro deixa de responder tão depressa como antes.",
+       "Isoladamente, parecem detalhes operacionais. Em conjunto, descrevem muitas vezes uma mudança na forma como a organização é vista e no que os stakeholders esperam dela.",
+       "O problema é que estes sinais são normalmente tratados como tarefas de comunicação: responder ao jornalista, preparar um comunicado, marcar uma reunião. Raramente chegam à mesa onde se tomam as decisões estratégicas, pelo menos não de forma estruturada nem a tempo.",
+       "A inteligência de stakeholders é a disciplina de recolher esses sinais, interpretá-los e apresentá-los à liderança de uma forma que apoie decisões. Não é um relatório de cobertura mediática. É a resposta a uma pergunta simples: o que está a mudar no nosso ambiente e o que significa isso para o que estamos prestes a fazer?",
+       "Três passos práticos fazem a diferença. Primeiro, definir que stakeholders e temas importam realmente nos próximos doze meses. Segundo, criar um ritmo regular em que os sinais dos media, das equipas no terreno e das relações são reunidos e discutidos. Terceiro, ligar essa discussão a decisões concretas e não apenas a conhecimento geral.",
+       "Em ambientes complexos como Moçambique, onde as estruturas formais nem sempre mostram como funciona a influência, isto é ainda mais importante. As organizações que lêem bem o seu ambiente são normalmente as que evitam surpresas."
+     ]},
+    {"slug": "high-context-communication", "tag": "Mercados", "title": "Comunicar em ambientes de contexto elevado.", "excerpt": "Porque é que as relações locais, o timing e a influência informal contam tanto como o plano formal de canais.", "minutes": 6},
+    {"slug": "ai-production-judgement", "tag": "Criatividade", "title": "A IA muda a produção. Não substitui o critério.", "excerpt": "Como usar sistemas criativos mais rápidos sem perder o que distingue a marca.", "minutes": 5}
+  ],
+  "cases": [
+    {
+      "slug": "energy-stakeholder-programme",
+      "category": "engagement",
+      "sector": "energy",
+      "tag": "Energia · Envolvimento de stakeholders",
+      "title": "Um programa de stakeholders para um grande projecto de energia.",
+      "summary": "Mapeamento, envolvimento e relatórios para um projecto com visibilidade nacional e impacto local.",
+      "client": "Operador internacional de energia",
+      "year": "2024–2025",
+      "location": "Maputo e Cabo Delgado",
+      "services": ["Mapeamento de stakeholders", "Planeamento do envolvimento", "Monitorização de media", "Relatórios"],
+      "media": "space",
+      "challenge": "O projecto tinha muitos públicos com expectativas muito diferentes: Governo central, autoridades provinciais, comunidades anfitriãs, fornecedores, media e parceiros internacionais. A informação estava dispersa por várias equipas e a direcção não tinha uma visão única do estado das relações.",
+      "approach": "Começámos por um mapa de stakeholders estruturado, construído a partir de entrevistas com as equipas do cliente no terreno e na sede, análise de media e o nosso próprio conhecimento da rede. Cada grupo de stakeholders recebeu um objectivo claro, um responsável e um ritmo de envolvimento. Criámos depois um briefing mensal de inteligência que ligava o que ouvíamos às decisões que a direcção estava a preparar.",
+      "delivered": ["Mapa de stakeholders e análise de influência", "Plano de envolvimento a doze meses com responsáveis", "Briefings mensais de inteligência para a direcção", "Monitorização diária de media em português e inglês", "Materiais de informação para as comunidades"],
+      "results": [
+        {"value": "1", "label": "visão partilhada dos stakeholders entre equipas"},
+        {"value": "12", "label": "briefings mensais à direcção"},
+        {"value": "PT / EN", "label": "monitorização bilingue"}
+      ],
+      "quote": "Pela primeira vez conseguimos ver, num só lugar, o estado de cada relação importante.",
+      "quote_by": "Responsável de comunicação do cliente (a confirmar)",
+      "draft": true
+    },
+    {
+      "slug": "telecom-national-campaign",
+      "category": "campaigns",
+      "sector": "telecom",
+      "tag": "Telecomunicações · Campanha",
+      "title": "Uma campanha nacional que falou com todas as províncias.",
+      "summary": "Conceito, produção e implementação de uma campanha multicanal para um operador móvel.",
+      "client": "Operador móvel",
+      "year": "2025",
+      "location": "Nacional",
+      "services": ["Conceito de campanha", "Produção audiovisual", "Planeamento de media", "Redes sociais"],
+      "media": "dark",
+      "challenge": "A marca precisava de uma campanha que fosse relevante em Maputo e nos distritos rurais, para diferentes idades e línguas, e que apoiasse um objectivo comercial concreto.",
+      "approach": "Testámos a ideia central com pequenos grupos em três províncias antes da produção. O conceito final usou pessoas e lugares reais, com versões adaptadas para rádio, exterior, digital e activações. Os media foram planeados para equilibrar alcance nacional e presença local.",
+      "delivered": ["Plataforma de campanha e key visuals", "Filmes para TV, rádio e digital", "Materiais de exterior e ponto de venda", "Plano de conteúdos para redes sociais", "Activações no terreno"],
+      "results": [
+        {"value": "3", "label": "províncias envolvidas no teste do conceito"},
+        {"value": "4", "label": "canais a partir de uma ideia"},
+        {"value": "A confirmar", "label": "alcance e resultados comerciais"}
+      ],
+      "quote": "",
+      "quote_by": "",
+      "draft": true
+    },
+    {
+      "slug": "bank-reputation-media",
+      "category": "strategy",
+      "sector": "finance",
+      "tag": "Serviços financeiros · Reputação",
+      "title": "Recuperar a confiança dos media numa instituição financeira.",
+      "summary": "Assessoria de imprensa, preparação de porta-vozes e gestão de temas sensíveis durante doze meses.",
+      "client": "Banco comercial",
+      "year": "2023–2024",
+      "location": "Maputo",
+      "services": ["Relações com a imprensa", "Gestão de temas sensíveis", "Formação de porta-vozes", "Monitorização de media"],
+      "media": "light",
+      "challenge": "Depois de um período de cobertura negativa, a instituição tinha-se tornado cautelosa com os media. Os jornalistas tinham dificuldade em obter respostas e as notícias eram muitas vezes publicadas sem a posição do banco.",
+      "approach": "Propusemos uma abordagem mais aberta, mas bem preparada. Definimos um pequeno grupo de porta-vozes, formámo-los, criámos um calendário de histórias positivas e fixámos prazos de resposta claros para as perguntas dos jornalistas. A monitorização ajudou-nos a ver rapidamente que temas estavam a crescer.",
+      "delivered": ["Estratégia de relações com a imprensa", "Sessões de formação de porta-vozes", "Protocolo de temas e respostas", "Comunicados e entrevistas", "Relatórios mensais de reputação"],
+      "results": [
+        {"value": "24h", "label": "prazo de resposta aos media"},
+        {"value": "3", "label": "porta-vozes formados"},
+        {"value": "A confirmar", "label": "evolução do tom da cobertura"}
+      ],
+      "quote": "",
+      "quote_by": "",
+      "draft": true
+    },
+    {
+      "slug": "development-conference",
+      "category": "events",
+      "sector": "development",
+      "tag": "Desenvolvimento · Evento",
+      "title": "Uma conferência internacional do princípio ao fim.",
+      "summary": "Conceito, logística, protocolo e conteúdos para um encontro de alto nível em Maputo.",
+      "client": "Organização internacional",
+      "year": "2025",
+      "location": "Maputo",
+      "services": ["Conceito do evento", "Logística e protocolo", "Design de stand e palco", "Cobertura audiovisual"],
+      "media": "orbit",
+      "challenge": "Uma conferência de dois dias com Governo, doadores, sociedade civil e delegações internacionais, organizada num prazo curto e com exigências de protocolo rigorosas.",
+      "approach": "Um único responsável de projecto coordenou espaço, fornecedores, protocolo, acreditação, interpretação, design e conteúdos. Construímos um alinhamento detalhado, ensaiámos os momentos críticos com o cliente e mantivemos uma equipa de cobertura diária no local.",
+      "delivered": ["Identidade do evento e design de palco", "Gestão de acreditação e protocolo", "Interpretação simultânea", "Cobertura fotográfica e vídeo", "Filme e relatório pós-evento"],
+      "results": [
+        {"value": "2", "label": "dias, um responsável único"},
+        {"value": "PT / EN", "label": "interpretação completa"},
+        {"value": "A confirmar", "label": "participantes e delegações"}
+      ],
+      "quote": "",
+      "quote_by": "",
+      "draft": true
+    }
+  ],
+  "contact_page": {
+    "eyebrow": "Contacto",
+    "title": "Vamos falar sobre o que precisa de mover.",
+    "lead": "Fale-nos da sua organização e do desafio que tem pela frente. Um membro sénior da equipa responde no prazo de dois dias úteis.",
+    "card_title": "Playground",
+    "card_text": "Comunicação estratégica, envolvimento de stakeholders e marcas. Sediada em Maputo, com trabalho em Moçambique e na África Austral.",
+    "lines": [
+      {"label": "Email", "value": "info@playground.co.mz", "href": "mailto:info@playground.co.mz"},
+      {"label": "Telefone", "value": "+258 00 000 0000", "href": "tel:+258000000000"},
+      {"label": "Escritório", "value": "Maputo, Moçambique", "href": ""},
+      {"label": "LinkedIn", "value": "Playground", "href": "LINKEDIN"}
+    ],
+    "form": {
+      "name": "Nome",
+      "company": "Organização",
+      "email": "Email",
+      "phone": "Telefone",
+      "interest": "Área de interesse",
+      "interest_options": ["Estratégia e reputação", "Envolvimento de stakeholders", "Campanhas e marca", "Eventos e activações", "Conteúdos e produção", "Digital e media", "Outro"],
+      "message": "Como podemos ajudar?",
+      "consent": "Aceito que a Playground utilize estes dados para responder ao meu pedido.",
+      "submit": "Enviar mensagem",
+      "sending": "A enviar...",
+      "thanks": "Obrigado. Entraremos em contacto.",
+      "note": "Só utilizamos os seus dados para responder a este pedido. Consulte a nossa política de privacidade."
+    }
+  },
+  "privacy_page": {
+    "eyebrow": "Legal",
+    "title": "Política de privacidade",
+    "body": [
+      "Esta política é provisória e deve ser revista pelo consultor jurídico da Playground antes do lançamento.",
+      "A Playground recolhe os dados pessoais que envia através do formulário de contacto (nome, organização, email, telefone e mensagem) apenas para responder ao seu pedido. Não vendemos nem partilhamos estes dados com terceiros para fins de marketing.",
+      "Se a análise de tráfego ou o acompanhamento do LinkedIn estiverem activos, só funcionam depois de os aceitar no aviso de cookies. Pode alterar a sua escolha a qualquer momento limpando os dados do navegador.",
+      "Para consultar, corrigir ou apagar os seus dados, escreva para info@playground.co.mz."
+    ]
+  },
+  "cookie": {
+    "text": "Usamos cookies opcionais para perceber como o site é utilizado e medir campanhas no LinkedIn.",
+    "accept": "Aceitar",
+    "decline": "Recusar"
+  },
+  "case_labels": {
+    "client": "Cliente",
+    "sector": "Sector",
+    "year": "Ano",
+    "location": "Local",
+    "services": "Serviços",
+    "challenge": "O desafio",
+    "approach": "A nossa abordagem",
+    "delivered": "O que entregámos",
+    "results": "Resultados"
+  }
+}

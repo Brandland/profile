@@ -1,0 +1,4 @@
+<div class="share-bar">
+<a class="share-btn" data-share="linkedin" data-url="<?php echo esc_url( get_permalink() ); ?>" href="https://www.linkedin.com/sharing/share-offsite/?url=<?php echo rawurlencode( get_permalink() ); ?>" target="_blank" rel="noopener"><?php echo pg_icon_linkedin(); // phpcs:ignore ?> <span><?php pg_e( 'ui.share_linkedin' ); ?></span></a>
+<button class="share-btn" type="button" data-copy data-copied="<?php echo esc_attr( pg_t( 'ui.copied' ) ); ?>"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.6 13.4a1 1 0 0 1 0-1.4l3.5-3.5a3 3 0 1 1 4.2 4.2l-2 2a1 1 0 1 1-1.4-1.4l2-2a1 1 0 1 0-1.4-1.4l-3.5 3.5a1 1 0 0 1-1.4 0zm2.8-2.8a1 1 0 0 1 0 1.4l-3.5 3.5a3 3 0 1 1-4.2-4.2l2-2a1 1 0 0 1 1.4 1.4l-2 2a1 1 0 1 0 1.4 1.4l3.5-3.5a1 1 0 0 1 1.4 0z"/></svg> <span><?php pg_e( 'ui.copy_link' ); ?></span></button>
+</div>
