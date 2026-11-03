@@ -1,0 +1,199 @@
+<title>Playground Monday Brief</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Public+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: a single reading column, like a chief of staff's one-page memo. Summary first, detail after. */
+:root{
+  --bg:#f7f8f6; --surface:#ffffff; --fg:#1c2420; --muted:#5d6861; --line:#d9ded9;
+  --accent:#1f6f66; --accent-soft:#e3efec; --warn:#b4541a; --warn-soft:#f8ebe1; --crit:#9c2f2f; --crit-soft:#f6e4e4;
+  --display:"Newsreader",Georgia,"Times New Roman",serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#141917; --surface:#1c2320; --fg:#e8ebe8; --muted:#9aa49e; --line:#2f3935;
+  --accent:#6fc2b6; --accent-soft:#1d322f; --warn:#e3925a; --warn-soft:#3a2a1c; --crit:#e27676; --crit-soft:#3b2222; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#141917; --surface:#1c2320; --fg:#e8ebe8; --muted:#9aa49e; --line:#2f3935;
+  --accent:#6fc2b6; --accent-soft:#1d322f; --warn:#e3925a; --warn-soft:#3a2a1c; --crit:#e27676; --crit-soft:#3b2222; color-scheme:dark }
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 64px}
+main{max-width:760px;margin:0 auto;display:grid;gap:40px}
+h1{font-family:var(--display);font-weight:500;font-size:2.4rem;line-height:1.1;margin:0;text-wrap:balance}
+h2{font-family:var(--display);font-weight:500;font-size:1.45rem;margin:0 0 14px;text-wrap:balance}
+p{margin:0 0 12px;max-width:68ch}
+.eyebrow{font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:8px}
+header{display:grid;gap:10px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.meta{color:var(--muted);font-size:.9rem;display:flex;flex-wrap:wrap;gap:6px 18px}
+.note{background:var(--accent-soft);border-left:3px solid var(--accent);padding:10px 14px;font-size:.9rem;border-radius:0 6px 6px 0}
+.note p{margin:0}
+ol.attention{list-style:none;margin:0;padding:0;display:grid;gap:14px;counter-reset:a}
+ol.attention li{counter-increment:a;display:grid;grid-template-columns:34px 1fr;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px 18px}
+ol.attention li::before{content:counter(a);font-family:var(--display);font-size:1.6rem;line-height:1;color:var(--accent);font-weight:500}
+ol.attention li strong{display:block;font-weight:600;margin-bottom:4px}
+ol.attention li p{margin:0;font-size:.95rem}
+table{width:100%;border-collapse:collapse;font-size:.9rem}
+.scroll{overflow-x:auto}
+th{text-align:left;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:6px 10px 8px;border-bottom:1px solid var(--line)}
+td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+td.n{font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
+tr.old td.n{color:var(--crit);font-weight:600}
+.pill{display:inline-block;font-size:.72rem;font-weight:600;padding:2px 8px;border-radius:999px;background:var(--accent-soft);color:var(--accent);white-space:nowrap}
+.pill.warn{background:var(--warn-soft);color:var(--warn)}
+.pill.crit{background:var(--crit-soft);color:var(--crit)}
+.group{display:grid;gap:18px}
+.client{border-top:1px solid var(--line);padding-top:12px}
+.client h3{font-family:var(--body);font-size:.95rem;font-weight:600;margin:0 0 6px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.client h3 span{color:var(--muted);font-weight:400;font-size:.85rem}
+.client ul{margin:0;padding-left:18px;font-size:.92rem}
+.client li{margin-bottom:4px}
+.who{color:var(--muted)}
+.week{display:grid;gap:10px}
+.day{display:grid;grid-template-columns:96px 1fr;gap:12px;padding:10px 0;border-top:1px solid var(--line)}
+.day:first-child{border-top:0}
+.day .d{font-weight:600;font-size:.9rem}
+.day .d small{display:block;color:var(--muted);font-weight:400}
+.day ul{margin:0;padding:0;list-style:none;font-size:.92rem;display:grid;gap:3px}
+.day .t{font-variant-numeric:tabular-nums;color:var(--muted);display:inline-block;width:48px}
+.question{background:var(--surface);border:1px solid var(--accent);border-radius:8px;padding:20px 22px}
+.question p{margin:0}
+.question p+p{margin-top:10px}
+footer{color:var(--muted);font-size:.82rem;border-top:1px solid var(--line);padding-top:16px}
+footer p{margin:0 0 6px}
+@media (max-width:520px){ .day{grid-template-columns:1fr;gap:4px} h1{font-size:2rem} ol.attention li{grid-template-columns:26px 1fr;padding:14px} }
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<main>
+<header>
+  <div class="eyebrow">Playground, management brief</div>
+  <h1>Week of 2 November 2026</h1>
+  <div class="meta">
+    <span>Prepared Tuesday 3 November, 23:55 CAT</span>
+    <span>Sources: ClickUp, Gmail, Google Calendar</span>
+    <span>First edition</span>
+  </div>
+  <div class="note"><p>This first edition was produced mid-week as a test. From Monday 9 November it refreshes automatically before 07:00 CAT. Email items come from your Inbox digest of 3 November and the Weekly agenda of 25 October, which already cover both mailboxes. The connector here reads your personal Gmail only.</p></div>
+</header>
+
+<section>
+  <h2>Three things that need your attention this week</h2>
+  <ol class="attention">
+    <li>
+      <div>
+        <strong>Email delivery and account security, before Francisco Fijamo goes on leave</strong>
+        <p>Your Playground address has received nothing from outside since 29 October and contacto@ had an unrecognised Windows sign-in on Monday 09:14. Francisco Caetano has two high-priority tasks due today on exactly this (review the possible incident with preserved logs, shorten document link validity), both still "to do". The Google Workspace billing suspension date is Friday 6 November. Francisco Fijamo, who owns IT, has asked for leave from 23 November to 23 December and is waiting for your answer. These four things are one problem: nobody can confirm clients are reaching you, and the person who would fix it is about to be away for a month.</p>
+      </div>
+    </li>
+    <li>
+      <div>
+        <strong>Cash already earned is sitting behind missing paperwork</strong>
+        <p>The Vodacom Hackathon PO was promised by 23 October and Hélio's task is still in progress, so the event cannot be invoiced. The Globeleq FACIM payment (proof sent 1 October) is still not credited and the follow-up task is open since 21 October. "Report dos serviços sem PO e GR" for Vodacom has been in progress since 14 October. These are not new jobs, they are money for work already delivered.</p>
+      </div>
+    </li>
+    <li>
+      <div>
+        <strong>ExxonMobil FID event: three approvals stacked and a status meeting tomorrow at 10:00</strong>
+        <p>The entertainment concept ("Mozambique: The Rebirth") has been with Exxon since 21 October, the budget breakdown has been in internal approval since 29 October, the Look and Feel proposal went to the client on 25 October, and the event date is still not confirmed (late November to mid December). Pedro runs the Wednesday status meeting. He should go in with a clear ask on the date and the concept, and the internal budget approval should be closed before that call.</p>
+      </div>
+    </li>
+  </ol>
+</section>
+
+<section>
+  <h2>Clients waiting on Playground</h2>
+  <p>Ordered by how long they have been waiting. Taken from the Inbox digest and ClickUp tasks marked "sent to client" or waiting on a quote.</p>
+  <div class="scroll"><table>
+    <thead><tr><th>Client</th><th>What they are waiting for</th><th>Last on our side</th><th>Days</th></tr></thead>
+    <tbody>
+      <tr class="old"><td>Yango</td><td>"Key leaders" and "Proposta media session", both sent to client and never closed</td><td>Melanie Vales, Eduardo Changule</td><td class="n">37</td></tr>
+      <tr class="old"><td>Portos de Cabo Delgado</td><td>Quote for the ports book (PCD-26-001). The two quote tasks in ClickUp are unassigned since 6 October. Neusa Buruma has not replied to your 29 October chase.</td><td>Afonso Mulungo (by email), nobody in ClickUp</td><td class="n">28</td></tr>
+      <tr class="old"><td>Globeleq / BCI</td><td>FACIM invoice payment not credited, chased 19 October</td><td>Miguel, Hélio Simões</td><td class="n">15</td></tr>
+      <tr class="old"><td>ABSA</td><td>Conference proposal v3.0 sent 16 October. "Reunião Absa" was closed in ClickUp today, so this may have moved; confirm with Pedro.</td><td>Malika Miguel, Pedro Milreu</td><td class="n">18</td></tr>
+      <tr><td>ExxonMobil (FID)</td><td>Entertainment concept awaiting Exxon approval; Look and Feel decor proposal sent</td><td>Pedro Milreu, Patrícia Aquarelli</td><td class="n">13</td></tr>
+      <tr><td>Fidelidade Ímpar</td><td>Media Briefing financial proposal; Girl Move 11/11 press release and photo quote; WE Finance Code evaluation; PR coverage for Fidelidade and UP</td><td>Malika Miguel, Eduardo Changule, Patrícia Aquarelli</td><td class="n">5–10</td></tr>
+      <tr><td>BNI</td><td>Bank product sheets, updated version sent 20 October, waiting for Salva's feedback (status "revert", unassigned); Fundo Mulher presentation sent to client</td><td>Malika Miguel, Samuel Fernando</td><td class="n">7–14</td></tr>
+      <tr><td>Ecolog</td><td>Services contract follow-up and signature; client invoice being issued</td><td>Pedro Milreu, Zélia Mahumane</td><td class="n">1</td></tr>
+      <tr><td>Dreamworld</td><td>Invoice in the name of BBrands, proof of payment sent 28 October, no reply</td><td>Miguel</td><td class="n">6</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <h2>Projects and tasks at risk</h2>
+  <p>Open tasks overdue by more than two days, or due this week with nobody assigned, in the CLIENTES and GROWTH spaces. Completed tasks are excluded.</p>
+  <div class="group">
+    <div class="client"><h3>e.acácia <span>5 open, 3 overdue</span></h3><ul>
+      <li>Report mensal de digital performance, due 2 Nov <span class="pill crit">urgent, unassigned</span></li>
+      <li>Renovação do contrato, to do since 12 Oct <span class="who">Hélio Simões</span></li>
+      <li>Plano digital de Outubro, sent to client 14 Oct, never closed <span class="who">Hélio Simões</span></li>
+      <li>Landing page test and WhatsApp Business ad, both overdue since 29 Oct <span class="who">Hélio Simões, Elton Macuácua</span></li>
+    </ul></div>
+    <div class="client"><h3>Vodacom <span>3 overdue</span></h3><ul>
+      <li>Hackathon event, waiting for the PO before invoicing (promised 23 Oct) <span class="who">Hélio Simões</span></li>
+      <li>Report of services without PO and GR, in progress since 14 Oct <span class="who">Hélio Simões</span></li>
+      <li>Pending payments and invoices review, in progress since 21 Oct <span class="who">Hélio Simões</span></li>
+    </ul></div>
+    <div class="client"><h3>Millennium Bim, PR agency tender 442/CC9 <span>1 overdue</span></h3><ul>
+      <li>Refazer proposta técnica e financeira, in progress, due 27 Oct <span class="pill warn">unassigned</span></li>
+    </ul></div>
+    <div class="client"><h3>Coral <span>3 overdue</span></h3><ul>
+      <li>HSE T-shirts production (COR.26.001), in progress since 23 Oct <span class="who">Hélio Simões</span></li>
+      <li>Career day coverage (COR.26.003) and Pledge layout (COR.26.004), open since early October <span class="who">Hélio Simões</span></li>
+    </ul></div>
+    <div class="client"><h3>Tenders and new business <span>3 items</span></h3><ul>
+      <li>HCB advertising agency tender 044/2026, documents in progress, due 29 Oct <span class="who">Pedro Milreu</span></li>
+      <li>Pedido de cotação, serviços editoriais, design, impressão e distribuição, to do since 21 Oct <span class="pill warn">assigned to you</span></li>
+      <li>Pedido de proposta de evento, to do, due 2 Nov <span class="who">Melanie Vales, Afonso Mulungo, you</span></li>
+    </ul></div>
+    <div class="client"><h3>Internal, Playground <span>4 items</span></h3><ul>
+      <li>Two high-priority security tasks due 3 Nov, both to do <span class="who">Francisco Caetano</span></li>
+      <li>Plano de preços Playground (supplier budgets, rate cards), in progress since 29 Oct <span class="who">Pedro Milreu</span></li>
+      <li>New website pages and office signage, overdue since 29 Oct <span class="who">Elton Macuácua, Afonso Mulungo, you</span></li>
+    </ul></div>
+    <div class="client"><h3>Also open <span>smaller items</span></h3><ul>
+      <li>AMCHAM flags proposal, in progress since 29 Oct <span class="who">Afonso Mulungo, Malika Miguel</span></li>
+      <li>Sasol weekly clipping (Fridays) is marked to do since 21 Oct; the monthly media report SAS.26.022 is due Friday <span class="who">Hélio Simões</span></li>
+      <li>ENI and Coral year-end party budgets (Cais 66, Centro Hípico), due 3 Nov <span class="who">Leopoldo Fernandes</span></li>
+      <li>UNICEF digital learning content, progress review notes, due 3 Nov <span class="who">Melanie Vales</span></li>
+    </ul></div>
+  </div>
+</section>
+
+<section>
+  <h2>Your week</h2>
+  <div class="week">
+    <div class="day"><div class="d">Wed 4 Nov</div><ul>
+      <li><span class="t">09:00</span>PDS weekly (projects and clients)</li>
+      <li><span class="t">10:00</span>Meeting Mirithi Kenia; also Pedro's Exxon status meeting at 10:00</li>
+      <li><span class="t">11:00</span>Overview BUDs platform, POs and invoicing, 5 people</li>
+      <li><span class="t">12:30</span>Lunch with Changule</li>
+    </ul></div>
+    <div class="day"><div class="d">Thu 5 Nov<small>Swisscontact event, Hotel Cardoso</small></div><ul>
+      <li><span class="t">08:00</span>Interview, Mark</li>
+      <li><span class="t">10:00</span>Meeting Financeiro Semanal, still in the calendar twice (yours, 25 min, and Pedro's full hour with 16 people)</li>
+      <li><span class="t">11:00</span>Call Angelina, Yango</li>
+      <li><span class="t">17:45</span>Toastmasters speech, no preparation time blocked</li>
+    </ul></div>
+    <div class="day"><div class="d">Fri 6 Nov<small>Workspace billing suspension date</small></div><ul>
+      <li><span class="t">08:30</span>Finance meeting, then PDS weekly at 09:00</li>
+      <li><span class="t">17:00</span>Ponta do Ouro</li>
+    </ul></div>
+    <div class="day"><div class="d">Sat 7 Nov</div><ul><li>"Saída para Ballito" is in the calendar as an all-day marker</li></ul></div>
+  </div>
+  <p style="margin-top:18px"><strong>Coming up next week.</strong> Tuesday 10, Fidelidade Ímpar weekly at 15:00. Wednesday 11, "Portugal" appears as an all-day entry, and the Yango x Playground sync with Angelina Jorge is at 14:30 the same day. Thursday 12, Onório from Mozparks at 15:00 and Toastmasters again. If Ballito on the 7th and Portugal on the 11th are both real travel, the Yango sync and the Fidelidade weekly need someone else from Playground, and next Monday's brief should know who.</p>
+  <p>Four recruitment interviews this week (Joia, Ivan, Ricardo Velho, Mark) have no notes in the calendar or in ClickUp, so there is no record of the roles or who else is involved.</p>
+</section>
+
+<section>
+  <h2>One question for you</h2>
+  <div class="question">
+    <p>Francisco Fijamo's leave request (23 November to 23 December) has been waiting since Monday. Do you approve it on the condition that the Workspace billing, the contacto@ security review and the email delivery test are closed and the admin access documented before he leaves, or do you want to talk to him first about whether a full month is workable with the FID event and the year-end parties falling in that window?</p>
+    <p>If you approve with conditions, the reply is one message to Francisco with Zélia in copy, and Zélia confirms the leave balance.</p>
+  </div>
+</section>
+
+<footer>
+  <p>Read-only. Nothing in ClickUp, Gmail or Calendar was changed to produce this page. Names and task titles are as they appear in the source systems.</p>
+  <p>Refreshes every Monday at 06:08 CAT. To get a fresh version on any other day, open Claude Code and type /monday-brief.</p>
+</footer>
+</main>
