@@ -55,6 +55,21 @@ section h2 span{color:var(--fg-3);font-size:.85rem}
 .card .big{display:flex;align-items:baseline;gap:8px}
 .card .big b{font-weight:300;font-size:2.4rem;letter-spacing:-.03em;line-height:1}
 .card .big span{font-size:.8rem;color:var(--fg-2)}
+.cap{display:grid;gap:6px;padding-top:12px;border-top:1px solid var(--line)}
+.cap .l{display:flex;justify-content:space-between;font-size:.76rem;color:var(--fg-2)}
+.cap .l b{font-weight:500;color:var(--fg)}
+.cap .track{height:6px;border-radius:3px;background:var(--line);overflow:hidden;position:relative}
+.cap .fill{height:100%;background:var(--ok);border-radius:3px}
+.cap .fill.over{background:var(--crit)}
+.cap .fill.none{background:transparent}
+.cap .u{font-size:.74rem;color:var(--fg-3)}
+.cap .u.warn{color:var(--warn)}
+.seg.small button{padding:4px 11px;font-size:.76rem}
+.wk{display:grid;gap:10px}
+.wk .r{display:grid;grid-template-columns:110px 1fr auto;gap:12px;align-items:center;font-size:.85rem}
+.wk .r small{color:var(--fg-3)}
+.wk .track{height:6px;border-radius:3px;background:var(--line);overflow:hidden}
+.wk .fill{height:100%;background:var(--ok)} .wk .fill.over{background:var(--crit)}
 .bar{display:flex;height:4px;border-radius:2px;overflow:hidden;gap:2px;background:transparent}
 .bar i{display:block;height:100%}
 .bar .a{background:var(--accent)} .bar .w{background:var(--warn)} .bar .o{background:var(--crit)} .bar .d{background:var(--done)}
@@ -134,7 +149,8 @@ footer{color:var(--fg-3);font-size:.8rem;border-top:1px solid var(--line);paddin
   <div class="hero" id="hero" aria-live="polite"></div>
 
   <section id="view-team">
-    <h2>People <span id="people-count"></span></h2>
+    <h2 style="justify-content:space-between;flex-wrap:wrap"><span>People <span id="people-count"></span></span>
+      <span class="seg small" role="tablist" aria-label="Capacity week"><button id="wk-0" aria-pressed="true" onclick="setWeek(0)">This week</button><button id="wk-1" aria-pressed="false" onclick="setWeek(-1)">Last week</button></span></h2>
     <div class="grid" id="people"></div>
   </section>
 
@@ -154,7 +170,7 @@ footer{color:var(--fg-3);font-size:.8rem;border-top:1px solid var(--line);paddin
 
   <footer>
     <div id="foot">Read-only view of ClickUp. Nothing is changed in ClickUp from this page.</div>
-    <div>Tap a person or a client to open the detail. Hours are what the team logged in ClickUp; where nothing was logged, the board says so instead of estimating.</div>
+    <div>Tap a person or a client to open the detail. Capacity assumes 40 hours per person per week. "On tasks" is time logged in ClickUp against a task; the rest of the 40h is shown as not attributed. Where nothing was logged, the board says so instead of estimating.</div>
   </footer>
 </div>
 
@@ -173,6 +189,19 @@ function setView(v){ VIEW=v; $('#view-team').hidden=v!=='team'; $('#view-clients
   $('#tab-team').setAttribute('aria-pressed',v==='team'); $('#tab-clients').setAttribute('aria-pressed',v==='clients');
   try{localStorage.setItem('pg-board-view',v)}catch(e){} }
 
+const CAPACITY=40; let WEEK=0;
+function addDays(s,n){ const d=new Date(s+'T00:00:00'); d.setDate(d.getDate()+n); return d.toISOString().slice(0,10); }
+function weekRange(off){ const from=addDays(DATA.week_start,7*off); return [from,addDays(from,6)]; }
+function hoursIn(p,from,to){ let s=0; for(const [k,v] of Object.entries(p.hours_by_day||{})) if(k>=from&&k<=to) s+=v; return Math.round(s*10)/10; }
+function weekLabel(from,to){ return `${fmtDate(from)} to ${fmtDate(to)}`; }
+function capBlock(p,from,to,compact){
+  const h=hoursIn(p,from,to), pct=Math.min(100,Math.round(100*h/CAPACITY)), over=h>CAPACITY, left=Math.max(0,CAPACITY-h);
+  const u=over?`<span class="u warn">over the 40h week by ${h1(h-CAPACITY)}h, check the entries</span>`:h?`<span class="u">${h1(left)}h not attributed to any task</span>`:`<span class="u">40h not attributed to any task</span>`;
+  return `<div class="cap"><div class="l"><span>${WEEK===0?'Hours this week':'Hours last week'}</span><span class="num"><b>${h1(h)}h</b> of ${CAPACITY}h</span></div>
+    <div class="track" role="img" aria-label="${h1(h)} of ${CAPACITY} hours logged"><div class="fill ${over?'over':h?'':'none'}" style="width:${pct}%"></div></div>${u}</div>`;
+}
+function setWeek(off){ WEEK=off; $('#wk-0').setAttribute('aria-pressed',off===0); $('#wk-1').setAttribute('aria-pressed',off===-1);
+  try{localStorage.setItem('pg-board-week',String(off))}catch(e){} if(DATA) render(); }
 function tile(label,value,cap,cls=''){ return `<div class="tile ${cls}"><div class="label">${label}</div><div class="value num">${value}</div><div class="cap">${cap}</div></div>`; }
 
 function render(){
@@ -180,22 +209,24 @@ function render(){
   const gen=new Date(d.generated_at);
   $('#sub').textContent=`Week of ${fmtDate(d.week_start)} · hours ${fmtDate(d.hours_window?.from)} to ${fmtDate(d.hours_window?.to)} · updated ${gen.toLocaleString('en-GB',{weekday:'short',day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}`;
   const people=(d.people||[]).filter(p=>p.open||p.hours||p.completed_14d);
+  const [wf,wt]=weekRange(WEEK); const teamCap=CAPACITY*people.length; const teamH=people.reduce((s,p)=>s+hoursIn(p,wf,wt),0);
   $('#hero').innerHTML=
     tile('Open tasks',t.open??0,`${t.due_this_week??0} due this week`)+
     tile('Overdue',t.overdue??0,'open, due before this week',(t.overdue||0)>0?'crit':'')+
     tile('Completed',t.completed_14d??0,'last 14 days')+
-    tile('Hours logged',h1(t.hours||0)+'h',`${t.people_with_hours??0} of ${people.length} people tracking time${(t.people_with_hours||0)<=1?' · entered in bulk, read as estimates':''}`);
+    tile(`Hours on tasks, ${WEEK===0?'this week':'last week'}`,h1(teamH)+'h',`of ${teamCap}h team capacity (${people.length} × 40h) · ${h1(Math.max(0,teamCap-teamH))}h not attributed · ${t.people_with_hours??0} people logging time`);
 
-  $('#people-count').textContent=`${people.length} with work in ClickUp`;
+  $('#people-count').textContent=`${people.length} with work in ClickUp · capacity ${weekLabel(wf,wt)}`;
   $('#people').innerHTML=people.map((p,i)=>{
     const tot=Math.max(1,(p.active||0)+(p.waiting||0)+(p.overdue||0));
     const act=Math.max(0,(p.active||0)-(p.overdue||0));
     const seg=(n,c)=>n?`<i class="${c}" style="flex:${n}"></i>`:'';
     return `<button class="card" onclick="openPerson(${i})" aria-label="${esc(p.name)}, ${p.open} open tasks">
-      <div class="top"><div class="avatar">${esc(p.initials||initials(p.name))}</div><div><div class="name">${esc(p.name)}</div><div class="hours num">${p.hours?h1(p.hours)+'h logged':'no hours logged'}</div></div></div>
+      <div class="top"><div class="avatar">${esc(p.initials||initials(p.name))}</div><div><div class="name">${esc(p.name)}</div><div class="hours num">${p.hours?h1(p.hours)+'h logged in 30 days':'no hours logged in 30 days'}</div></div></div>
       <div class="big"><b class="num">${p.open??0}</b><span>open tasks</span></div>
       <div class="bar" aria-hidden="true">${seg(p.overdue,'o')}${seg(act,'a')}${seg(p.waiting,'w')}</div>
       <div class="chips num"><span><i class="dot-o"></i>${p.overdue??0} overdue</span><span><i class="dot-w"></i>${p.waiting??0} waiting</span><span><i class="dot-d"></i>${p.completed_14d??0} done</span></div>
+      ${capBlock(p,wf,wt,true)}
     </button>`; }).join('');
 
   const clients=(d.clients||[]).filter(c=>c.open||c.completed_14d||c.hours);
@@ -252,6 +283,8 @@ function openPerson(i){
   $('#panel').innerHTML=`
     <div class="phead"><div style="display:flex;align-items:center;gap:12px"><div class="avatar">${esc(p.initials||initials(p.name))}</div><h3 id="ptitle">${esc(p.name)}</h3></div><button class="close" onclick="closePanel()" aria-label="Close">×</button></div>
     <div class="pstats num"><div><b>${p.open??0}</b><small>open</small></div><div class="${p.overdue?'crit':''}"><b>${p.overdue??0}</b><small>overdue</small></div><div><b>${p.completed_14d??0}</b><small>done, 14 days</small></div><div><b>${p.hours?h1(p.hours)+'h':'–'}</b><small>hours logged</small></div></div>
+    <h4>Weekly capacity, 40h</h4>
+    <div class="wk">${[0,-1,-2,-3].map(o=>{const [f,t]=weekRange(o);const h=hoursIn(p,f,t);const over=h>CAPACITY;return `<div class="r"><span>${o===0?'This week':o===-1?'Last week':weekLabel(f,t)}</span><span class="track"><span class="fill ${over?'over':''}" style="display:block;width:${Math.min(100,Math.round(100*h/CAPACITY))}%"></span></span><span class="num">${h1(h)}h on tasks <small>· ${over?`${h1(h-CAPACITY)}h over`:`${h1(CAPACITY-h)}h free`}</small></span></div>`}).join('')}</div>
     <h4>Hours by day</h4>
     ${p.hours?spark(p.hours_by_day,hw.from,hw.to):'<p class="note">No time entries in ClickUp for this period. The task list below is the only record of this person\'s work.</p>'}
     <h4>Clients</h4>
@@ -277,7 +310,7 @@ function closePanel(){ $('#panel').classList.remove('on'); $('#scrim').classList
 document.addEventListener('keydown',e=>{ if(e.key==='Escape') closePanel(); });
 
 (async function(){
-  try{ const v=localStorage.getItem('pg-board-view'); if(v==='clients') setView('clients'); }catch(e){}
+  try{ const v=localStorage.getItem('pg-board-view'); if(v==='clients') setView('clients'); const w=localStorage.getItem('pg-board-week'); if(w==='-1') setWeek(-1); }catch(e){}
   try{
     const r=await fetch('team-data.json',{cache:'no-store'}); if(!r.ok) throw new Error('HTTP '+r.status);
     DATA=await r.json(); render();
