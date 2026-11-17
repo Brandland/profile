@@ -184,7 +184,7 @@ function render(){
     tile('Open tasks',t.open??0,`${t.due_this_week??0} due this week`)+
     tile('Overdue',t.overdue??0,'open, due before this week',(t.overdue||0)>0?'crit':'')+
     tile('Completed',t.completed_14d??0,'last 14 days')+
-    tile('Hours logged',h1(t.hours||0)+'h',`${t.people_with_hours??0} of ${people.length} people tracking time`);
+    tile('Hours logged',h1(t.hours||0)+'h',`${t.people_with_hours??0} of ${people.length} people tracking time${(t.people_with_hours||0)<=1?' · entered in bulk, read as estimates':''}`);
 
   $('#people-count').textContent=`${people.length} with work in ClickUp`;
   $('#people').innerHTML=people.map((p,i)=>{
@@ -216,7 +216,8 @@ function render(){
     $('#unassigned').innerHTML=un.slice(0,40).map(taskRow).join('')+(un.length>40?`<div class="task"><span class="t muted">and ${un.length-40} more</span></div>`:''); }
 
   const q=d.data_quality||{};
-  $('#quality').textContent=[`${q.tasks_fetched??'?'} tasks and ${q.time_entries??'?'} time entries read from ClickUp.`,...(q.notes||[])].join(' ');
+  $('#quality').innerHTML=`${q.tasks_fetched??'?'} tasks and ${q.time_entries??'?'} time entries read from ClickUp. `+
+    ((q.notes||[]).length?`<details><summary style="cursor:pointer;display:inline">Data notes (${q.notes.length})</summary><ul style="margin:8px 0 0;padding-left:18px">${q.notes.map(n=>`<li>${esc(n)}</li>`).join('')}</ul></details>`:'');
 }
 
 function taskRow(x){
