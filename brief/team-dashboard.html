@@ -1,0 +1,288 @@
+<title>Playground Team Board</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: dark-first control-room board. Hero numbers, a grid of people, tap a tile for a slide-over with that person's tasks and hours. */
+:root{
+  --bg:#070708; --panel:#111113; --panel-2:#17171a; --line:#232327; --line-2:#2e2e33;
+  --fg:#f4f4f5; --fg-2:#a1a1aa; --fg-3:#6b6b74;
+  --accent:#4f8dff; --accent-soft:rgba(79,141,255,.16);
+  --crit:#ff5d5d; --warn:#f0b24a; --ok:#58c48c; --done:#52525b;
+  --sans:"Geist",-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",system-ui,sans-serif;
+  --mono:"Geist Mono",ui-monospace,"SF Mono",Menlo,monospace;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme: light){ :root:not([data-theme="dark"]){
+  --bg:#f5f5f7; --panel:#ffffff; --panel-2:#f0f0f3; --line:#e2e2e8; --line-2:#d2d2da;
+  --fg:#111114; --fg-2:#55555e; --fg-3:#8a8a94;
+  --accent:#0a66ff; --accent-soft:rgba(10,102,255,.12);
+  --crit:#d93838; --warn:#b67a12; --ok:#1f8a55; --done:#9a9aa4; color-scheme:light }}
+:root[data-theme="light"]{
+  --bg:#f5f5f7; --panel:#ffffff; --panel-2:#f0f0f3; --line:#e2e2e8; --line-2:#d2d2da;
+  --fg:#111114; --fg-2:#55555e; --fg-3:#8a8a94;
+  --accent:#0a66ff; --accent-soft:rgba(10,102,255,.12);
+  --crit:#d93838; --warn:#b67a12; --ok:#1f8a55; --done:#9a9aa4; color-scheme:light }
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:15px;line-height:1.45;-webkit-font-smoothing:antialiased;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 72px}
+.wrap{max-width:1180px;margin:0 auto;display:grid;gap:36px}
+.num{font-variant-numeric:tabular-nums}
+.eyebrow{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--fg-3);font-weight:500}
+header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px 32px}
+header h1{font-weight:300;font-size:clamp(2rem,4.5vw,3.2rem);letter-spacing:-.02em;line-height:1.05;margin:8px 0 6px}
+header .sub{color:var(--fg-2);font-size:.95rem}
+.seg{display:inline-flex;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:3px}
+.seg button{appearance:none;border:0;background:transparent;color:var(--fg-2);font:inherit;font-size:.85rem;font-weight:500;padding:7px 16px;border-radius:999px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+.seg button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.hero{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.tile{background:var(--panel);padding:22px 24px 20px;display:grid;gap:6px;align-content:start}
+.tile .label{font-size:.8rem;color:var(--fg-2)}
+.tile .value{font-weight:300;font-size:clamp(2.2rem,4vw,3.4rem);letter-spacing:-.03em;line-height:1}
+.tile .cap{font-size:.78rem;color:var(--fg-3)}
+.tile.crit .value{color:var(--crit)}
+section h2{font-weight:400;font-size:1.05rem;margin:0 0 14px;display:flex;align-items:baseline;gap:12px}
+section h2 span{color:var(--fg-3);font-size:.85rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.card{appearance:none;text-align:left;font:inherit;color:inherit;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 18px 16px;display:grid;gap:14px;cursor:pointer;transition:border-color .15s,transform .15s}
+.card:hover{border-color:var(--line-2);transform:translateY(-1px)}
+.card:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.card .top{display:flex;align-items:center;gap:12px}
+.avatar{width:38px;height:38px;border-radius:50%;background:var(--panel-2);border:1px solid var(--line-2);display:grid;place-items:center;font-size:.8rem;font-weight:500;color:var(--fg-2);flex:none}
+.card .name{font-weight:500;font-size:.98rem;line-height:1.2}
+.card .hours{font-size:.78rem;color:var(--fg-3);margin-top:2px}
+.card .big{display:flex;align-items:baseline;gap:8px}
+.card .big b{font-weight:300;font-size:2.4rem;letter-spacing:-.03em;line-height:1}
+.card .big span{font-size:.8rem;color:var(--fg-2)}
+.bar{display:flex;height:4px;border-radius:2px;overflow:hidden;gap:2px;background:transparent}
+.bar i{display:block;height:100%}
+.bar .a{background:var(--accent)} .bar .w{background:var(--warn)} .bar .o{background:var(--crit)} .bar .d{background:var(--done)}
+.chips{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.78rem;color:var(--fg-2)}
+.chips i{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:6px;vertical-align:1px}
+.dot-o{background:var(--crit)} .dot-w{background:var(--warn)} .dot-a{background:var(--accent)} .dot-d{background:var(--done)}
+.rows{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.row{appearance:none;font:inherit;color:inherit;text-align:left;background:var(--panel);border:0;display:grid;grid-template-columns:minmax(140px,1.6fr) 1fr minmax(90px,.7fr) minmax(70px,.5fr) minmax(70px,.5fr) minmax(70px,.5fr);gap:14px;align-items:center;padding:14px 20px;cursor:pointer}
+.row:hover{background:var(--panel-2)}
+.row:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.row.head{cursor:default;background:var(--panel);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-3);padding-block:10px}
+.row.head:hover{background:var(--panel)}
+.row .n{font-weight:500}
+.row .r{text-align:right}
+.row .people{display:flex;gap:-4px;flex-wrap:wrap}
+.row .people span{width:26px;height:26px;border-radius:50%;background:var(--panel-2);border:1px solid var(--line-2);font-size:.62rem;display:grid;place-items:center;color:var(--fg-2);margin-right:-6px}
+.hbar{height:4px;border-radius:2px;background:var(--accent);min-width:2px}
+.hbar-wrap{display:flex;align-items:center;gap:10px;font-size:.8rem;color:var(--fg-2)}
+.hbar-wrap .track{flex:1;height:4px;background:var(--line);border-radius:2px;overflow:hidden}
+.muted{color:var(--fg-3)}
+.empty{border:1px dashed var(--line-2);border-radius:14px;padding:28px;color:var(--fg-2);text-align:center}
+.note{font-size:.82rem;color:var(--fg-3);max-width:70ch}
+footer{color:var(--fg-3);font-size:.8rem;border-top:1px solid var(--line);padding-top:18px;display:grid;gap:6px}
+
+/* slide-over */
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.55);opacity:0;pointer-events:none;transition:opacity .2s;z-index:20}
+.scrim.on{opacity:1;pointer-events:auto}
+.panel{position:fixed;top:0;right:0;bottom:0;width:min(560px,100%);background:var(--bg);border-left:1px solid var(--line);transform:translateX(100%);transition:transform .25s cubic-bezier(.2,.8,.2,1);z-index:21;overflow-y:auto;
+  padding-top:env(safe-area-inset-top,0px);padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px));padding-bottom:max(24px,env(safe-area-inset-bottom,0px))}
+.panel.on{transform:none}
+.panel .phead{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 0 14px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:1}
+.panel .phead h3{margin:0;font-weight:400;font-size:1.3rem;letter-spacing:-.01em}
+.panel .phead .avatar{width:44px;height:44px}
+.close{appearance:none;border:1px solid var(--line);background:var(--panel);color:var(--fg-2);width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:1.1rem;line-height:1}
+.close:focus-visible{outline:2px solid var(--accent)}
+.pstats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:18px 0}
+.pstats div{background:var(--panel);padding:12px 14px}
+.pstats b{display:block;font-weight:300;font-size:1.7rem;letter-spacing:-.02em;line-height:1.1}
+.pstats small{color:var(--fg-2);font-size:.75rem}
+.pstats .crit b{color:var(--crit)}
+.panel h4{font-weight:500;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-3);margin:24px 0 10px}
+.spark{display:grid;grid-template-columns:repeat(30,1fr);gap:2px;height:64px;align-items:end;border-bottom:1px solid var(--line);padding-bottom:0}
+.spark i{display:block;background:var(--accent);border-radius:2px 2px 0 0;min-height:0;position:relative}
+.spark i.z{background:var(--line)}
+.spark i:hover::after{content:attr(data-t);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--panel-2);border:1px solid var(--line-2);color:var(--fg);font-size:.72rem;padding:4px 7px;border-radius:6px;white-space:nowrap;z-index:2}
+.sparkx{display:flex;justify-content:space-between;font-size:.7rem;color:var(--fg-3);margin-top:6px}
+.clist{display:grid;gap:8px}
+.clist .c{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;font-size:.9rem}
+.clist .c small{color:var(--fg-3)}
+.tasks{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.task{background:var(--panel);padding:11px 14px;display:grid;grid-template-columns:1fr auto;gap:4px 12px;align-items:start;text-decoration:none;color:inherit}
+.task:hover{background:var(--panel-2)}
+.task .t{font-size:.9rem;line-height:1.3;min-width:0;overflow-wrap:anywhere}
+.task .m{font-size:.75rem;color:var(--fg-3);grid-column:1}
+.task .s{font-size:.72rem;white-space:nowrap;color:var(--fg-2);text-align:right}
+.task .s.o{color:var(--crit)} .task .s.w{color:var(--warn)} .task .s.d{color:var(--fg-3)}
+.pill{display:inline-block;font-size:.68rem;padding:1px 7px;border-radius:999px;border:1px solid var(--line-2);color:var(--fg-2);margin-right:6px;vertical-align:1px}
+.pill.urgent{border-color:var(--crit);color:var(--crit)} .pill.high{border-color:var(--warn);color:var(--warn)}
+@media (max-width:860px){ .hero{grid-template-columns:repeat(2,1fr)} .row{grid-template-columns:1.4fr .6fr .6fr .6fr} .row .hide{display:none} }
+@media (max-width:520px){ .pstats{grid-template-columns:repeat(2,1fr)} .row{padding:12px 14px;grid-template-columns:1fr .5fr .5fr} .row .hide2{display:none} header h1{font-size:2rem} }
+@media (prefers-reduced-motion:reduce){ *{transition:none!important} }
+</style>
+
+<div class="wrap">
+  <header>
+    <div>
+      <div class="eyebrow">Playground · Team board</div>
+      <h1>Who is doing what</h1>
+      <div class="sub" id="sub">Loading from ClickUp…</div>
+    </div>
+    <div class="seg" role="tablist" aria-label="View">
+      <button id="tab-team" role="tab" aria-pressed="true" onclick="setView('team')">Team</button>
+      <button id="tab-clients" role="tab" aria-pressed="false" onclick="setView('clients')">Clients</button>
+    </div>
+  </header>
+
+  <div class="hero" id="hero" aria-live="polite"></div>
+
+  <section id="view-team">
+    <h2>People <span id="people-count"></span></h2>
+    <div class="grid" id="people"></div>
+  </section>
+
+  <section id="view-clients" hidden>
+    <h2>Clients <span id="clients-count"></span></h2>
+    <div class="rows" id="clients"></div>
+  </section>
+
+  <section id="unassigned-sec" hidden>
+    <h2>Open tasks with nobody assigned <span id="un-count"></span></h2>
+    <div class="tasks" id="unassigned"></div>
+  </section>
+
+  <section>
+    <p class="note" id="quality"></p>
+  </section>
+
+  <footer>
+    <div id="foot">Read-only view of ClickUp. Nothing is changed in ClickUp from this page.</div>
+    <div>Tap a person or a client to open the detail. Hours are what the team logged in ClickUp; where nothing was logged, the board says so instead of estimating.</div>
+  </footer>
+</div>
+
+<div class="scrim" id="scrim" onclick="closePanel()"></div>
+<aside class="panel" id="panel" role="dialog" aria-modal="true" aria-labelledby="ptitle"></aside>
+
+<script>
+let DATA=null, VIEW='team';
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const h1=n=>(Math.round(n*10)/10).toLocaleString('en-GB',{maximumFractionDigits:1});
+const fmtDate=d=>{ if(!d) return ''; const [y,m,dd]=d.split('-'); return `${+dd} ${['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+m-1]}`; };
+const initials=n=>n.split(/\s+/).filter(Boolean).slice(0,2).map(w=>w[0]).join('').toUpperCase();
+
+function setView(v){ VIEW=v; $('#view-team').hidden=v!=='team'; $('#view-clients').hidden=v!=='clients';
+  $('#tab-team').setAttribute('aria-pressed',v==='team'); $('#tab-clients').setAttribute('aria-pressed',v==='clients');
+  try{localStorage.setItem('pg-board-view',v)}catch(e){} }
+
+function tile(label,value,cap,cls=''){ return `<div class="tile ${cls}"><div class="label">${label}</div><div class="value num">${value}</div><div class="cap">${cap}</div></div>`; }
+
+function render(){
+  const d=DATA, t=d.totals||{};
+  const gen=new Date(d.generated_at);
+  $('#sub').textContent=`Week of ${fmtDate(d.week_start)} · hours ${fmtDate(d.hours_window?.from)} to ${fmtDate(d.hours_window?.to)} · updated ${gen.toLocaleString('en-GB',{weekday:'short',day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}`;
+  const people=(d.people||[]).filter(p=>p.open||p.hours||p.completed_14d);
+  $('#hero').innerHTML=
+    tile('Open tasks',t.open??0,`${t.due_this_week??0} due this week`)+
+    tile('Overdue',t.overdue??0,'open, due before this week',(t.overdue||0)>0?'crit':'')+
+    tile('Completed',t.completed_14d??0,'last 14 days')+
+    tile('Hours logged',h1(t.hours||0)+'h',`${t.people_with_hours??0} of ${people.length} people tracking time`);
+
+  $('#people-count').textContent=`${people.length} with work in ClickUp`;
+  $('#people').innerHTML=people.map((p,i)=>{
+    const tot=Math.max(1,(p.active||0)+(p.waiting||0)+(p.overdue||0));
+    const act=Math.max(0,(p.active||0)-(p.overdue||0));
+    const seg=(n,c)=>n?`<i class="${c}" style="flex:${n}"></i>`:'';
+    return `<button class="card" onclick="openPerson(${i})" aria-label="${esc(p.name)}, ${p.open} open tasks">
+      <div class="top"><div class="avatar">${esc(p.initials||initials(p.name))}</div><div><div class="name">${esc(p.name)}</div><div class="hours num">${p.hours?h1(p.hours)+'h logged':'no hours logged'}</div></div></div>
+      <div class="big"><b class="num">${p.open??0}</b><span>open tasks</span></div>
+      <div class="bar" aria-hidden="true">${seg(p.overdue,'o')}${seg(act,'a')}${seg(p.waiting,'w')}</div>
+      <div class="chips num"><span><i class="dot-o"></i>${p.overdue??0} overdue</span><span><i class="dot-w"></i>${p.waiting??0} waiting</span><span><i class="dot-d"></i>${p.completed_14d??0} done</span></div>
+    </button>`; }).join('');
+
+  const clients=(d.clients||[]).filter(c=>c.open||c.completed_14d||c.hours);
+  const maxH=Math.max(1,...clients.map(c=>c.hours||0));
+  $('#clients-count').textContent=`${clients.length} with open or recent work`;
+  $('#clients').innerHTML=`<div class="row head"><span>Client</span><span class="hide2">Team</span><span class="hide">Hours</span><span class="r">Open</span><span class="r">Overdue</span><span class="r hide">Done 14d</span></div>`+
+    clients.map((c,i)=>`<button class="row" onclick="openClient(${i})">
+      <span class="n">${esc(c.name)}</span>
+      <span class="people hide2">${(c.people||[]).slice(0,6).map(n=>`<span title="${esc(n)}">${esc(initials(n))}</span>`).join('')}${(c.people||[]).length>6?`<span>+${c.people.length-6}</span>`:''}</span>
+      <span class="hbar-wrap hide num"><span class="track"><span class="hbar" style="width:${Math.round(100*(c.hours||0)/maxH)}%"></span></span>${c.hours?h1(c.hours)+'h':'<span class="muted">–</span>'}</span>
+      <span class="r num">${c.open??0}</span>
+      <span class="r num" style="color:${c.overdue?'var(--crit)':'inherit'}">${c.overdue??0}</span>
+      <span class="r num hide">${c.completed_14d??0}</span>
+    </button>`).join('');
+
+  const un=d.unassigned||[];
+  if(un.length){ $('#unassigned-sec').hidden=false; $('#un-count').textContent=un.length;
+    $('#unassigned').innerHTML=un.slice(0,40).map(taskRow).join('')+(un.length>40?`<div class="task"><span class="t muted">and ${un.length-40} more</span></div>`:''); }
+
+  const q=d.data_quality||{};
+  $('#quality').textContent=[`${q.tasks_fetched??'?'} tasks and ${q.time_entries??'?'} time entries read from ClickUp.`,...(q.notes||[])].join(' ');
+}
+
+function taskRow(x){
+  const cls=x.group==='done'?'d':x.overdue?'o':x.group==='waiting'?'w':'';
+  const when=x.group==='done'?`done ${fmtDate(x.updated)}`:x.due?(x.overdue?`due ${fmtDate(x.due)}`:`due ${fmtDate(x.due)}`):'no date';
+  const pr=x.priority&&x.priority!=='normal'?`<span class="pill ${esc(x.priority)}">${esc(x.priority)}</span>`:'';
+  return `<a class="task" href="${esc(x.url||'#')}" target="_blank" rel="noopener">
+    <span class="t">${pr}${esc(x.name)}</span>
+    <span class="s ${cls} num">${esc(x.status)}<br>${when}${x.hours?` · ${h1(x.hours)}h`:''}</span>
+    <span class="m">${esc(x.client||'')}${x.assignee?` · ${esc(x.assignee)}`:''}</span>
+  </a>`;
+}
+
+function spark(byDay,from,to){
+  const days=[]; const a=new Date(from+'T00:00:00'), b=new Date(to+'T00:00:00');
+  for(let d=new Date(a); d<=b; d.setDate(d.getDate()+1)) days.push(d.toISOString().slice(0,10));
+  const last=days.slice(-30); const max=Math.max(1,...last.map(k=>byDay?.[k]||0));
+  return `<div class="spark" style="grid-template-columns:repeat(${last.length},1fr)">${last.map(k=>{const v=byDay?.[k]||0;return `<i class="${v?'':'z'}" style="height:${v?Math.max(6,Math.round(100*v/max)):2}%" data-t="${fmtDate(k)} · ${h1(v)}h"></i>`}).join('')}</div>
+  <div class="sparkx num"><span>${fmtDate(last[0])}</span><span>${fmtDate(last[last.length-1])}</span></div>`;
+}
+
+function groupTasks(tasks){
+  const g={o:[],a:[],w:[],d:[]};
+  for(const x of tasks){ if(x.group==='done') g.d.push(x); else if(x.overdue) g.o.push(x); else if(x.group==='waiting') g.w.push(x); else g.a.push(x); }
+  const sec=(title,arr)=>arr.length?`<h4>${title} <span class="num">${arr.length}</span></h4><div class="tasks">${arr.map(taskRow).join('')}</div>`:'';
+  return sec('Overdue',g.o)+sec('Open',g.a)+sec('Waiting on someone',g.w)+sec('Completed, last 14 days',g.d);
+}
+
+function openPerson(i){
+  const p=DATA.people.filter(p=>p.open||p.hours||p.completed_14d)[i]; if(!p) return;
+  const hw=DATA.hours_window||{};
+  $('#panel').innerHTML=`
+    <div class="phead"><div style="display:flex;align-items:center;gap:12px"><div class="avatar">${esc(p.initials||initials(p.name))}</div><h3 id="ptitle">${esc(p.name)}</h3></div><button class="close" onclick="closePanel()" aria-label="Close">×</button></div>
+    <div class="pstats num"><div><b>${p.open??0}</b><small>open</small></div><div class="${p.overdue?'crit':''}"><b>${p.overdue??0}</b><small>overdue</small></div><div><b>${p.completed_14d??0}</b><small>done, 14 days</small></div><div><b>${p.hours?h1(p.hours)+'h':'–'}</b><small>hours logged</small></div></div>
+    <h4>Hours by day</h4>
+    ${p.hours?spark(p.hours_by_day,hw.from,hw.to):'<p class="note">No time entries in ClickUp for this period. The task list below is the only record of this person\'s work.</p>'}
+    <h4>Clients</h4>
+    <div class="clist">${(p.clients||[]).slice(0,8).map(c=>`<div class="c"><span>${esc(c.name)}</span><small class="num">${c.open} open${c.overdue?` · <span style="color:var(--crit)">${c.overdue} overdue</span>`:''}${c.hours?` · ${h1(c.hours)}h`:''}</small></div>`).join('')||'<p class="note">No client work recorded.</p>'}</div>
+    ${groupTasks(p.tasks||[])}`;
+  showPanel();
+}
+
+function openClient(i){
+  const c=DATA.clients.filter(c=>c.open||c.completed_14d||c.hours)[i]; if(!c) return;
+  const tasks=[]; for(const p of DATA.people) for(const x of (p.tasks||[])) if(x.client===c.name) tasks.push({...x,assignee:p.first||p.name});
+  const seen=new Set(); const uniq=tasks.filter(x=>{const k=x.id+(x.assignee||'');if(seen.has(k))return false;seen.add(k);return true;});
+  $('#panel').innerHTML=`
+    <div class="phead"><h3 id="ptitle">${esc(c.name)}</h3><button class="close" onclick="closePanel()" aria-label="Close">×</button></div>
+    <div class="pstats num"><div><b>${c.open??0}</b><small>open</small></div><div class="${c.overdue?'crit':''}"><b>${c.overdue??0}</b><small>overdue</small></div><div><b>${c.completed_14d??0}</b><small>done, 14 days</small></div><div><b>${c.hours?h1(c.hours)+'h':'–'}</b><small>hours logged</small></div></div>
+    <h4>Team on this client</h4><div class="chips">${(c.people||[]).map(n=>`<span>${esc(n)}</span>`).join('')||'<span class="muted">nobody assigned</span>'}</div>
+    ${groupTasks(uniq)||'<p class="note">No task detail available.</p>'}`;
+  showPanel();
+}
+
+function showPanel(){ $('#panel').classList.add('on'); $('#scrim').classList.add('on'); $('#panel').scrollTop=0; document.body.style.overflow='hidden'; }
+function closePanel(){ $('#panel').classList.remove('on'); $('#scrim').classList.remove('on'); document.body.style.overflow=''; }
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closePanel(); });
+
+(async function(){
+  try{ const v=localStorage.getItem('pg-board-view'); if(v==='clients') setView('clients'); }catch(e){}
+  try{
+    const r=await fetch('team-data.json',{cache:'no-store'}); if(!r.ok) throw new Error('HTTP '+r.status);
+    DATA=await r.json(); render();
+  }catch(err){
+    $('#sub').textContent='Could not load the ClickUp snapshot.';
+    $('#hero').innerHTML=`<div class="tile" style="grid-column:1/-1"><div class="label">No data</div><div class="cap">The file team-data.json was not found next to this page, or could not be read (${esc(err.message)}). Run /team-board in Claude Code to regenerate it.</div></div>`;
+  }
+})();
+</script>
